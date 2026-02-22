@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace WEB_Scrin_ASP
 {
@@ -79,34 +73,11 @@ select*from @user
                             object brigada_Good = reader.GetValue(1);
                             object otcl_GP_Bad = reader.GetValue(2);
                             object brigada_Bad = reader.GetValue(3);
-                            //object fact_GP = reader.GetValue(0);
-                            //object zad_GP = reader.GetValue(1);
-                            //object otcl_GP = reader.GetValue(2);
-                            //object break_set = reader.GetValue(4);
-                            //object break_sush = reader.GetValue(5);
-                            //object run_BDM = reader.GetValue(6);
-                            //object count = reader.GetValue(7);
-                            //object avrfact_GP = reader.GetValue(8);
-                            //object brigada = reader.GetValue(9);
-                            //int chas = Convert.ToInt32(run_BDM) / 60;
-                            //int min = Convert.ToInt32(run_BDM) - chas * 60;
-                            //string prodtoi = chas.ToString() + "  ч.  " + min.ToString() + " мин.";
-                            //if (date.Day > 3) { 
-                            //Label1.Text="По итогам месяца самая худшая смена № "+brigada.ToString()+". Отклонение от плана: "+ String.Format("{0:0,0}", otcl_GP) + " кг. Простой с начала месяца: - "+ prodtoi;
-                            //    Label1.CssClass = "marg_red";
-                            //}
-                            //else
-                            //{
-                            //    Label1.Text =@" ООО ""Завод Николь-Пак"" г.Учалы ул.Кровельная 1";
-                            //    Label1.CssClass = "marg_blue";
-                            //}
+
                             if (date.Day > 3)
                             {
                                 Label1.Text = @"<span class=""colorBluetext""> По итогам месяца:</ span > <span class=""colorGreentext""> Cамая лучшая смена № " + brigada_Good.ToString() + ". Отклонение от плана: " + String.Format("{0:0,0}", otcl_GP_Good) + " кг.</span >"+
                                      @"<span class=""colorRedtext""> Cамая худшая смена № " + brigada_Bad.ToString() + ". Отклонение от плана: " + String.Format("{0:0,0}", otcl_GP_Bad) +" кг.</ span >";
-                               // Label1.CssClass = "marg_red";
-                                //Label1.Text = @"Lorem ipsum dolor sit amet, <span class=""colorRedtext"">consectetuer adipiscing elit</ span >, sed diem nonummy nibh euismod tincidunt ut lacreet dolore magna aliguam erat volutpat. ";
-
                             }
                             else
                             {

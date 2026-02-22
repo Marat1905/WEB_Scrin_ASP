@@ -1,56 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.DataVisualization.Charting;
-using System.Web.UI.WebControls;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class idle_time : System.Web.UI.Page
+    public partial class idle_time : BasePage
     {
-        string break_status = "0";
         object TekMes_Electro, PredMes_Electro, tekGod_Electro, PredGod_Electro, TekMes_Mex, PredMes_Mex, tekGod_Mex, PredGod_Mex, TekMes_Tex, PredMes_Tex;
-
-
         object tekGod_Tex, PredGod_Tex, TekMes_PPR, PredMes_PPR, tekGod_PPR, PredGod_PPR, TekMes_Other, PredMes_Other, tekGod_Other, PredGod_Other;
-
         object temp_tekGod_Electro, temp_tekGod_Mex, temp_tekGod_Tex, temp_tekGod_PPR, temp_tekGod_Other;
         int Count_All_TekMes, Count_All_PredMes, Count_All_tekGod, Count_All_PredGod;
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Загружаем статус обрыва
+            LoadBreakStatus();
+
             // блокировка по году 2022г
-            if (DateTime.Now.Year < 2025)
+            if (DateTime.Now.Year < 2050)
             {
                 Page.Server.ScriptTimeout = 65;
-
-                try
-                {
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
-                    string sqlExpression = "SELECT TOP 1*FROM [Control].[dbo].[page_1] order by dt desc";
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
-                        {
-                            while (reader.Read()) // построчно считываем данные
-                            {
-                                object break_stat = reader.GetValue(21);
-                                break_status = break_stat.ToString();
-                            }
-                        }
-                        reader.Close();
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
 
                 // нужны дата и время чтоб делать выборки
                 DateTime date = DateTime.Now;
@@ -69,7 +39,6 @@ namespace WEB_Scrin_ASP
                 string time_pred_start = year_pred + month_pred + "01 00:00:00";
                 string time_pred_end = year_pred + month_pred + days_Mo.ToString() + " 23:59:59";
                 // для выборки текущий год 
-
                 string time_tekGod_start = year + "0101 00:00:00";
                 string time_tekGod_end = year + month + den.ToString() + " 23:59:59";
                 // для выборки предыдущий год
@@ -77,7 +46,6 @@ namespace WEB_Scrin_ASP
                 int year_predGod = date2.Year;
                 string time_predGod_start = year_predGod + "0101 00:00:00";
                 string time_predGod_end = year_predGod + month + den.ToString() + " 23:59:59";
-               
 
                 /////////////////////////////////////////
                 // читаем данные с sql за текущий месяц
@@ -153,8 +121,8 @@ namespace WEB_Scrin_ASP
                                 tekGod_Other = reader.GetValue(18);
                                 PredGod_Other = reader.GetValue(19);
 
-                               
-                                Count_All_TekMes = TekMes_Electro.IfNullThenZero()+ TekMes_Mex.IfNullThenZero()+ TekMes_Tex.IfNullThenZero()+ TekMes_PPR.IfNullThenZero() + TekMes_Other.IfNullThenZero();
+
+                                Count_All_TekMes = TekMes_Electro.IfNullThenZero() + TekMes_Mex.IfNullThenZero() + TekMes_Tex.IfNullThenZero() + TekMes_PPR.IfNullThenZero() + TekMes_Other.IfNullThenZero();
                                 Count_All_PredMes = PredMes_Electro.IfNullThenZero() + PredMes_Mex.IfNullThenZero() + PredMes_Tex.IfNullThenZero() + PredMes_PPR.IfNullThenZero() + PredMes_Other.IfNullThenZero();
                                 Count_All_tekGod = tekGod_Electro.IfNullThenZero() + tekGod_Mex.IfNullThenZero() + tekGod_Tex.IfNullThenZero() + tekGod_PPR.IfNullThenZero() + tekGod_Other.IfNullThenZero();
                                 Count_All_PredGod = PredGod_Electro.IfNullThenZero() + PredGod_Mex.IfNullThenZero() + PredGod_Tex.IfNullThenZero() + PredGod_PPR.IfNullThenZero() + PredGod_Other.IfNullThenZero();
@@ -172,7 +140,7 @@ namespace WEB_Scrin_ASP
                     {
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression1, connection);
-                       
+
                         SqlDataReader reader = command.ExecuteReader();
                         if (reader.HasRows) // если есть данные
                         {
@@ -184,9 +152,7 @@ namespace WEB_Scrin_ASP
 
                                 temp_tekGod_PPR = reader.GetValue(6);
                                 temp_tekGod_Other = reader.GetValue(7);
-                               
 
-                              
                             }
                         }
                         reader.Close();
@@ -214,49 +180,10 @@ namespace WEB_Scrin_ASP
         {
             try
             {
+                // Обновляем статусную строку через базовый метод
+                UpdateStatusTextBox(textbox200);
 
-
-                if (break_status == "0")
-                {
-                    textbox200.Text = "НЕТ СВЯЗИ";
-                    textbox200.CssClass = "blnktext0";
-                }
-                else if (break_status == "1")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, НО БДМ В РАБОТЕ";
-                    textbox200.CssClass = "blnktext1";
-                }
-                else if (break_status == "2")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, МАССА СНЯТА С СЕТОЧНОГО СТОЛА";
-                    textbox200.CssClass = "blnktext2";
-                }
-                else if (break_status == "3")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, МАССА СНЯТА С ВЕРХНЕГО СЕТОЧНОГО СТОЛА";
-                    textbox200.CssClass = "blnktext2";
-                }
-                else if (break_status == "4")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, НЕ ЗАПЛАНИРОВАННЫЙ ОСТАНОВ";
-                    textbox200.CssClass = "blnktext4";
-                }
-                else if (break_status == "5")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, ЗАПЛАНИРОВАННЫЙ ОСТАНОВ";
-                    textbox200.CssClass = "blnktext5";
-                }
-                else if (break_status == "6")
-                {
-                    textbox200.Text = "ХМ... ОСТАНОВ МАШИНЫ БОЛЬШЕ ЗАПЛАНИРОВАННОГО";
-                    textbox200.CssClass = "blnktext6";
-                }
-                else if (break_status == "7")
-                {
-                    textbox200.Text = "БДМ В РАБОТЕ";
-                    textbox200.CssClass = "blnktext7";
-                }
-               // электрики
+                // электрики
                 if (string.IsNullOrEmpty(Convert.ToString(TekMes_Electro)))
                 {
                     textbox_chas_1.InnerText = "0";
@@ -284,18 +211,18 @@ namespace WEB_Scrin_ASP
                 }
                 else
                 {
-                    if(Convert.ToInt32(temp_tekGod_Electro)> Convert.ToInt32(tekGod_Electro) / 60)
+                    if (Convert.ToInt32(temp_tekGod_Electro) > Convert.ToInt32(tekGod_Electro) / 60)
                     {
-                      
+
                         textbox8.InnerText = (Convert.ToInt32(tekGod_Electro) / 60).ToString();
                         textbox6.InnerText = (Convert.ToInt32(tekGod_Electro) - (Convert.ToInt32(textbox8.InnerText) * 60)).ToString();
                     }
                     else
                     {
-                        textbox8.InnerText = ((Convert.ToInt32(tekGod_Electro) / 60)- Convert.ToInt32(temp_tekGod_Electro)).ToString();
-                        textbox6.InnerText = (Convert.ToInt32(tekGod_Electro) - ((Convert.ToInt32(textbox8.InnerText)+Convert.ToInt32(temp_tekGod_Electro)) * 60)).ToString();
+                        textbox8.InnerText = ((Convert.ToInt32(tekGod_Electro) / 60) - Convert.ToInt32(temp_tekGod_Electro)).ToString();
+                        textbox6.InnerText = (Convert.ToInt32(tekGod_Electro) - ((Convert.ToInt32(textbox8.InnerText) + Convert.ToInt32(temp_tekGod_Electro)) * 60)).ToString();
                     }
-                   
+
                 }
                 if (string.IsNullOrEmpty(Convert.ToString(PredGod_Electro)))
                 {
@@ -335,18 +262,16 @@ namespace WEB_Scrin_ASP
                 }
                 else
                 {
-                    if(Convert.ToInt32(temp_tekGod_Mex)> Convert.ToInt32(tekGod_Mex) / 60)
+                    if (Convert.ToInt32(temp_tekGod_Mex) > Convert.ToInt32(tekGod_Mex) / 60)
                     {
                         textbox24.InnerText = (Convert.ToInt32(tekGod_Mex) / 60).ToString();
                         textbox22.InnerText = (Convert.ToInt32(tekGod_Mex) - (Convert.ToInt32(textbox24.InnerText) * 60)).ToString();
                     }
                     else
                     {
-                        
-                        textbox24.InnerText = ((Convert.ToInt32(tekGod_Mex) / 60)- Convert.ToInt32(temp_tekGod_Mex)).ToString();
-                        textbox22.InnerText = (Convert.ToInt32(tekGod_Mex) - ((Convert.ToInt32(textbox24.InnerText)+ Convert.ToInt32(temp_tekGod_Mex)) * 60)).ToString();
+                        textbox24.InnerText = ((Convert.ToInt32(tekGod_Mex) / 60) - Convert.ToInt32(temp_tekGod_Mex)).ToString();
+                        textbox22.InnerText = (Convert.ToInt32(tekGod_Mex) - ((Convert.ToInt32(textbox24.InnerText) + Convert.ToInt32(temp_tekGod_Mex)) * 60)).ToString();
                     }
-                    
                 }
                 if (string.IsNullOrEmpty(Convert.ToString(PredGod_Mex)))
                 {
@@ -386,17 +311,17 @@ namespace WEB_Scrin_ASP
                 }
                 else
                 {
-                    if (Convert.ToInt32(temp_tekGod_Tex)> Convert.ToInt32(tekGod_Tex))
+                    if (Convert.ToInt32(temp_tekGod_Tex) > Convert.ToInt32(tekGod_Tex))
                     {
                         textbox40.InnerText = (Convert.ToInt32(tekGod_Tex) / 60).ToString();
                         textbox38.InnerText = (Convert.ToInt32(tekGod_Tex) - (Convert.ToInt32(textbox40.InnerText) * 60)).ToString();
                     }
                     else
                     {
-                        textbox40.InnerText = ((Convert.ToInt32(tekGod_Tex) / 60)- Convert.ToInt32(temp_tekGod_Tex)).ToString();
-                        textbox38.InnerText = (Convert.ToInt32(tekGod_Tex) - ((Convert.ToInt32(textbox40.InnerText)+ Convert.ToInt32(temp_tekGod_Tex)) * 60)).ToString();
+                        textbox40.InnerText = ((Convert.ToInt32(tekGod_Tex) / 60) - Convert.ToInt32(temp_tekGod_Tex)).ToString();
+                        textbox38.InnerText = (Convert.ToInt32(tekGod_Tex) - ((Convert.ToInt32(textbox40.InnerText) + Convert.ToInt32(temp_tekGod_Tex)) * 60)).ToString();
                     }
-                   
+
                 }
                 if (string.IsNullOrEmpty(Convert.ToString(PredGod_Tex)))
                 {
@@ -437,7 +362,7 @@ namespace WEB_Scrin_ASP
                 }
                 else
                 {
-                    if (Convert.ToInt32(temp_tekGod_PPR)> Convert.ToInt32(tekGod_PPR))
+                    if (Convert.ToInt32(temp_tekGod_PPR) > Convert.ToInt32(tekGod_PPR))
                     {
                         textbox56.InnerText = (Convert.ToInt32(tekGod_PPR) / 60).ToString();
                         textbox54.InnerText = (Convert.ToInt32(tekGod_PPR) - (Convert.ToInt32(textbox56.InnerText) * 60)).ToString();
@@ -445,9 +370,8 @@ namespace WEB_Scrin_ASP
                     else
                     {
                         textbox56.InnerText = ((Convert.ToInt32(tekGod_PPR) / 60) - Convert.ToInt32(temp_tekGod_PPR)).ToString();
-                        textbox54.InnerText = (Convert.ToInt32(tekGod_PPR) - ((Convert.ToInt32(textbox56.InnerText)+ Convert.ToInt32(temp_tekGod_PPR)) * 60)).ToString();
+                        textbox54.InnerText = (Convert.ToInt32(tekGod_PPR) - ((Convert.ToInt32(textbox56.InnerText) + Convert.ToInt32(temp_tekGod_PPR)) * 60)).ToString();
                     }
-                   
                 }
                 if (string.IsNullOrEmpty(Convert.ToString(PredGod_PPR)))
                 {
@@ -518,7 +442,8 @@ namespace WEB_Scrin_ASP
 
                     //textbox_chas_1.Attributes["class"] = "textbox_prost_chas_red";
 
-                };
+                }
+                ;
                 //Выбор цвета для механиков
                 if (Convert.ToInt32(textbox16.InnerText) > 10 || (Convert.ToInt32(textbox16.InnerText) == 10 && Convert.ToInt32(textbox14.InnerText) > 0))
                 {
@@ -527,7 +452,8 @@ namespace WEB_Scrin_ASP
                 else
                 {
                     Mex_smail.Attributes["class"] = "layer_Stag";
-                };
+                }
+                ;
                 //Выбор цвета для технологов
                 if (Convert.ToInt32(textbox32.InnerText) > 10 || (Convert.ToInt32(textbox32.InnerText) == 10 && Convert.ToInt32(textbox30.InnerText) > 0))
                 {
@@ -536,7 +462,8 @@ namespace WEB_Scrin_ASP
                 else
                 {
                     Tex_smail.Attributes["class"] = "layer_Stag";
-                };
+                }
+                ;
 
                 if (Count_All_TekMes == 0)
                 {
@@ -569,7 +496,7 @@ namespace WEB_Scrin_ASP
                     Th5.InnerText = (Count_All_tekGod / 60).ToString();
                     Th6.InnerText = (Count_All_tekGod - (Convert.ToInt32(Th5.InnerText) * 60)).ToString();
                 }
-                if (Count_All_PredGod== 0)
+                if (Count_All_PredGod == 0)
                 {
                     Th7.InnerText = "0";
                     Th8.InnerText = "0";
@@ -587,7 +514,5 @@ namespace WEB_Scrin_ASP
             }
 
         }
-       
     }
-   
 }

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace WEB_Scrin_ASP
 {
@@ -14,7 +9,7 @@ namespace WEB_Scrin_ASP
         protected void Page_Load(object sender, EventArgs e)
         {
             // блокировка по году 2022г
-            if (DateTime.Now.Year < 2025)
+            if (DateTime.Now.Year < 2050)
             {
                 // нужны дата и время чтоб делать выборки
                 DateTime date = DateTime.Now;
