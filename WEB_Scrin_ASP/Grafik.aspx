@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="Grafik.aspx.cs" Inherits="WEB_Scrin_ASP.Grafik" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="Grafik.aspx.cs" Inherits="WEB_Scrin_ASP.Grafik" Async="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
      <!-- Место отображения элементов, цель которых — помочь браузеру в работе с данными. Здесь могут находиться метатеги, используемые для хранения информации предназначенной для браузеров и поисковых систем. Каждая дочерняя страница может размещать свою индивидуальную информацию между тегами с идентификатором
         ID="head" -->

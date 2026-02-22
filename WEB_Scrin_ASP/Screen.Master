@@ -19,6 +19,17 @@
             outline: 2px solid #fff;
             outline-offset: 2px;
         }
+
+        /* Фон бегущей строки как на странице default.aspx */
+        #navigation {
+            background-color: #0f1f39 !important;  /* тёмно-синий цвет шапки */
+            color: white;
+        }
+        #navigation marquee {
+            color: white;               /* текст белым для контраста */
+            font-weight: bold;
+            padding: 2px 0;              /* небольшие отступы */
+        }
     </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -39,7 +50,7 @@
             </div>
 
             <div id="navigation" style="clear: both;">
-                <marquee scrollamount="9" style="marg_blue">
+                <marquee scrollamount="9" class="marg_blue">
                     <asp:Label ID="Label1" runat="server" Text=" "></asp:Label>
                 </marquee>
             </div>
@@ -53,7 +64,7 @@
 
         <script>
             // Подсветка активного пункта меню
-            (function() {
+            (function () {
                 // Получаем имя текущего файла (например, "default.aspx" или "idle time.aspx")
                 var currentFile = window.location.pathname.split('/').pop();
                 if (currentFile === '') currentFile = 'default.aspx';          // для корня сайта

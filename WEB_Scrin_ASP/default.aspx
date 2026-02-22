@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WEB_Scrin_ASP._default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WEB_Scrin_ASP._default" Async="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <meta http-equiv="refresh" content="65" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />

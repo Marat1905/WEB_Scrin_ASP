@@ -1,4 +1,4 @@
-﻿ <%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="birthday.aspx.cs" Inherits="WEB_Scrin_ASP.birthday" %>
+﻿ <%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="birthday.aspx.cs" Inherits="WEB_Scrin_ASP.birthday" Async="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 

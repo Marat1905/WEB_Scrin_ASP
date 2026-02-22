@@ -117,7 +117,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Caution.aspx" />
     <Content Include="Grafik.aspx" />
     <Content Include="images\DN.jpg" />
     <Content Include="font\11325.ttf" />
@@ -154,13 +153,6 @@
     </Compile>
     <Compile Include="birthday.aspx.designer.cs">
       <DependentUpon>birthday.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Caution.aspx.cs">
-      <DependentUpon>Caution.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Caution.aspx.designer.cs">
-      <DependentUpon>Caution.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\IdlleSmartController.cs" />
     <Compile Include="Converter.cs" />
