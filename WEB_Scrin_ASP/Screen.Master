@@ -1,0 +1,73 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Screen.master.cs" Inherits="WEB_Scrin_ASP.Screen" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>ООО "Завод Николь-Пак"</title>
+    <%--<meta name="keywords" content="пример, веб-сайт, веб-формы, вебприложение, web forms, ASP.NET" />
+    <meta name="description" content="Пример вебсайта на ASP.NET на бесплатном шаблоне" />--%>
+
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+   
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        #form1 {
+            height: 13px;
+        }
+        #templatemo_container {
+            height: 608px;
+            width: 572px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <div id="container">
+
+<div id="header">
+
+<ul id="navbar">
+  <li><a href="default.aspx">Главная</a></li>
+  <li><a href="idle time.aspx">Простои по службам</a></li>
+  <li><a href="smena.aspx">Анализ работы смен</a></li>
+  <li><a href="birthday.aspx">Именинники месяца</a></li>
+    <li><a href="Grafik.aspx">График персонала</a></li>
+<%--  <li><a href="Caution.aspx">ВНИМАНИЕ!!!</a></li>--%>
+</ul>
+
+</div>
+
+ 
+
+<div id="navigation">
+    <%--<marquee width="49%" style="color:blue; font-size: 18px; font-weight:normal; line-height: 100%; text-shadow: #000000 0px 1px 1px; height: 20px;">ООО "Завод Николь-Пак" г. Учалы ул.Кровельная 1</marquee><marquee width="49%" direction="right" style="color:blue; font-size: 18px; font-weight: normal; line-height: 100%; text-shadow: #000000 0px 1px 1px; height: 20px;">ООО "Завод Николь-Пак" г. Учалы ул.Кровельная 1</marquee>--%>
+ <marquee scrollamount="9" style="marg_blue">
+<asp:Label ID="Label1" runat="server" Text=" "></asp:Label>
+ </marquee>
+
+</div>
+
+ 
+ 
+
+<div id="temp_content">
+
+   <!-- Начало дочерней страницы -->
+            <asp:ContentPlaceHolder ID="Content" runat="server">
+                <% /*место для автоматической вставки кода дочерних страниц*/ %>
+            </asp:ContentPlaceHolder>
+            <!-- Конец дочерней страницы -->
+
+</div>
+
+ 
+
+</div>
+    
+    </form>
+</body>
+</html>
