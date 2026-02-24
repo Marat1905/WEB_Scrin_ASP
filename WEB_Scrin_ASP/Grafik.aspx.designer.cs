@@ -15,6 +15,15 @@ namespace WEB_Scrin_ASP
     {
 
         /// <summary>
+        /// textboxStatus элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически созданное поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textboxStatus;
+
+        /// <summary>
         /// Label_Grafik элемент управления.
         /// </summary>
         /// <remarks>
