@@ -14,6 +14,26 @@
             gap: 1vh;
         }
 
+        /* Статусная строка (единый стиль с другими страницами) */
+        .status-bar {
+            flex: 0 0 auto;
+            height: 7vh;
+            min-height: 40px;
+        }
+
+        .status-text {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 3vh;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            background-color: #2a2f3f;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
         .birthday-header {
             flex: 0 0 auto;
             text-align: center;
@@ -88,6 +108,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <div class="birthday-container">
+        <!-- СТАТУСНАЯ СТРОКА БДМ (добавлено) -->
+        <div class="status-bar">
+            <asp:TextBox ID="textbox200" CssClass="status-text" runat="server" ReadOnly="True" />
+        </div>
+
         <div class="birthday-header">
             <asp:Label ID="Label1" runat="server" CssClass="" Text="" />
         </div>

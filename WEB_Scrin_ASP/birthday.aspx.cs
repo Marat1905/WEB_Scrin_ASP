@@ -6,10 +6,13 @@ using System.Web.UI.WebControls;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class birthday : System.Web.UI.Page
+    public partial class birthday : BasePage   // изменено с System.Web.UI.Page на BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Загружаем статус обрыва из базы (метод BasePage)
+            LoadBreakStatus();
+
             if (DateTime.Now.Year < 2050)
             {
                 DateTime date = DateTime.Now;
@@ -70,6 +73,13 @@ namespace WEB_Scrin_ASP
         protected void Timer1_Tick(object sender, EventArgs e)
         {
             Response.Redirect("default.aspx");
+        }
+
+        // Добавлен обработчик Page_LoadComplete для обновления статусной строки
+        protected void Page_LoadComplete(object sender, EventArgs e)
+        {
+            // Обновляем статусную строку через базовый метод
+            UpdateStatusTextBox(textbox200);
         }
 
         // Вспомогательный класс для хранения данных именинника
