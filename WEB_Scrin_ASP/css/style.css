@@ -1,4 +1,8 @@
-﻿body {
+﻿﻿ /* Общие сбросы */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     background: #f3f2f3;
     color: #000000;
     font-family: Trebuchet MS, Arial, Times New Roman;
@@ -6,84 +10,116 @@
 }
 
 #container {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
     background: #FFFFFF;
-    margin: 10px auto;
-    width: 1250px;
-    height: 600px;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Шапка и меню */
 #header {
     background: #0f1f39;
-    height: 40px;
-    width: 1250px;
-}
-
-#navbar ul {
-    display: none;
-    background-color: #0094ff;
-    position: absolute;
-    top: 100%;
-}
-
-#navbar li:hover ul {
-    display: block;
-}
-
-#navbar, #navbar ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+    width: 100%;
+    overflow: hidden;
 }
 
 #navbar {
-    height: 40px;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
     background-color: #0f1f39;
-    padding-left: 10px;
-    min-width: 800px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
 }
 
     #navbar li {
-        float: left;
-        position: relative;
-        height: 100%;
+        flex: 1 1 auto;
+        min-width: fit-content;
     }
 
         #navbar li a {
             display: block;
-            padding: 6px;
-            width: 232px;
+            padding: 8px 12px;
             color: #fff;
             text-decoration: none;
             text-align: center;
-            font-size: 15px;
-            font-family:Verdana
+            font-size: 16px;
+            font-family: Verdana, sans-serif;
+            background-color: #0f1f39;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            white-space: normal;
+            word-wrap: break-word;
+            line-height: 1.2;
+            height: 100%;
+            box-sizing: border-box;
         }
 
-    #navbar ul li {
-        float: none;
+            #navbar li a:hover {
+                background-color: #f90;
+            }
+
+    #navbar ul {
+        display: none;
+        background-color: #0094ff;
+        position: absolute;
+        top: 100%;
     }
 
-    #navbar li:hover {
-        background-color: #f90;
+    #navbar li:hover ul {
+        display: block;
     }
 
-    #navbar ul li:hover {
-        background-color: #666;
+@media (max-width: 768px) {
+    #navbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 2px;
     }
-#navigation {
-    background: #ffffff;
-    width: 1250px;
-    height: 20px;
+
+        #navbar li {
+            flex: 1 1 auto;
+            width: 100%;
+        }
+
+            #navbar li a {
+                width: 100%;
+                text-align: left;
+                padding: 12px 15px;
+                font-size: 18px;
+            }
 }
 
+@media (max-width: 480px) {
+    #navbar li a {
+        font-size: 16px;
+        padding: 10px 12px;
+    }
+}
+
+/* Адаптивная высота для навигационной полосы */
+#navigation {
+    background: #ffffff;
+    width: 100%;
+    height: 2vh;
+    min-height: 15px;
+    clear: both;
+}
 
 #temp_content {
     background: #2777a8;
-    float: right;
-    width: 1250px;
-    height: 550px;
+    width: 100%;
+    flex: 1;
+    overflow: auto;
 }
 
+/* Заголовки */
 h1 {
     margin: 0px;
     padding: 2px 0;
@@ -104,7 +140,6 @@ h3 {
     font-size: 14px;
     font-weight: bold;
     color: #fff;
-    
 }
 
 h4 {
@@ -113,82 +148,87 @@ h4 {
     font-size: 14px;
     font-weight: bold;
 }
-.blnktext {
-    -webkit-animation-name: textblink;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-name: textblink;
-    -moz-animation-duration: 1s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: infinite;
-    animation-name: textblink;
-    animation-duration: 1s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
 
-@-moz-keyframes textblink {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}
-
-@-webkit-keyframes textblink {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}
-
+/* Анимации (единое определение textblink с полным исчезновением) */
 @keyframes textblink {
     0% {
-        opacity: 1.0;
+        opacity: 1;
     }
 
     50% {
-        opacity: 0.0;
+        opacity: 0;
     }
 
     100% {
-        opacity: 1.0;
+        opacity: 1;
     }
 }
+
+/* Статусная строка (обрыв и т.д.) с адаптивной высотой */
+.status {
+    width: 100%;
+    height: 6vh;
+    min-height: 30px;
+}
+
+.blnktext0, .blnktext1, .blnktext2, .blnktext4, .blnktext5, .blnktext6, .blnktext7 {
+    text-align: center;
+    font-size: 2.2vw;
+    font-weight: bold;
+    color: #fff;
+    float: left;
+    width: 100%;
+    height: 6vh;
+    min-height: 35px;
+    background-color: aqua;
+    border-color: Black;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    animation: textblink 2s linear infinite;
+}
+
+.blnktext1 {
+    background-color: yellow;
+    color: blue;
+}
+
+.blnktext2 {
+    background-color: chartreuse;
+    color: blue;
+}
+
+.blnktext4 {
+    background-color: red;
+    color: white;
+}
+
+.blnktext5 {
+    background-color: thistle;
+    color: blue;
+}
+
+.blnktext6 {
+    background-color: crimson;
+    color: white;
+}
+
+.blnktext7 {
+    background-color: lawngreen;
+    color: #fff;
+    animation: none; /* отключаем мигание для статуса 7 */
+}
+
+/* Основные блоки страницы default.aspx (оставлены без изменений) */
 .label_L {
     text-align: left;
     font-size: 20px;
-    Width: 400px;
+    width: 30%;
     font-weight: bold;
     color: #fff;
-    float: left; /* Обтекание по правому краю */
-    margin-left: 20px;
+    float: left;
+    margin-left: 2%;
     margin-bottom: 20px;
 }
-/*.label_R {
-    text-align: left;
-    font-size: 20px;
-    font-weight: bold;
-    Width: 310px;
-    color: #fff;
-    float: left; /* Обтекание по правому краю */
-    /*margin-left: 10px;
-    margin-bottom: 20px;*/
-/*}*/
 
 .textbox {
     text-align: center;
@@ -196,58 +236,51 @@ h4 {
     font-weight: bold;
     color: #fff;
     float: right;
-    Width: 100px;
+    width: 8%;
     background-color: #2777a8;
     border-color: Black;
     margin-bottom: 10px;
 }
+
 .textbox_lbl_R {
     text-align: center;
     font-size: 20px;
     font-weight: bold;
     color: #fff;
     float: right;
-    Width: 70px;
+    width: 6%;
     background-color: #2777a8;
     border-color: Black;
-    margin-right: 40px;
+    margin-right: 3%;
     margin-bottom: 10px;
 }
-/*.textbox_lbl_L {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    float: right;
-    Width: 70px;
-    background-color: #2777a8;
-    border-color: Black;
-    margin-right: 10px;
-    margin-bottom: 10px;
-}*/
+
 .layer1 {
-    float: left; /* Обтекание по правому краю */
-    width: 46.4%; /* Ширина слоя */
-    height:90%;
+    float: left;
+    width: 46%;
+    height: 90%;
+    margin-left: 1%;
 }
 
 .layer2 {
-    width: 51%; /* Ширина слоя */
-    float: left; /*Обтекание по правому краю*/
+    width: 49%;
+    float: left;
     height: 90%;
-    margin-left: 20px;
-    margin-right: 10px;
+    margin-left: 2%;
+    margin-right: 1%;
 }
+
 .clear {
-    clear: left; /* Отмена обтекания */
+    clear: left;
 }
+
 .textbox_lbl_chas {
     text-align: center;
     font-size: 20px;
     font-weight: bold;
     color: #fff;
     float: right;
-    Width: 50px;
+    width: 4%;
     background-color: #2777a8;
     border-color: Black;
     margin-bottom: 10px;
@@ -259,478 +292,164 @@ h4 {
     font-weight: bold;
     color: #fff;
     float: right;
-    Width: 100px;
+    width: 8%;
     background-color: #2777a8;
     border-color: Black;
     margin-bottom: 10px;
 }
+
 .textbox_min {
     text-align: center;
     font-size: 20px;
     font-weight: bold;
     color: #fff;
     float: right;
-    Width: 60px;
+    width: 5%;
     background-color: #2777a8;
     border-color: Black;
     margin-bottom: 10px;
 }
+
 .label_prost {
     text-align: left;
     font-size: 20px;
     font-weight: bold;
-    Width: 350px;
+    width: 25%;
     color: #fff;
-    float: left; /* Обтекание по правому краю */
-    margin-left: 20px;
+    float: left;
+    margin-left: 2%;
     margin-bottom: 20px;
 }
-/*.textbox_plan {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    float: right;
-    Width: 120px;
-    background-color: #2777a8;
-    border-color: Black;
-    margin-bottom: 10px;*/
-/*}*/
-/*.textbox_break {
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    color: #fff;
+
+/* Блоки простоев */
+.layer_mex, .layer_tex, .layer_energo, .layer_ppr, .layer_other {
     float: left;
-    Width: 1245px;
-    height:40px;
-    background-color: #2777a8;
-    border-color: Black;
-    margin-bottom: 2px;
-}*/
-.status {
-    width: 1250px; /* Ширина слоя */
-    height: 45px
-}
-.blnktext0 {
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    Width: 1245px;
-    height: 40px;
-    background-color: aqua;
-    border-color: Black;
-    margin-bottom: 10px;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-name: textblink;
-    -moz-animation-duration: 2s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: infinite;
-    animation-name: textblink;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-.blnktext1 {
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    color:blue;
-    float: left;
-    Width: 1245px;
-    height: 40px;
-    background-color:yellow;
-    border-color: Black;
-    margin-bottom: 10px;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-name: textblink;
-    -moz-animation-duration: 2s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: infinite;
-    animation-name: textblink;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-.blnktext2 {
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    color: blue;
-    float: left;
-    Width: 1245px;
-    height: 40px;
-    background-color:chartreuse;
-    border-color: Black;
-    margin-bottom: 10px;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-name: textblink;
-    -moz-animation-duration: 2s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: infinite;
-    animation-name: textblink;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-.blnktext4 {
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    color:white;
-    float: left;
-    Width: 1245px;
-    height: 40px;
-    background-color:red;
-    border-color: Black;
-    margin-bottom: 10px;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-name: textblink;
-    -moz-animation-duration: 2s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: infinite;
-    animation-name: textblink;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-.blnktext5 {
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    color: blue;
-    float: left;
-    Width: 1245px;
-    height: 40px;
-    background-color: thistle;
-    border-color: Black;
-    margin-bottom: 10px;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-name: textblink;
-    -moz-animation-duration: 2s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: infinite;
-    animation-name: textblink;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-.blnktext6 {
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    color: white;
-    float: left;
-    Width: 1245px;
-    height: 40px;
-    background-color:crimson;
-    border-color: Black;
-    margin-bottom: 10px;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-name: textblink;
-    -moz-animation-duration: 2s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: infinite;
-    animation-name: textblink;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-.blnktext7 {
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    Width: 1245px;
-    height: 40px;
-    background-color:lawngreen;
-    border-color: Black;
-    margin-bottom: 10px;
-}
-@-moz-keyframes textblink1 {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}
-
-@-webkit-keyframes textblink1 {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}
-
-@keyframes textblink1 {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}
-
-
-.layer_mex {
-    float: left; /* Обтекание по правому краю */
-    height: 244px;
-    width: 410px; /* Ширина слоя */
+    height: 100%;
+    width: 32%;
     border-style: double;
     border-color: darkblue;
-}
-.layer_tex {
-    float: left; /* Обтекание по правому краю */
-    height: 244px;
-    width: 410px; /* Ширина слоя */
-    border-style: double;
-    border-color: darkblue;
-}
-.layer_energo {
-    float: left; /* Обтекание по правому краю */
-    height: 238px;
-    width: 410px; /* Ширина слоя */
-    border-style: double;
-    border-color: darkblue;
-}
-.layer_ppr {
-    float: left; /* Обтекание по правому краю */
-    height: 238px;
-    width: 410px; /* Ширина слоя */
-    border-style: double;
-    border-color: darkblue;
+    box-sizing: border-box;
+    margin: 0.2%;
 }
 
-.layer_other {
-    float: left; /* Обтекание по правому краю */
-    height: 238px;
-    width: 410px; /* Ширина слоя */
-    border-style: double;
-    border-color: darkblue;
-}
-
-
-
-
-
-
-
-
-
-
+/* Таблица смен (smena.aspx) */
 .smena {
     border-spacing: 0;
     empty-cells: hide;
     width: 100%;
     height: 100%;
     padding: 5px;
+    table-layout: fixed;
 }
 
-    /*.smena tr.size1 {
-        line-height:60%;
+    .smena td, .smena th {
+        padding: 1vh 0.5vw;
+        text-align: center;
+        border-bottom: 1px solid #F4EEE8;
+        transition: all 0.5s linear;
+        word-wrap: break-word;
     }
-    .smena tr.size2 {
-        line-height: 100%;
-    }*/
 
-.smena td {
-    padding: 10px 10px;
-    text-align: center;
-    border-bottom: 1px solid #F4EEE8;
-    transition: all 0.5s linear;
-}
+        .smena td:first-child {
+            text-align: left;
+            color: #3D3511;
+            font-weight: bold;
+        }
 
-    .smena td:first-child {
-        text-align: left;
+    .smena th {
         color: #3D3511;
+        border-bottom: 1px solid #F4EEE8;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .smena td:nth-child(even) {
+        background: #F6D27E;
+    }
+
+    .smena td:nth-child(odd) {
+        background: #D1C7BF;
+    }
+
+    .smena th:nth-child(even) {
+        background: #F6D27E;
+    }
+
+    .smena th:nth-child(odd) {
+        background: #D1C7BF;
+    }
+
+    .smena th.lbl1 {
+        width: 8%;
+    }
+
+    .smena th.lbl2 {
+        width: 11.3%;
+    }
+
+    .smena round-top {
+        border-top-left-radius: 5px;
+    }
+
+    .smena round-bottom {
+        border-bottom-left-radius: 5px;
+    }
+
+    .smena tr:hover td {
+        background: #D1C7BF;
         font-weight: bold;
     }
 
-.smena th {
-    padding: 10px 10px;
-    color: #3D3511;
-    border-bottom: 1px solid #F4EEE8;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+.layer_tek_mes, .layer_pred_mes {
+    height: 50%;
+    width: 100%;
 }
 
-.smena td:nth-child(even) {
-    background: #F6D27E;
-}
-
-.smena td:nth-child(odd) {
-    background: #D1C7BF;
-}
-
-.smena th:nth-child(even) {
-    background: #F6D27E;
-}
-
-.smena th:nth-child(odd) {
-    background: #D1C7BF;
-}
-
-
-.smena th.lbl1 {
-    width: 8%;
-    height:100%;
-    
-}
-
-    .smena th.lbl2 {
-        width: 11.3%; /* Not necessary, since only 70% width remains */
-        height: 100%;
-    }
-
-
-
-.smena round-top {
-    border-top-left-radius: 5px;
-}
-
-.smena round-bottom {
-    border-bottom-left-radius: 5px;
-}
-
-.smena tr:hover td {
-    background: #D1C7BF;
-    font-weight: bold;
-}
-.layer_tek_mes {
-    height: 250px;
-    width: 1250px; /* Ширина слоя */
-
-}
-.layer_pred_mes {
-    height: 248px;
-    width: 1250px; /* Ширина слоя */
-}
-.label_mes {
+.label_mes, .label_mes_pred {
     height: 20px;
-    width: 1250px; /* Ширина слоя */
+    width: 100%;
     text-align: center;
     margin-bottom: 10px;
 }
 
-.label_mes_pred {
-    height: 20px;
-    width: 1250px; /* Ширина слоя */
+.shift, .sm, .PL {
     text-align: center;
-    margin-bottom: 5px;
-}
-.shift {
-    text-align: center;
-    font-size: 15px;
+    font-size: 1.5vh;
     font-weight: bold;
     color: green;
-    Width: 100%;
-    height:100%;
-    background-color: transparent;
-    border-color: #2777a8;
-    border-style: none;
-}
-.sm {
-    text-align: center;
-    font-size: 15px;
-    font-weight: bold;
-    color: green;
-    Width: 100%;
+    width: 100%;
     height: 100%;
     background-color: transparent;
-    border-color: #2777a8;
-    border-style: none;
+    border: none;
 }
-.PL {
+
+.shift_red, .sm_red, .PL_red {
     text-align: center;
-    font-size: 15px;
-    font-weight: bold;
-    color: green;
-    Width: 100%;
-    height: 100%;
-    background-color: transparent;
-    border-color: #2777a8;
-    border-style: none;
-}
-.shift_red {
-    text-align: center;
-    font-size: 15px;
+    font-size: 1.5vh;
     font-weight: bold;
     color: red;
-    Width: 100%;
+    width: 100%;
     height: 100%;
     background-color: transparent;
-    border-color: #2777a8;
-    border-style: none;
+    border: none;
     animation: blinker 2s linear infinite;
 }
 
-.sm_red {
-    text-align: center;
-    font-size: 15px;
-    font-weight: bold;
-    color: red;
-    Width: 100%;
-    height: 100%;
-    background-color: transparent;
-    border-color: #2777a8;
-    border-style: none;
-    animation: blinker 2s linear infinite;
-}
-
-.PL_red {
-    text-align: center;
-    font-size: 15px;
-    font-weight: bold;
-    color: red;
-    Width: 100%;
-    height: 100%;
-    background-color: transparent;
-    border-color: #2777a8;
-    border-style: none;
-    animation: blinker 2s linear infinite;
-}
 .PL_otkl {
     text-align: center;
-    font-size: 15px;
+    font-size: 1.5vh;
     font-weight: bold;
     color: red;
-    Width: 100%;
+    width: 100%;
     height: 100%;
     background-color: transparent;
-    border-color: #2777a8;
-    border-style: none;
+    border: none;
     animation-name: otkl;
     animation-duration: 2s;
     animation-iteration-count: infinite;
 }
-@-webkit-keyframes otkl{
+
+@keyframes otkl {
     0% {
         color: red;
     }
@@ -754,67 +473,17 @@ h4 {
     }
 }
 
-
-/*.layer_elec {
-    float: left; 
-    height: 244px;
-    width: 410px; 
+/* Цветные блоки для простоев */
+.layer_elec_red, .layer_mex_red, .layer_tex_red {
+    float: left;
+    height: 100%;
+    width: 32%;
     border-style: double;
     border-color: darkblue;
-}*/
-.layer_elec_red {
-    float: left; /* Обтекание по правому краю */
-    height: 244px;
-    width: 410px; /* Ширина слоя */
-    border-style: double;
-    border-color: darkblue;
-    -webkit-animation-name: example_red; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
-    animation-name: example_red;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-}
-.layer_mex {
-    float: left; /* Обтекание по правому краю */
-    height: 244px;
-    width: 410px; /* Ширина слоя */
-    border-style: double;
-    border-color: darkblue;
-}
-.layer_mex_red {
-    float: left; /* Обтекание по правому краю */
-    height: 244px;
-    width: 410px; /* Ширина слоя */
-    border-style: double;
-    border-color: darkblue;
-    -webkit-animation-name: example_red; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
-    animation-name: example_red;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-}
-.layer_tex {
-    float: left; /* Обтекание по правому краю */
-    height: 244px;
-    width: 410px; /* Ширина слоя */
-    border-style: double;
-    border-color: darkblue;
-}
-.layer_tex_red {
-    float: left; /* Обтекание по правому краю */
-    height: 244px;
-    width: 410px; /* Ширина слоя */
-    border-style: double;
-    border-color: darkblue;
-    -webkit-animation-name: example_red; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
-    animation-name: example_red;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
+    animation: example_red 4s infinite;
 }
 
-/* Safari 4.0 - 8.0 */
-@-webkit-keyframes example_red {
+@keyframes example_red {
     0% {
         background-color: transparent;
     }
@@ -831,21 +500,17 @@ h4 {
         background-color: transparent;
     }
 }
+
 .layer_elec_yellow {
-    float: left; /* Обтекание по правому краю */
-    height: 244px;
-    width: 410px; /* Ширина слоя */
+    float: left;
+    height: 100%;
+    width: 32%;
     border-style: double;
     border-color: darkblue;
-    -webkit-animation-name: example_yellow; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
-    animation-name: example_yellow;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
+    animation: example_yellow 4s infinite;
 }
 
-/* Safari 4.0 - 8.0 */
-@-webkit-keyframes example_yellow {
+@keyframes example_yellow {
     0% {
         background-color: transparent;
     }
@@ -862,97 +527,111 @@ h4 {
         background-color: transparent;
     }
 }
+
+/* Страница именинников с адаптивными высотами */
 .label_DN {
     height: 10%;
-    width: 100%; /* Ширина слоя */
+    width: 100%;
     text-align: center;
-    font-size: 26px;
+    font-size: 2.5vw;
     margin-bottom: 10px;
     font-family: 'Nexa Script_1';
-    color:magenta;
+    color: magenta;
 }
+
 .title {
-
-    background: url(../images/DN.jpg)100% 100% no-repeat;
-    background-size: cover; /* Масштабируем фон */
+    background: url(../images/DN.jpg) no-repeat center center;
+    background-size: cover;
     height: 100%;
-    width: 100%; /* Ширина слоя */
+    width: 100%;
 }
-.Den_left {
-    float: left; /* Обтекание по правому краю */
-    height: 400px;
-    width: 580px; /* Ширина слоя */
 
+.Den_left {
+    float: left;
+    height: 80%;
+    width: 46%;
 }
+
 .Den_rift {
-    width: 670px; /* Ширина слоя */
-    float: left; /* Обтекание по правому краю */
+    width: 50%;
+    float: left;
 }
+
 @font-face {
     font-family: 'Nexa Script_1';
     src: url('../font/11325.ttf');
 }
+
 @font-face {
     font-family: 'mon-amur';
     src: url('../font/mon-amour-one-medium_[allfont.ru].ttf');
 }
+
 .label_Fio {
-    text-align:left;
-    font-size: 20px;
+    text-align: left;
+    font-size: 1.8vh;
     font-family: 'mon-amur';
     color: black;
 }
+
 .label_Fio1 {
     text-align: left;
-    font-size: 20px;
+    font-size: 1.8vh;
     font-family: 'mon-amur';
-    color:mediumblue;
+    color: mediumblue;
 }
+
+/* Адаптивные высоты для шагов */
 .step {
-    height: 22px;
-    width: 100%; /* Ширина слоя */
+    height: 3vh;
+    min-height: 18px;
+    width: 100%;
     margin-bottom: 5px;
-    margin-left: 30px;
+    margin-left: 5%;
 }
+
 .step1 {
-    height: 22px;
-    width: 100%; /* Ширина слоя */
+    height: 3vh;
+    min-height: 18px;
+    width: 100%;
     margin-bottom: 5px;
-    margin-left: 60px;
+    margin-left: 10%;
 }
+
 .DN {
-    height: 28px;
-    width: 100%; /* Ширина слоя */
+    height: 3.5vh;
+    min-height: 22px;
+    width: 100%;
     text-align: center;
 }
+
 .marg_blue {
-    color:blue;
-    font-size: 18px; 
-    font-weight: bolder; 
-    line-height: 100%; 
-    text-shadow: #000000 0px 1px 1px;
-}
-.marg_red {
-    color: red;
-    font-size: 18px;
+    color: blue;
+    font-size: 2vh;
     font-weight: bolder;
     line-height: 100%;
     text-shadow: #000000 0px 1px 1px;
 }
+
+.marg_red {
+    color: red;
+    font-size: 2vh;
+    font-weight: bolder;
+    line-height: 100%;
+    text-shadow: #000000 0px 1px 1px;
+}
+
 .lbl_dt {
     display: inline;
     text-align: right;
-    font-size:8px;
+    font-size: 8px;
 }
 
-
-/*для внимания*/
-
-
-
+/* Страница предупреждения (Caution) с адаптивной высотой */
 #label_Countion_lbl {
-    height: 36px;
-    font-size: 29px;
+    height: 5vh;
+    min-height: 30px;
+    font-size: 2.5vw;
     -webkit-animation: blink 2s linear infinite;
     animation: blink 2s linear infinite;
     font-weight: bold;
@@ -961,7 +640,6 @@ h4 {
     margin-top: 0px;
     margin-bottom: 3px;
 }
-
 
 @-webkit-keyframes blink {
     0% {
@@ -990,77 +668,66 @@ h4 {
         color: yellow;
     }
 }
+
 #label_Warn_txt {
     text-align: justify;
-    font-size: 18px;
+    font-size: 1.8vh;
     color: #fff;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 5px;
-    margin-left: 5px;
-    margin-bottom:3px;
-    width:1230px;
+    margin: 0px 0px 3px 5px;
+    width: 98%;
 }
+
 #label_Warn_txt_bolt {
     text-align: justify;
-    font-size: 20px;
+    font-size: 2vh;
     font-weight: bold;
     text-align: center;
     color: red;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 5px;
-    margin-left: 5px;
-    margin-bottom: 3px;
-    width: 1230px;
+    margin: 0px 0px 3px 5px;
+    width: 98%;
 }
+
 #label_Warn_Admin {
     text-align: right;
-    font-size: 18px;
+    font-size: 1.8vh;
     color: #fff;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 5px;
-    margin-left: 5px;
-    margin-bottom: 3px;
-    width: 1230px;
+    margin: 0px 0px 3px 5px;
+    width: 98%;
 }
+
 #label_Countion_Nomer {
-    font-size: 24px;
+    font-size: 2.2vh;
     -webkit-animation: blink 2s linear infinite;
     animation: blink 2s linear infinite;
     font-weight: bold;
     color: yellow;
     text-align: center;
-    margin-top: 0px;
-    margin-bottom:0px;
+    margin: 0px;
 }
+
 .title_Fire {
-    background: url(../images/fire.jpg)100% 100% no-repeat;
-    background-size: cover; /* Масштабируем фон */
+    background: url(../images/fire.jpg) no-repeat center center;
+    background-size: cover;
     height: 100%;
-    width: 100%; /* Ширина слоя */
+    width: 100%;
+    overflow: auto;
 }
 
-
-
-
-
+/* Таблицы графика (Grafik.aspx) */
 .table_dark {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-    font-size: 14px;
+    font-size: 1.8vh;
     width: 98%;
     text-align: left;
     border-collapse: collapse;
     background: #252F48;
-    margin: 10px;
+    margin: 10px auto;
 }
 
     .table_dark th {
         color: #EDB749;
         border-bottom: 1px solid #37B5A5;
-        text-align:center;
-        /*padding: 12px 17px;*/
+        text-align: center;
     }
 
     .table_dark td {
@@ -1068,7 +735,6 @@ h4 {
         border-bottom: 1px solid #37B5A5;
         border-right: 1px solid #37B5A5;
         text-align: center;
-        /*padding: 7px 17px;*/
     }
 
     .table_dark tr:last-child td {
@@ -1080,415 +746,204 @@ h4 {
     }
 
     .table_dark tr:hover td {
-        /*text-decoration: underline;*/
-        background: #f3bd48; /* Цвет фона при наведении */
-        color: #fff; /* Цвет текста при наведении */
-        /*font-weight: bold;*/
+        background: #f3bd48;
+        color: #fff;
     }
 
-
-
-.col-1-1L {
-    width: 64%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-1-2L {
-    width: 20%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-1-3L {
-    width: 14%;
-    float: left;
-    /*margin-bottom: 12px;*/
-   
-}
-
-.col-1-1La {
-    width: 60%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-1-2La {
-    width: 24%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-1-3La {
-    width: 14%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-
-.row_Ri 
-{
-   height: 10%;
-
-}
-
-.label_Ri {
-    text-align: left;
-   vertical-align:central;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    float: left; /* Обтекание по правому краю */
-    margin-left: 10px;
-}
-.textbox_lbl_Ri {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    width: 100%;
-    background-color: #2777a8;
-    border-color: Black;
-
-}
-
-.textbox_Ri {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    width: 100%;
-    background-color: #2777a8;
-    border-color: Black;
-}
+/* Блоки простоев (idle time) с адаптивными высотами */
 .status_Mod {
-    width: 100%; /* Ширина слоя */
+    width: 100%;
     height: 8%;
 }
+
 .status_Mod1 {
-    width: 100%; /* Ширина слоя */
+    width: 100%;
     height: 90%;
 }
 
 .content_Mod {
-    width: 100%; /* Ширина слоя */
+    width: 100%;
     height: 100%;
 }
 
+/* Единое определение для .textbox_break_Mod (адаптивная высота) */
 .textbox_break_Mod {
     text-align: center;
-    font-size: 26px;
+    font-size: 2.2vh;
     font-weight: bold;
     color: #fff;
-    Width: 1235px;
-    height: 40px;
+    width: 100%;
+    height: 5vh;
+    min-height: 30px;
     background-color: #2777a8;
     border-color: Black;
     margin-bottom: 2px;
+    box-sizing: border-box;
 }
 
 .textbox_plan {
     text-align: center;
-    font-size: 20px;
+    font-size: 2vh;
     font-weight: bold;
     color: #fff;
     float: right;
-    Width: 120px;
+    width: 10%;
     background-color: #2777a8;
     border-color: Black;
     margin-bottom: 10px;
 }
 
-
 .label_Li {
     text-align: left;
-    font-size: 20px;
+    font-size: 2vh;
     font-weight: bold;
     color: #fff;
-    float: left; /* Обтекание по правому краю */
-
+    float: left;
 }
 
-.textbox_lbl_Li {
+.textbox_lbl_Li, .textbox_Li {
     text-align: center;
-    font-size: 20px;
+    font-size: 2vh;
     font-weight: bold;
     color: #fff;
     float: left;
     width: 100%;
     background-color: #2777a8;
     border-color: Black;
-}
-
-.textbox_Li {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    width: 100%;
-    background-color: #2777a8;
-    border-color: Black;
-}
-
-.col-1-1Li {
-    width: 60%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-1-2Li {
-    width: 25%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-1-3Li {
-    width: 14%;
-    float: left;
-    /*margin-bottom: 12px;*/
 }
 
 .textbox_otkl_grin {
     text-align: center;
-    font-size: 20px;
+    font-size: 2vh;
     font-weight: bold;
     color: greenyellow;
     float: left;
     width: 100%;
     background-color: #2777a8;
     border-color: Black;
-   
 }
 
 .textbox_otkl_red {
     text-align: center;
-    font-size: 20px;
+    font-size: 2vh;
     font-weight: bold;
     color: red;
     float: left;
     width: 100%;
     background-color: #2777a8;
     border-color: Black;
-
 }
 
-
 .col-2-1Li {
-    width: 49%;
+    width: 48%;
     float: left;
     height: 100%;
-    /*margin-bottom: 12px;*/
 }
 
 .col-2-2Li {
     width: 15%;
     float: left;
     height: 100%;
-    /*margin-bottom: 12px;*/
 }
 
 .col-2-3Li {
     width: 10%;
     float: left;
     height: 100%;
-    /*margin-bottom: 12px;*/
 }
+
 .col-2-4Li {
     width: 15%;
     float: left;
     height: 100%;
-    /*margin-bottom: 12px;*/
 }
+
 .col-2-5Li {
     width: 10%;
     float: left;
     height: 100%;
-    /*margin-bottom: 12px;*/
+}
+
+.col-2-time {
+    flex: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
 }
 
 .status_Mod_Line {
-    width: 100%; /* Ширина слоя */
-    height: 43.5%;
+    width: 100%;
+    height: 43%;
 }
+
 .status_Sm_Line {
-    width: 100%; /* Ширина слоя */
+    width: 100%;
     height: 50%;
 }
 
 .layer_Stag {
-    float: left; /* Обтекание по правому краю */
+    float: left;
     height: 100%;
     width: 32.8%;
     border-style: double;
     border-color: darkblue;
-
+    box-sizing: border-box;
+    margin: 0.2%;
 }
 
 .row_Rif {
     height: 16%;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
 }
+
 .row_Prob {
     height: 5%;
-
 }
 
 .label_slujba {
     text-align: center;
-    font-size: 18px;
+    font-size: 2vh;
     font-weight: bold;
-    Width: 100%;
+    width: 100%;
     color: #fff;
-    float: left; /* Обтекание по правому краю */
-
+    float: left;
 }
 
 .label_prostoi {
     text-align: left;
-    font-size: 18px;
+    font-size: 1.8vh;
     font-weight: bold;
-    Width: 100%;
+    width: 100%;
     height: 100%;
     color: #fff;
-    float: left; /* Обтекание по правому краю */
-  
-}
-.textbox_lbl_min {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
     float: left;
-    Width: 100%;
-    height: 100%;
-    background-color: #2777a8;
-    border-color: Black;
 }
-.textbox_prost_chas {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    Width: 95%;
-    background-color: transparent;
-    border-color: Black;
-}
-.textbox_lbl_prost_chas {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    Width: 93%;
-    background-color: transparent;
-    border-color: Black;
-}
-
-.textbox_prost_min {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    Width: 93%;
-    background-color: transparent;
-    border-color: Black;
-}
-
-.textbox_lbl_prost_min {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    Width: 95%;
-    background-color: transparent;
-    border-color: Black;
-}
-
 
 .col-2-1Fi {
-    width: 49%;
-    height:100%;
+    width: 48%;
+    height: 100%;
     float: left;
-    /*margin-bottom: 12px;*/
 }
+
 .col-2-2Fit {
-    width: 51%;
+    width: 50%;
     height: 100%;
     float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-2-2Fi {
-    width: 15%;
-    height: 100%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-2-3Fi {
-    width: 10%;
-    height: 100%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-2-4Fi {
-    width: 15%;
-    height: 100%;
-    float: left;
-    /*margin-bottom: 12px;*/
-}
-
-.col-2-5Fi {
-    width: 10%;
-    height: 100%;
-    float: left;
-    /*margin-bottom: 12px;*/
 }
 
 .layer_Stag_red {
-    float: left; /* Обтекание по правому краю */
+    float: left;
     height: 100%;
-    width: 32.8%; /* Ширина слоя */
+    width: 32.8%;
     border-style: double;
     border-color: darkblue;
-    -webkit-animation-name: example_red; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
-    animation-name: example_red;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
+    animation: example_red 4s infinite;
+    box-sizing: border-box;
+    margin: 0.2%;
 }
 
-.textbox_prost_chas_red {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    Width: 100%;
-    background-color: #2777a8;
-    border-color: Black;
-    -webkit-animation-name: example_red; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
-    animation-name: example_red;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-}
-
-.bor {
-    border: solid;
-    border-color:black;
-    width:100%;
-    height:100%;
-  
-}
 .table_q {
     border: 2px solid black;
     width: 100%;
@@ -1497,60 +952,539 @@ h4 {
 
     .table_q th {
         text-align: center;
-        font-size: 18px;
+        font-size: 1.8vh;
         font-weight: bold;
         color: #fff;
-        border: 2px solid black; /* Граница вокруг ячеек */
-        /*padding: 12px 17px;*/
+        border: 2px solid black;
     }
-.table_q th.lbl {
-    width: 20%
-}
 
-.table_q th.sub {
-    width: 25%; /* Not necessary, since only 70% width remains */
-}
+        .table_q th.lbl {
+            width: 20%;
+        }
+
+        .table_q th.sub {
+            width: 25%;
+        }
 
 .Idle_Mod_Line1 {
-    width: 100%; /* Ширина слоя */
+    width: 100%;
     height: 8%;
     text-align: center;
     float: left;
 }
+
 .Idle_Mod_Line2 {
-    width: 100%; /* Ширина слоя */
+    width: 100%;
     height: 92%;
     float: left;
-  
-    /*margin-bottom: 12px;*/
+    overflow: auto;
 }
 
 .label_mes_txt {
     text-align: center;
-    font-size: 18px;
+    font-size: 2vh;
     font-weight: bold;
-    Width: 100%;
+    width: 100%;
     color: #fff;
     float: left;
 }
+
 .colorRedtext {
-    color: red; /* Красный цвет выделения */
-    font-size: 18px;
+    color: red;
+    font-size: 2vh;
     font-weight: bolder;
-    line-height: 100%;
-    text-shadow: #000000 0px 1px 1px;
 }
+
 .colorGreentext {
-    color: #3EDC6C; /* Зеленый цвет выделения */
-    font-size: 18px;
+    color: #3EDC6C;
+    font-size: 2vh;
     font-weight: bolder;
-    line-height: 100%;
-    text-shadow: #000000 0px 1px 1px;
 }
+
 .colorBluetext {
-    color: blue; /* Зеленый цвет выделения */
-    font-size: 18px;
+    color: blue;
+    font-size: 2vh;
     font-weight: bolder;
-    line-height: 100%;
-    text-shadow: #000000 0px 1px 1px;
+}
+
+/* Стили для TV-версии default.aspx */
+.tv-dashboard {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(145deg, #0a0f1e 0%, #1a1f2f 100%);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+    .tv-dashboard .status-bar {
+        height: 8vh;
+        min-height: 40px;
+        margin-bottom: 1vh;
+    }
+
+    .tv-dashboard .status-text {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 3vh;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        background-color: #2a2f3f;
+        color: white;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        transition: all 0.2s;
+    }
+
+    .tv-dashboard .dashboard-grid {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5vh;
+        padding: 0 1vw;
+        overflow: hidden;
+    }
+
+    .tv-dashboard .grid-left, .tv-dashboard .grid-right {
+        height: 100%;
+        overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+        .tv-dashboard .grid-left::-webkit-scrollbar,
+        .tv-dashboard .grid-right::-webkit-scrollbar {
+            display: none;
+        }
+
+    .tv-dashboard .card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(8px);
+        border-radius: 20px;
+        padding: 2vh 1.5vw;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .tv-dashboard .card-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.2vh;
+        flex-wrap: nowrap;
+    }
+
+    .tv-dashboard .label {
+        font-size: 2vh;
+        font-weight: 500;
+        color: #b0b7d0;
+        flex: 3;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 1vw;
+    }
+
+    .tv-dashboard .value, .tv-dashboard .value-group {
+        flex: 2;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+    }
+
+    .tv-dashboard .value-box {
+        width: 100%;
+        background: rgba(10, 20, 40, 0.7);
+        border: 1px solid #3a4a6a;
+        border-radius: 8px;
+        padding: 0.8vh 0.5vw;
+        font-size: 2.2vh;
+        font-weight: bold;
+        color: #ffffff;
+        text-align: center;
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        transition: all 0.2s;
+    }
+
+        .tv-dashboard .value-box.small {
+            width: 45%;
+            font-size: 2vh;
+            padding: 0.5vh 0.3vw;
+        }
+
+        .tv-dashboard .value-box.deviation {
+            color: #ffaa00;
+        }
+
+    .tv-dashboard .unit-box, .tv-dashboard .unit-inline {
+        width: auto;
+        min-width: 4vw;
+        background: transparent;
+        border: none;
+        font-size: 1.8vh;
+        color: #8e9bb5;
+        text-align: left;
+        padding-left: 0.2vw;
+    }
+
+    .tv-dashboard .unit-inline {
+        display: inline;
+        white-space: nowrap;
+    }
+
+    /* Специфические классы для отклонений */
+    .tv-dashboard .textbox_otkl_grin {
+        color: #8bc34a !important;
+    }
+
+    .tv-dashboard .textbox_otkl_red {
+        color: #ff6b6b !important;
+    }
+
+/* ========== Стили, перенесённые из default.aspx ========== */
+:root {
+    --bg-dark: #0a1a2f;
+    --bg-medium: #1e3a5f;
+    --accent-blue: #2a6f97;
+    --accent-green: #2e8b57;
+    --accent-red: #b22222;
+    --text-light: #f0f4fa;
+    --border-light: #4b7b9d;
+}
+
+.content_Mod {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    padding: 0.5vh 0.5vw;
+    box-sizing: border-box;
+    gap: 0.5vh;
+    overflow: hidden;
+}
+
+.status_mod {
+    flex: 0 0 auto;
+    width: 100%;
+}
+
+/* Переопределение .textbox_break_Mod для тёмной темы (адаптивная высота) */
+.textbox_break_Mod {
+    width: 100%;
+    height: 5vh;
+    min-height: 30px;
+    font-size: 2.2vh;
+    font-weight: bold;
+    text-align: center;
+    background: var(--bg-medium);
+    color: var(--text-light);
+    border: 2px solid var(--border-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    box-sizing: border-box;
+}
+
+.columns {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5vw;
+    min-height: 0;
+}
+
+.layer1, .layer2 {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    padding: 0.8vh 0.5vw;
+    box-sizing: border-box;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+    overflow: hidden;
+}
+
+.row_Ri {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.6vh;
+    background: rgba(30, 58, 95, 0.6);
+    border-radius: 8px;
+    padding: 0.2vh 0.5vw;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    flex: 1 1 auto;
+    min-height: 5vh;
+}
+
+.col-1-1L, .col-1-2L, .col-1-3L,
+.col-1-1La, .col-1-2La, .col-1-3La,
+.col-1-1Li, .col-1-2Li, .col-1-3Li,
+.col-2-1Li, .col-2-2Li, .col-2-3Li, .col-2-4Li, .col-2-5Li {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.col-1-1L, .col-1-1La, .col-1-1Li, .col-2-1Li {
+    flex: 3 1 50%;
+    text-align: left;
+    padding-left: 0.5vw;
+    font-size: 2vh;
+    font-weight: 600;
+    color: var(--text-light);
+    text-shadow: 1px 1px 2px black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.col-1-2L, .col-1-2La, .col-1-2Li, .col-2-2Li {
+    flex: 1 1 25%;
+    text-align: center;
+}
+
+.col-1-3L, .col-1-3La, .col-1-3Li, .col-2-3Li, .col-2-4Li, .col-2-5Li {
+    flex: 0 1 15%;
+    text-align: left;
+    font-size: 1.8vh;
+    color: #aaa;
+}
+
+.col-2-time {
+    flex: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.5vw;
+}
+
+.textbox_Ri, .textbox_Li, .textbox_lbl_Ri, .textbox_lbl_Li,
+.textbox_otkl_grin, .textbox_otkl_red {
+    width: 100%;
+    height: 4vh;
+    font-size: 2.2vh;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 8px;
+    background: var(--bg-medium);
+    color: var(--text-light);
+    border: 2px solid var(--border-light);
+    border-radius: 6px;
+    box-sizing: border-box;
+    box-shadow: inset 0 0 5px #000000;
+}
+
+.textbox_otkl_grin {
+    color: #adff2f;
+    border-color: #adff2f;
+}
+
+.textbox_otkl_red {
+    color: #ff6347;
+    border-color: #ff6347;
+}
+
+.textbox_lbl_Ri, .textbox_lbl_Li {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: #9bb7d4;
+    font-size: 1.8vh;
+    text-align: left;
+    padding-left: 0.2vw;
+}
+
+.label_Ri, .label_Li {
+    display: inline-block;
+    font-size: 2vh;
+    font-weight: 600;
+    color: #d4e3fd;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.col-2-1Li {
+    flex: 3 1 45%;
+}
+
+.col-2-2Li {
+    flex: 1 1 15%;
+}
+
+.col-2-3Li {
+    flex: 0 1 10%;
+}
+
+.col-2-4Li {
+    flex: 1 1 15%;
+}
+
+.col-2-5Li {
+    flex: 0 1 10%;
+}
+
+@media (min-height: 900px) {
+    .row_Ri {
+        min-height: 4vh;
+    }
+
+    .textbox_Ri, .textbox_Li {
+        height: 3.5vh;
+        font-size: 2vh;
+    }
+}
+
+/* ===== Стили для обновлённой страницы idle time ===== */
+.idle-dashboard {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(145deg, #0a0f1e 0%, #1a1f2f 100%);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0.5vh 0.5vw;
+    box-sizing: border-box;
+    gap: 1vh;
+}
+
+.status-bar {
+    flex: 0 0 auto;
+    height: 7vh;
+    min-height: 40px;
+}
+
+.status-text {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 3vh;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background-color: #2a2f3f;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.idle-grid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    min-height: 0;
+}
+
+.idle-row {
+    flex: 1;
+    display: flex;
+    gap: 0.8vw;
+    min-height: 0;
+}
+
+.idle-card {
+    flex: 1 1 0;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    padding: 1.5vh 1vw;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    transition: all 0.2s;
+}
+
+    .idle-card.card-warning {
+        border: 2px solid #ff6b6b;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.6), 0 0 20px rgba(255, 107, 107, 0.5);
+        animation: card-pulse 2s infinite;
+    }
+
+@keyframes card-pulse {
+    0% {
+        border-color: #ff6b6b;
+    }
+
+    50% {
+        border-color: #ff3838;
+    }
+
+    100% {
+        border-color: #ff6b6b;
+    }
+}
+
+.card-header {
+    font-size: 2.2vh;
+    font-weight: 600;
+    color: #b0b7d0;
+    text-align: center;
+    padding-bottom: 1vh;
+    margin-bottom: 1vh;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 0.8vh;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 2vh;
+    line-height: 1.4;
+}
+
+.stat-label {
+    color: #8e9bb5;
+    white-space: nowrap;
+    margin-right: 1vw;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: #ffffff;
+    background: rgba(10, 20, 40, 0.7);
+    border: 1px solid #3a4a6a;
+    border-radius: 6px;
+    padding: 0.4vh 0.8vw;
+    min-width: 8vw;
+    text-align: center;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 1280px) {
+    .stat-item {
+        font-size: 1.8vh;
+    }
+
+    .card-header {
+        font-size: 2vh;
+    }
+}
+
+@media (max-width: 1024px) {
+    .stat-item {
+        font-size: 1.6vh;
+    }
+
+    .stat-value {
+        min-width: 10vw;
+    }
 }

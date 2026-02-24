@@ -10,41 +10,16 @@ using System.Globalization;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class smena : System.Web.UI.Page
+    public partial class smena : BasePage
     {
-        string break_status = "0";
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Загружаем статус обрыва
+            LoadBreakStatus();
+
             // блокировка по году 2022г
-            if (DateTime.Now.Year < 2025)
+            if (DateTime.Now.Year < 2050)
             {
-                try
-                {
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
-                    string sqlExpression = "SELECT TOP 1*FROM [Control].[dbo].[page_1] order by dt desc";
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
-                        {
-                            while (reader.Read()) // построчно считываем данные
-                            {
-                                object break_stat = reader.GetValue(21);
-                                break_status = break_stat.ToString();
-                            }
-                        }
-                        reader.Close();
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
                 // нужны дата и время чтоб делать выборки
                 DateTime date = DateTime.Now;
 
@@ -66,7 +41,7 @@ namespace WEB_Scrin_ASP
                 // читаем данные с sql за текущий месяц
                 try
                 {
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                    string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                     string sqlExpression = "SELECT SUM(fact_GP),SUM(zad_GP),SUM(otcl_GP),SUM(kol_break),SUM(break_set),SUM(break_sush),SUM(run_BDM),count(id),avg(fact_GP),brigada FROM[Control].[dbo].[rep_BDM] Where dt Between CONVERT(date, @time1, 104) AND CONVERT(date, @time2, 104) GROUP BY[Control].[dbo].[rep_BDM].[brigada] order by SUM(otcl_GP) DESC";
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
@@ -195,7 +170,7 @@ namespace WEB_Scrin_ASP
                 try
                 {
                     // читаем данные с sql за предыдущий месяц
-                    string connectionString1 = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                    string connectionString1 = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
 
                     string sqlExpression1 = "SELECT SUM(fact_GP),SUM(zad_GP),SUM(otcl_GP),SUM(kol_break),SUM(break_set),SUM(break_sush),SUM(run_BDM),count(id),avg(fact_GP),brigada FROM[Control].[dbo].[rep_BDM] Where dt Between CONVERT(date, @time1, 104) AND CONVERT(date, @time2, 104) GROUP BY[Control].[dbo].[rep_BDM].[brigada] order by SUM(otcl_GP) DESC";
                     using (SqlConnection connection1 = new SqlConnection(connectionString1))
@@ -299,48 +274,8 @@ namespace WEB_Scrin_ASP
         }
         protected void Page_LoadComplete(object sender, EventArgs e)
         {
-            if (break_status == "0")
-            {
-                textbox200.Text = "НЕТ СВЯЗИ";
-                textbox200.CssClass = "blnktext0";
-            }
-            else if (break_status == "1")
-            {
-                textbox200.Text = "ОБРЫВ ПОЛОТНА, НО БДМ В РАБОТЕ";
-                textbox200.CssClass = "blnktext1";
-            }
-            else if (break_status == "2")
-            {
-                textbox200.Text = "ОБРЫВ ПОЛОТНА, МАССА СНЯТА С СЕТОЧНОГО СТОЛА";
-                textbox200.CssClass = "blnktext2";
-            }
-            else if (break_status == "3")
-            {
-                textbox200.Text = "ОБРЫВ ПОЛОТНА, МАССА СНЯТА С ВЕРХНЕГО СЕТОЧНОГО СТОЛА";
-                textbox200.CssClass = "blnktext2";
-            }
-            else if (break_status == "4")
-            {
-                textbox200.Text = "ОБРЫВ ПОЛОТНА, НЕ ЗАПЛАНИРОВАННЫЙ ОСТАНОВ";
-                textbox200.CssClass = "blnktext4";
-            }
-            else if (break_status == "5")
-            {
-                textbox200.Text = "ОБРЫВ ПОЛОТНА, ЗАПЛАНИРОВАННЫЙ ОСТАНОВ";
-                textbox200.CssClass = "blnktext5";
-            }
-            else if (break_status == "6")
-            {
-                textbox200.Text = "ХМ... ОСТАНОВ МАШИНЫ БОЛЬШЕ ЗАПЛАНИРОВАННОГО";
-                textbox200.CssClass = "blnktext6";
-            }
-            else if (break_status == "7")
-            {
-                textbox200.Text = "БДМ В РАБОТЕ";
-                textbox200.CssClass = "blnktext7";
-            }
+            // Обновляем статусную строку через базовый метод
+            UpdateStatusTextBox(textbox200);
         }
-
-
     }
 }

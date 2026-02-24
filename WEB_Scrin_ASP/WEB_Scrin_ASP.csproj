@@ -117,14 +117,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Caution.aspx" />
     <Content Include="Grafik.aspx" />
     <Content Include="images\DN.jpg" />
     <Content Include="font\11325.ttf" />
     <Content Include="font\mon-amour-one-medium_[allfont.ru].ttf" />
     <None Include="packages.config" />
     <Content Include="birthday.aspx" />
-    <Content Include="electric.png" />
     <Content Include="idle time.aspx" />
     <Content Include="images\electric.png" />
     <Content Include="images\fire.jpg" />
@@ -146,19 +144,15 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="birthday.aspx.cs">
       <DependentUpon>birthday.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="birthday.aspx.designer.cs">
       <DependentUpon>birthday.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Caution.aspx.cs">
-      <DependentUpon>Caution.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Caution.aspx.designer.cs">
-      <DependentUpon>Caution.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\IdlleSmartController.cs" />
     <Compile Include="Converter.cs" />

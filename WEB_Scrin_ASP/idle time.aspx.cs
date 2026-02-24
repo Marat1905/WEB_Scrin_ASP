@@ -1,114 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.DataVisualization.Charting;
-using System.Web.UI.WebControls;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class idle_time : System.Web.UI.Page
+    public partial class idle_time : BasePage
     {
-        string break_status = "0";
-        object TekMes_Electro, PredMes_Electro, tekGod_Electro, PredGod_Electro, TekMes_Mex, PredMes_Mex, tekGod_Mex, PredGod_Mex, TekMes_Tex, PredMes_Tex;
-
-
-        object tekGod_Tex, PredGod_Tex, TekMes_PPR, PredMes_PPR, tekGod_PPR, PredGod_PPR, TekMes_Other, PredMes_Other, tekGod_Other, PredGod_Other;
-
+        // Переменные для хранения данных из БД (минуты)
+        object TekMes_Electro, PredMes_Electro, tekGod_Electro, PredGod_Electro;
+        object TekMes_Mex, PredMes_Mex, tekGod_Mex, PredGod_Mex;
+        object TekMes_Tex, PredMes_Tex, tekGod_Tex, PredGod_Tex;
+        object TekMes_PPR, PredMes_PPR, tekGod_PPR, PredGod_PPR;
+        object TekMes_Other, PredMes_Other, tekGod_Other, PredGod_Other;
         object temp_tekGod_Electro, temp_tekGod_Mex, temp_tekGod_Tex, temp_tekGod_PPR, temp_tekGod_Other;
         int Count_All_TekMes, Count_All_PredMes, Count_All_tekGod, Count_All_PredGod;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            // блокировка по году 2022г
-            if (DateTime.Now.Year < 2025)
+            LoadBreakStatus(); // из BasePage
+
+            if (DateTime.Now.Year < 2050)
             {
                 Page.Server.ScriptTimeout = 65;
 
-                try
-                {
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
-                    string sqlExpression = "SELECT TOP 1*FROM [Control].[dbo].[page_1] order by dt desc";
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
-                        {
-                            while (reader.Read()) // построчно считываем данные
-                            {
-                                object break_stat = reader.GetValue(21);
-                                break_status = break_stat.ToString();
-                            }
-                        }
-                        reader.Close();
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-                // нужны дата и время чтоб делать выборки
                 DateTime date = DateTime.Now;
-
-                // для выборки текущий месяц
                 int year = date.Year;
                 string month = date.ToString("MM", CultureInfo.InvariantCulture);
                 string den = date.ToString("dd", CultureInfo.InvariantCulture);
                 string time_tek_start = year + month + "01 00:00:00";
-                string time_tek_end = year + month + den.ToString() + " 23:59:59";
-                // для выборки предыдущий месяц
+                string time_tek_end = year + month + den + " 23:59:59";
+
                 DateTime date1 = date.AddMonths(-1);
                 int year_pred = date1.Year;
                 string month_pred = date1.ToString("MM", CultureInfo.InvariantCulture);
                 string days_Mo = DateTime.DaysInMonth(year_pred, Convert.ToInt32(month_pred)).ToString();
                 string time_pred_start = year_pred + month_pred + "01 00:00:00";
-                string time_pred_end = year_pred + month_pred + days_Mo.ToString() + " 23:59:59";
-                // для выборки текущий год 
+                string time_pred_end = year_pred + month_pred + days_Mo + " 23:59:59";
 
                 string time_tekGod_start = year + "0101 00:00:00";
-                string time_tekGod_end = year + month + den.ToString() + " 23:59:59";
-                // для выборки предыдущий год
+                string time_tekGod_end = year + month + den + " 23:59:59";
+
                 DateTime date2 = date.AddYears(-1);
                 int year_predGod = date2.Year;
                 string time_predGod_start = year_predGod + "0101 00:00:00";
-                string time_predGod_end = year_predGod + month + den.ToString() + " 23:59:59";
-               
+                string time_predGod_end = year_predGod + month + den + " 23:59:59";
 
-                /////////////////////////////////////////
-                // читаем данные с sql за текущий месяц
                 try
                 {
-                    string connectionString = @"Data Source=10.0.9.4;Initial Catalog=kiu_opc; User ID = mes; pwd = mes";
-                    string sqlExpression = @" SET ANSI_NULLS off  SELECT
- (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр1 IN('Эл.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104)) as TekMes_Electro,
-  (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр1 IN('Эл.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104))as PredMes_Electro,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр1 IN('Эл.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekMGod_end, 104))as tekGod_Electro,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр1 IN('Эл.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104))as PredGod_Electro,
-   
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр1 IN('Мех.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104))as TekMes_Mex,
-  (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр1 IN('Мех.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104))as PredMes_Mex,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр1 IN('Мех.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekMGod_end, 104))as tekGod_Mex,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр1 IN('Мех.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104))as PredGod_Mex,
-   
-      (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр2 IN('Технологическая') and[ДатаДокумента] Between CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104))as TekMes_Tex,
-  (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр2 IN('Технологическая') and[ДатаДокумента] Between CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104))as PredMes_Tex,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр2 IN('Технологическая') and[ДатаДокумента] Between CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekMGod_end, 104))as tekGod_Tex,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where ПричинаУр2 IN('Технологическая') and[ДатаДокумента] Between CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104))as PredGod_Tex,
-   
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where Причина IN('ПТО', 'ППР, останов на ППР','ППР') and[ДатаДокумента] Between CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104))as TekMes_PPR,
-  (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where Причина IN('ПТО', 'ППР, останов на ППР','ППР') and[ДатаДокумента] Between CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104))as PredMes_PPR,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where Причина IN('ПТО', 'ППР, останов на ППР','ППР') and[ДатаДокумента] Between CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekMGod_end, 104))as tekGod_PPR,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where Причина IN('ПТО', 'ППР, останов на ППР','ППР') and[ДатаДокумента] Between CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104))as PredGod_PPR,
-   
-      (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where Причина not IN('ПТО','ППР, останов на ППР','ППР')and ПричинаУр2 not IN('Технологическая') and ПричинаУр1 not IN('Мех.часть','Эл.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104))as TekMes_Other,
-  (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where Причина not IN('ПТО','ППР, останов на ППР','ППР')and ПричинаУр2 not IN('Технологическая') and ПричинаУр1 not IN('Мех.часть','Эл.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104))as PredMes_Other,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where Причина not IN('ПТО','ППР, останов на ППР','ППР')and ПричинаУр2 not IN('Технологическая')and ПричинаУр1 not IN('Мех.часть','Эл.часть')  and[ДатаДокумента] Between CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekMGod_end, 104))as tekGod_Other,
-   (select sum(Продолжительность)FROM[kiu_opc].[dbo].[Простои]Where Причина not in ('ПТО', 'ППР, останов на ППР','ППР')and ПричинаУр2 not IN('Технологическая')and ПричинаУр1 not IN('Мех.часть','Эл.часть') and[ДатаДокумента] Between CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104))as PredGod_Other   SET ANSI_NULLS on";
+                    string connectionString = @"Data Source=10.0.9.4;Initial Catalog=kiu_opc;User ID=mes;Password=mes";
+                    string sqlExpression = @"
+                        SET ANSI_NULLS OFF
+                        SELECT
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр1 IN('Эл.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104)) AS TekMes_Electro,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр1 IN('Эл.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104)) AS PredMes_Electro,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр1 IN('Эл.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekGod_end, 104)) AS tekGod_Electro,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр1 IN('Эл.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104)) AS PredGod_Electro,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр1 IN('Мех.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104)) AS TekMes_Mex,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр1 IN('Мех.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104)) AS PredMes_Mex,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр1 IN('Мех.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekGod_end, 104)) AS tekGod_Mex,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр1 IN('Мех.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104)) AS PredGod_Mex,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр2 IN('Технологическая') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104)) AS TekMes_Tex,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр2 IN('Технологическая') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104)) AS PredMes_Tex,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр2 IN('Технологическая') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekGod_end, 104)) AS tekGod_Tex,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE ПричинаУр2 IN('Технологическая') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104)) AS PredGod_Tex,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE Причина IN('ПТО', 'ППР, останов на ППР','ППР') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104)) AS TekMes_PPR,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE Причина IN('ПТО', 'ППР, останов на ППР','ППР') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104)) AS PredMes_PPR,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE Причина IN('ПТО', 'ППР, останов на ППР','ППР') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekGod_end, 104)) AS tekGod_PPR,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE Причина IN('ПТО', 'ППР, останов на ППР','ППР') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104)) AS PredGod_PPR,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE Причина NOT IN('ПТО','ППР, останов на ППР','ППР') AND ПричинаУр2 NOT IN('Технологическая') AND ПричинаУр1 NOT IN('Мех.часть','Эл.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekMes_start, 104) AND CONVERT(datetime, @time_tekMes_end, 104)) AS TekMes_Other,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE Причина NOT IN('ПТО','ППР, останов на ППР','ППР') AND ПричинаУр2 NOT IN('Технологическая') AND ПричинаУр1 NOT IN('Мех.часть','Эл.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predMes_start, 104) AND CONVERT(datetime, @time_predMes_end, 104)) AS PredMes_Other,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE Причина NOT IN('ПТО','ППР, останов на ППР','ППР') AND ПричинаУр2 NOT IN('Технологическая') AND ПричинаУр1 NOT IN('Мех.часть','Эл.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_tekGod_start, 104) AND CONVERT(datetime, @time_tekGod_end, 104)) AS tekGod_Other,
+                            (SELECT SUM(Продолжительность) FROM [kiu_opc].[dbo].[Простои] WHERE Причина NOT IN('ПТО','ППР, останов на ППР','ППР') AND ПричинаУр2 NOT IN('Технологическая') AND ПричинаУр1 NOT IN('Мех.часть','Эл.часть') AND [ДатаДокумента] BETWEEN CONVERT(datetime, @time_predGod_start, 104) AND CONVERT(datetime, @time_predGod_end, 104)) AS PredGod_Other
+                        SET ANSI_NULLS ON";
 
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
@@ -119,15 +83,15 @@ namespace WEB_Scrin_ASP
                         command.Parameters.AddWithValue("@time_predMes_start", time_pred_start);
                         command.Parameters.AddWithValue("@time_predMes_end", time_pred_end);
                         command.Parameters.AddWithValue("@time_tekGod_start", time_tekGod_start);
-                        command.Parameters.AddWithValue("@time_tekMGod_end", time_tekGod_end);
+                        command.Parameters.AddWithValue("@time_tekGod_end", time_tekGod_end);
                         command.Parameters.AddWithValue("@time_predGod_start", time_predGod_start);
                         command.Parameters.AddWithValue("@time_predGod_end", time_predGod_end);
-                        SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
-                        {
-                            while (reader.Read()) // построчно считываем данные
-                            {
 
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
                                 TekMes_Electro = reader.GetValue(0);
                                 PredMes_Electro = reader.GetValue(1);
                                 tekGod_Electro = reader.GetValue(2);
@@ -153,8 +117,7 @@ namespace WEB_Scrin_ASP
                                 tekGod_Other = reader.GetValue(18);
                                 PredGod_Other = reader.GetValue(19);
 
-                               
-                                Count_All_TekMes = TekMes_Electro.IfNullThenZero()+ TekMes_Mex.IfNullThenZero()+ TekMes_Tex.IfNullThenZero()+ TekMes_PPR.IfNullThenZero() + TekMes_Other.IfNullThenZero();
+                                Count_All_TekMes = TekMes_Electro.IfNullThenZero() + TekMes_Mex.IfNullThenZero() + TekMes_Tex.IfNullThenZero() + TekMes_PPR.IfNullThenZero() + TekMes_Other.IfNullThenZero();
                                 Count_All_PredMes = PredMes_Electro.IfNullThenZero() + PredMes_Mex.IfNullThenZero() + PredMes_Tex.IfNullThenZero() + PredMes_PPR.IfNullThenZero() + PredMes_Other.IfNullThenZero();
                                 Count_All_tekGod = tekGod_Electro.IfNullThenZero() + tekGod_Mex.IfNullThenZero() + tekGod_Tex.IfNullThenZero() + tekGod_PPR.IfNullThenZero() + tekGod_Other.IfNullThenZero();
                                 Count_All_PredGod = PredGod_Electro.IfNullThenZero() + PredGod_Mex.IfNullThenZero() + PredGod_Tex.IfNullThenZero() + PredGod_PPR.IfNullThenZero() + PredGod_Other.IfNullThenZero();
@@ -163,48 +126,35 @@ namespace WEB_Scrin_ASP
                         reader.Close();
                     }
 
-
-                    /////////////////////////////////////////
-
-                    string connectionString1 = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
-                    string sqlExpression1 = "SELECT *FROM [Control].[dbo].[difference]where id=1";
+                    // Данные корректировки (difference)
+                    string connectionString1 = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
+                    string sqlExpression1 = "SELECT * FROM [Control].[dbo].[difference] WHERE id=1";
                     using (SqlConnection connection = new SqlConnection(connectionString1))
                     {
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression1, connection);
-                       
                         SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
+                        if (reader.HasRows)
                         {
-                            while (reader.Read()) // построчно считываем данные
+                            while (reader.Read())
                             {
                                 temp_tekGod_Electro = reader.GetValue(3);
                                 temp_tekGod_Mex = reader.GetValue(4);
                                 temp_tekGod_Tex = reader.GetValue(5);
-
                                 temp_tekGod_PPR = reader.GetValue(6);
                                 temp_tekGod_Other = reader.GetValue(7);
-                               
-
-                              
                             }
                         }
                         reader.Close();
                     }
-                    ///////////////////////////////////////
-
-
                 }
                 catch (Exception ex)
                 {
-
+                    // логирование при необходимости
                 }
-
             }
-
-
-
         }
+
         protected void Timer1_Tick(object sender, EventArgs e)
         {
             Response.Redirect("smena.aspx");
@@ -214,380 +164,100 @@ namespace WEB_Scrin_ASP
         {
             try
             {
+                // Обновляем статусную строку (из BasePage)
+                UpdateStatusTextBox(textbox200);
 
-
-                if (break_status == "0")
+                // Вспомогательная функция форматирования минут в "X ч Y мин"
+                string FormatTime(object minutesObj)
                 {
-                    textbox200.Text = "НЕТ СВЯЗИ";
-                    textbox200.CssClass = "blnktext0";
-                }
-                else if (break_status == "1")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, НО БДМ В РАБОТЕ";
-                    textbox200.CssClass = "blnktext1";
-                }
-                else if (break_status == "2")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, МАССА СНЯТА С СЕТОЧНОГО СТОЛА";
-                    textbox200.CssClass = "blnktext2";
-                }
-                else if (break_status == "3")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, МАССА СНЯТА С ВЕРХНЕГО СЕТОЧНОГО СТОЛА";
-                    textbox200.CssClass = "blnktext2";
-                }
-                else if (break_status == "4")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, НЕ ЗАПЛАНИРОВАННЫЙ ОСТАНОВ";
-                    textbox200.CssClass = "blnktext4";
-                }
-                else if (break_status == "5")
-                {
-                    textbox200.Text = "ОБРЫВ ПОЛОТНА, ЗАПЛАНИРОВАННЫЙ ОСТАНОВ";
-                    textbox200.CssClass = "blnktext5";
-                }
-                else if (break_status == "6")
-                {
-                    textbox200.Text = "ХМ... ОСТАНОВ МАШИНЫ БОЛЬШЕ ЗАПЛАНИРОВАННОГО";
-                    textbox200.CssClass = "blnktext6";
-                }
-                else if (break_status == "7")
-                {
-                    textbox200.Text = "БДМ В РАБОТЕ";
-                    textbox200.CssClass = "blnktext7";
-                }
-               // электрики
-                if (string.IsNullOrEmpty(Convert.ToString(TekMes_Electro)))
-                {
-                    textbox_chas_1.InnerText = "0";
-                    textbox_min_1.InnerText = "0";
-                }
-                else
-                {
-                    textbox_chas_1.InnerText = (Convert.ToInt32(TekMes_Electro) / 60).ToString();
-                    textbox_min_1.InnerText = (Convert.ToInt32(TekMes_Electro) - (Convert.ToInt32(textbox_chas_1.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(PredMes_Electro)))
-                {
-                    textbox4.InnerText = "0";
-                    textbox2.InnerText = "0";
-                }
-                else
-                {
-                    textbox4.InnerText = (Convert.ToInt32(PredMes_Electro) / 60).ToString();
-                    textbox2.InnerText = (Convert.ToInt32(PredMes_Electro) - (Convert.ToInt32(textbox4.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(tekGod_Electro)))
-                {
-                    textbox8.InnerText = "0";
-                    textbox6.InnerText = "0";
-                }
-                else
-                {
-                    if(Convert.ToInt32(temp_tekGod_Electro)> Convert.ToInt32(tekGod_Electro) / 60)
-                    {
-                      
-                        textbox8.InnerText = (Convert.ToInt32(tekGod_Electro) / 60).ToString();
-                        textbox6.InnerText = (Convert.ToInt32(tekGod_Electro) - (Convert.ToInt32(textbox8.InnerText) * 60)).ToString();
-                    }
-                    else
-                    {
-                        textbox8.InnerText = ((Convert.ToInt32(tekGod_Electro) / 60)- Convert.ToInt32(temp_tekGod_Electro)).ToString();
-                        textbox6.InnerText = (Convert.ToInt32(tekGod_Electro) - ((Convert.ToInt32(textbox8.InnerText)+Convert.ToInt32(temp_tekGod_Electro)) * 60)).ToString();
-                    }
-                   
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(PredGod_Electro)))
-                {
-                    textbox12.InnerText = "0";
-                    textbox10.InnerText = "0";
-                }
-                else
-                {
-                    textbox12.InnerText = (Convert.ToInt32(PredGod_Electro) / 60).ToString();
-                    textbox10.InnerText = (Convert.ToInt32(PredGod_Electro) - (Convert.ToInt32(textbox12.InnerText) * 60)).ToString();
-                }
-                //Механики
-                if (string.IsNullOrEmpty(Convert.ToString(TekMes_Mex)))
-                {
-                    textbox16.InnerText = "0";
-                    textbox14.InnerText = "0";
-                }
-                else
-                {
-                    textbox16.InnerText = (Convert.ToInt32(TekMes_Mex) / 60).ToString();
-                    textbox14.InnerText = (Convert.ToInt32(TekMes_Mex) - (Convert.ToInt32(textbox16.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(PredMes_Mex)))
-                {
-                    textbox20.InnerText = "0";
-                    textbox18.InnerText = "0";
-                }
-                else
-                {
-                    textbox20.InnerText = (Convert.ToInt32(PredMes_Mex) / 60).ToString();
-                    textbox18.InnerText = (Convert.ToInt32(PredMes_Mex) - (Convert.ToInt32(textbox20.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(tekGod_Mex)))
-                {
-                    textbox24.InnerText = "0";
-                    textbox22.InnerText = "0";
-                }
-                else
-                {
-                    if(Convert.ToInt32(temp_tekGod_Mex)> Convert.ToInt32(tekGod_Mex) / 60)
-                    {
-                        textbox24.InnerText = (Convert.ToInt32(tekGod_Mex) / 60).ToString();
-                        textbox22.InnerText = (Convert.ToInt32(tekGod_Mex) - (Convert.ToInt32(textbox24.InnerText) * 60)).ToString();
-                    }
-                    else
-                    {
-                        
-                        textbox24.InnerText = ((Convert.ToInt32(tekGod_Mex) / 60)- Convert.ToInt32(temp_tekGod_Mex)).ToString();
-                        textbox22.InnerText = (Convert.ToInt32(tekGod_Mex) - ((Convert.ToInt32(textbox24.InnerText)+ Convert.ToInt32(temp_tekGod_Mex)) * 60)).ToString();
-                    }
-                    
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(PredGod_Mex)))
-                {
-                    textbox28.InnerText = "0";
-                    textbox26.InnerText = "0";
-                }
-                else
-                {
-                    textbox28.InnerText = (Convert.ToInt32(PredGod_Mex) / 60).ToString();
-                    textbox26.InnerText = (Convert.ToInt32(PredGod_Mex) - (Convert.ToInt32(textbox28.InnerText) * 60)).ToString();
-                }
-                //технологи
-                if (string.IsNullOrEmpty(Convert.ToString(TekMes_Tex)))
-                {
-                    textbox32.InnerText = "0";
-                    textbox30.InnerText = "0";
-                }
-                else
-                {
-                    textbox32.InnerText = (Convert.ToInt32(TekMes_Tex) / 60).ToString();
-                    textbox30.InnerText = (Convert.ToInt32(TekMes_Tex) - (Convert.ToInt32(textbox32.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(PredMes_Tex)))
-                {
-                    textbox36.InnerText = "0";
-                    textbox34.InnerText = "0";
-                }
-                else
-                {
-                    textbox36.InnerText = (Convert.ToInt32(PredMes_Tex) / 60).ToString();
-                    textbox34.InnerText = (Convert.ToInt32(PredMes_Tex) - (Convert.ToInt32(textbox36.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(tekGod_Tex)))
-                {
-                    textbox40.InnerText = "0";
-                    textbox38.InnerText = "0";
-                }
-                else
-                {
-                    if (Convert.ToInt32(temp_tekGod_Tex)> Convert.ToInt32(tekGod_Tex))
-                    {
-                        textbox40.InnerText = (Convert.ToInt32(tekGod_Tex) / 60).ToString();
-                        textbox38.InnerText = (Convert.ToInt32(tekGod_Tex) - (Convert.ToInt32(textbox40.InnerText) * 60)).ToString();
-                    }
-                    else
-                    {
-                        textbox40.InnerText = ((Convert.ToInt32(tekGod_Tex) / 60)- Convert.ToInt32(temp_tekGod_Tex)).ToString();
-                        textbox38.InnerText = (Convert.ToInt32(tekGod_Tex) - ((Convert.ToInt32(textbox40.InnerText)+ Convert.ToInt32(temp_tekGod_Tex)) * 60)).ToString();
-                    }
-                   
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(PredGod_Tex)))
-                {
-                    textbox44.InnerText = "0";
-                    textbox42.InnerText = "0";
-                }
-                else
-                {
-                    textbox44.InnerText = (Convert.ToInt32(PredGod_Tex) / 60).ToString();
-                    textbox42.InnerText = (Convert.ToInt32(PredGod_Tex) - (Convert.ToInt32(textbox44.InnerText) * 60)).ToString();
+                    int minutes = minutesObj.IfNullThenZero();
+                    int hours = minutes / 60;
+                    int mins = minutes % 60;
+                    return $"{hours} ч {mins} мин";
                 }
 
-                //Плановые работы
-                if (string.IsNullOrEmpty(Convert.ToString(TekMes_PPR)))
+                // Электрики
+                lblElecTekMes.Text = FormatTime(TekMes_Electro);
+                lblElecPredMes.Text = FormatTime(PredMes_Electro);
+                // Для текущего года с учётом корректировки
+                int tekGodElec = tekGod_Electro.IfNullThenZero();
+                int tempGodElec = temp_tekGod_Electro.IfNullThenZero();
+                if (tempGodElec > tekGodElec / 60) // старая логика: если коррекция больше часов
                 {
-                    textbox48.InnerText = "0";
-                    textbox46.InnerText = "0";
+                    lblElecTekGod.Text = FormatTime(tekGodElec);
                 }
                 else
                 {
-                    textbox48.InnerText = (Convert.ToInt32(TekMes_PPR) / 60).ToString();
-                    textbox46.InnerText = (Convert.ToInt32(TekMes_PPR) - (Convert.ToInt32(textbox48.InnerText) * 60)).ToString();
+                    int adjusted = tekGodElec - tempGodElec * 60;
+                    lblElecTekGod.Text = FormatTime(adjusted);
                 }
-                if (string.IsNullOrEmpty(Convert.ToString(PredMes_PPR)))
-                {
-                    textbox52.InnerText = "0";
-                    textbox50.InnerText = "0";
-                }
-                else
-                {
-                    textbox52.InnerText = (Convert.ToInt32(PredMes_PPR) / 60).ToString();
-                    textbox50.InnerText = (Convert.ToInt32(PredMes_PPR) - (Convert.ToInt32(textbox52.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(tekGod_PPR)))
-                {
-                    textbox56.InnerText = "0";
-                    textbox54.InnerText = "0";
-                }
-                else
-                {
-                    if (Convert.ToInt32(temp_tekGod_PPR)> Convert.ToInt32(tekGod_PPR))
-                    {
-                        textbox56.InnerText = (Convert.ToInt32(tekGod_PPR) / 60).ToString();
-                        textbox54.InnerText = (Convert.ToInt32(tekGod_PPR) - (Convert.ToInt32(textbox56.InnerText) * 60)).ToString();
-                    }
-                    else
-                    {
-                        textbox56.InnerText = ((Convert.ToInt32(tekGod_PPR) / 60) - Convert.ToInt32(temp_tekGod_PPR)).ToString();
-                        textbox54.InnerText = (Convert.ToInt32(tekGod_PPR) - ((Convert.ToInt32(textbox56.InnerText)+ Convert.ToInt32(temp_tekGod_PPR)) * 60)).ToString();
-                    }
-                   
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(PredGod_PPR)))
-                {
-                    textbox60.InnerText = "0";
-                    textbox58.InnerText = "0";
-                }
-                else
-                {
-                    textbox60.InnerText = (Convert.ToInt32(PredGod_PPR) / 60).ToString();
-                    textbox58.InnerText = (Convert.ToInt32(PredGod_PPR) - (Convert.ToInt32(textbox60.InnerText) * 60)).ToString();
-                }
+                lblElecPredGod.Text = FormatTime(PredGod_Electro);
 
-                //Прочее
-                if (string.IsNullOrEmpty(Convert.ToString(TekMes_Other)))
-                {
-                    textbox64.InnerText = "0";
-                    textbox62.InnerText = "0";
-                }
+                // Механики
+                lblMexTekMes.Text = FormatTime(TekMes_Mex);
+                lblMexPredMes.Text = FormatTime(PredMes_Mex);
+                int tekGodMex = tekGod_Mex.IfNullThenZero();
+                int tempGodMex = temp_tekGod_Mex.IfNullThenZero();
+                if (tempGodMex > tekGodMex / 60)
+                    lblMexTekGod.Text = FormatTime(tekGodMex);
                 else
-                {
-                    textbox64.InnerText = (Convert.ToInt32(TekMes_Other) / 60).ToString();
-                    textbox62.InnerText = (Convert.ToInt32(TekMes_Other) - (Convert.ToInt32(textbox64.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(PredMes_Other)))
-                {
-                    textbox68.InnerText = "0";
-                    textbox66.InnerText = "0";
-                }
-                else
-                {
-                    textbox68.InnerText = (Convert.ToInt32(PredMes_Other) / 60).ToString();
-                    textbox66.InnerText = (Convert.ToInt32(PredMes_Other) - (Convert.ToInt32(textbox68.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(tekGod_Other)))
-                {
-                    textbox72.InnerText = "0";
-                    textbox70.InnerText = "0";
-                }
-                else
-                {
-                    textbox72.InnerText = (Convert.ToInt32(tekGod_Other) / 60).ToString();
-                    textbox70.InnerText = (Convert.ToInt32(tekGod_Other) - (Convert.ToInt32(textbox72.InnerText) * 60)).ToString();
-                }
-                if (string.IsNullOrEmpty(Convert.ToString(PredGod_Other)))
-                {
-                    textbox76.InnerText = "0";
-                    textbox74.InnerText = "0";
-                }
-                else
-                {
-                    textbox76.InnerText = (Convert.ToInt32(PredGod_Other) / 60).ToString();
-                    textbox74.InnerText = (Convert.ToInt32(PredGod_Other) - (Convert.ToInt32(textbox76.InnerText) * 60)).ToString();
-                }
-                //Выбор цвета
-                if (Convert.ToInt32(textbox_chas_1.InnerText) > 10 || (Convert.ToInt32(textbox_chas_1.InnerText) == 10 && Convert.ToInt32(textbox_min_1.InnerText) > 0))
-                {
-                    Electro_smail.Attributes["class"] = "layer_Stag_red";
-                    //textbox_chas_1.Attributes["class"] = "textbox_prost_chas";
-                }
-                //else if (Convert.ToInt32(textbox_chas_1.Text)> Convert.ToInt32(textbox4.Text)|| (Convert.ToInt32(textbox8.Text) > Convert.ToInt32(textbox12.Text)))
-                //{
-                //    Electro_smail.Attributes["class"] = "layer_elec_yellow";
-                //}
-                else
-                {
+                    lblMexTekGod.Text = FormatTime(tekGodMex - tempGodMex * 60);
+                lblMexPredGod.Text = FormatTime(PredGod_Mex);
 
-                    Electro_smail.Attributes["class"] = "layer_Stag";
+                // Технологи
+                lblTexTekMes.Text = FormatTime(TekMes_Tex);
+                lblTexPredMes.Text = FormatTime(PredMes_Tex);
+                int tekGodTex = tekGod_Tex.IfNullThenZero();
+                int tempGodTex = temp_tekGod_Tex.IfNullThenZero();
+                if (tempGodTex > tekGodTex / 60)
+                    lblTexTekGod.Text = FormatTime(tekGodTex);
+                else
+                    lblTexTekGod.Text = FormatTime(tekGodTex - tempGodTex * 60);
+                lblTexPredGod.Text = FormatTime(PredGod_Tex);
 
-                    //textbox_chas_1.Attributes["class"] = "textbox_prost_chas_red";
+                // Плановые (ППР)
+                lblPprTekMes.Text = FormatTime(TekMes_PPR);
+                lblPprPredMes.Text = FormatTime(PredMes_PPR);
+                int tekGodPpr = tekGod_PPR.IfNullThenZero();
+                int tempGodPpr = temp_tekGod_PPR.IfNullThenZero();
+                if (tempGodPpr > tekGodPpr / 60)
+                    lblPprTekGod.Text = FormatTime(tekGodPpr);
+                else
+                    lblPprTekGod.Text = FormatTime(tekGodPpr - tempGodPpr * 60);
+                lblPprPredGod.Text = FormatTime(PredGod_PPR);
 
-                };
-                //Выбор цвета для механиков
-                if (Convert.ToInt32(textbox16.InnerText) > 10 || (Convert.ToInt32(textbox16.InnerText) == 10 && Convert.ToInt32(textbox14.InnerText) > 0))
-                {
-                    Mex_smail.Attributes["class"] = "layer_Stag_red";
-                }
-                else
-                {
-                    Mex_smail.Attributes["class"] = "layer_Stag";
-                };
-                //Выбор цвета для технологов
-                if (Convert.ToInt32(textbox32.InnerText) > 10 || (Convert.ToInt32(textbox32.InnerText) == 10 && Convert.ToInt32(textbox30.InnerText) > 0))
-                {
-                    Tex_smail.Attributes["class"] = "layer_Stag_red";
-                }
-                else
-                {
-                    Tex_smail.Attributes["class"] = "layer_Stag";
-                };
+                // Прочее
+                lblOtherTekMes.Text = FormatTime(TekMes_Other);
+                lblOtherPredMes.Text = FormatTime(PredMes_Other);
+                lblOtherTekGod.Text = FormatTime(tekGod_Other);
+                lblOtherPredGod.Text = FormatTime(PredGod_Other);
 
-                if (Count_All_TekMes == 0)
-                {
-                    Th1.InnerText = "0";
-                    Th2.InnerText = "0";
-                }
-                else
-                {
-                    Th1.InnerText = (Count_All_TekMes / 60).ToString();
-                    Th2.InnerText = (Count_All_TekMes - (Convert.ToInt32(Th1.InnerText) * 60)).ToString();
-                }
-                if (Count_All_PredMes == 0)
-                {
-                    Th3.InnerText = "0";
-                    Th4.InnerText = "0";
-                }
-                else
-                {
-                    Th3.InnerText = (Count_All_PredMes / 60).ToString();
-                    Th4.InnerText = (Count_All_PredMes - (Convert.ToInt32(Th3.InnerText) * 60)).ToString();
-                }
+                // Общее
+                lblTotalTekMes.Text = FormatTime(Count_All_TekMes);
+                lblTotalPredMes.Text = FormatTime(Count_All_PredMes);
+                lblTotalTekGod.Text = FormatTime(Count_All_tekGod);
+                lblTotalPredGod.Text = FormatTime(Count_All_PredGod);
 
-                if (Count_All_tekGod == 0)
-                {
-                    Th5.InnerText = "0";
-                    Th6.InnerText = "0";
-                }
+                // Цветовая индикация блоков (если простои за текущий месяц > 10 часов)
+                if (TekMes_Electro.IfNullThenZero() > 10 * 60)
+                    Electro_smail.Attributes["class"] = "idle-card card-warning";
                 else
-                {
-                    Th5.InnerText = (Count_All_tekGod / 60).ToString();
-                    Th6.InnerText = (Count_All_tekGod - (Convert.ToInt32(Th5.InnerText) * 60)).ToString();
-                }
-                if (Count_All_PredGod== 0)
-                {
-                    Th7.InnerText = "0";
-                    Th8.InnerText = "0";
-                }
-                else
-                {
-                    Th7.InnerText = (Count_All_PredGod / 60).ToString();
-                    Th8.InnerText = (Count_All_PredGod - (Convert.ToInt32(Th7.InnerText) * 60)).ToString();
-                }
+                    Electro_smail.Attributes["class"] = "idle-card";
 
+                if (TekMes_Mex.IfNullThenZero() > 10 * 60)
+                    Mex_smail.Attributes["class"] = "idle-card card-warning";
+                else
+                    Mex_smail.Attributes["class"] = "idle-card";
+
+                if (TekMes_Tex.IfNullThenZero() > 10 * 60)
+                    Tex_smail.Attributes["class"] = "idle-card card-warning";
+                else
+                    Tex_smail.Attributes["class"] = "idle-card";
             }
             catch
             {
-
+                // Игнорируем ошибки в LoadComplete
             }
-
         }
-       
     }
-   
 }

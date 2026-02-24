@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using WEB_Scrin_ASP;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Web.UI;
 
 namespace WEB_Scrin_ASP
 {
-   
-    public partial class _default : System.Web.UI.Page
+    public partial class _default : BasePage
     {
-        string break_status="0";
         int otkl_tek_mes, otkl_tek_god;
 
         private const string key = "counter";
@@ -22,7 +15,7 @@ namespace WEB_Scrin_ASP
             get
             {
                 object obj = ViewState[key];
-                if(obj != null)
+                if (obj != null)
                 {
                     return (int)obj;
                 }
@@ -35,15 +28,16 @@ namespace WEB_Scrin_ASP
             set
             {
                 ViewState[key] = value;
-
             }
-            
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // блокировка по году 2022г
-            if (DateTime.Now.Year < 2025)
+            // Загружаем статус обрыва из базы
+            LoadBreakStatus();
+
+            // блокировка по году 2050г
+            if (DateTime.Now.Year < 2050)
             {
                 Page.Server.ScriptTimeout = 180;
                 if (Counter >= 1)
@@ -52,42 +46,12 @@ namespace WEB_Scrin_ASP
                 }
                 else
                 {
-
+                    // ничего
                 }
 
                 try
                 {
-                    //OPCServer srv = new OPCServer("opcda://localhost/OPCServer.WinCC.1");
-                    //OPCServerClient opcClient = new OPCServerClient(srv);
-                    //    textbox.Text = string.Format("{0:0.#}", opcClient.ReadTagVal("Drivers/Low_cloth_9053_DB.io_i_fact_speed_m_m"));            
-                    //    textbox5.Text = string.Format("{0:0.#}", opcClient.ReadTagVal("Drivers/Rolling_9162_DB.io_i_fact_speed_m_m"));
-                    //    textbox7.Text = opcClient.ReadTagVal("BDM/01_DB_Recv_Metso.Weight_Main_Ref_m2_MD").ToString();
-                    //    textbox13.Text = string.Format("{0:0.#}", opcClient.ReadTagVal("BDM/01_DB_Recv_Metso.Weight_Main_Act_m2_MD"));
-                    //    textbox9.Text = opcClient.ReadTagVal("BDM/DB_WebBreak.iobreakint").ToString();
-                    //    textbox17.Text = String.Format("{0:0,0}", opcClient.ReadTagVal("Pred_smena_MILLPC"));
-
-                    //    textbox3.Text = opcClient.ReadTagVal("plan_god").ToString();
-                    //    textbox21.Text = opcClient.ReadTagVal("Release_god").ToString();
-                    //    textbox23.Text = opcClient.ReadTagVal("tek_mes").ToString();
-                    //    textbox25.Text = opcClient.ReadTagVal("Release_tek_mes").ToString();
-                    //    textbox27.Text = opcClient.ReadTagVal("Plan_tek_smena").ToString();
-                    //    textbox29.Text = opcClient.ReadTagVal("tek_cm_plan").ToString();
-                    //    textbox11.Text = opcClient.ReadTagVal("break_pred").ToString();
-                    //    textbox33.Text = opcClient.ReadTagVal("God_chas").ToString();
-                    //    textbox31.Text = opcClient.ReadTagVal("Got_min").ToString();
-                    //    textbox37.Text = opcClient.ReadTagVal("mes_chas").ToString();
-                    //    textbox35.Text = opcClient.ReadTagVal("mes_min").ToString();
-                    //    textbox41.Text = opcClient.ReadTagVal("tek_smena_chas").ToString();
-                    //    textbox39.Text = opcClient.ReadTagVal("tek_smena_min").ToString();
-                    //    textbox45.Text = opcClient.ReadTagVal("pred_smena_chas").ToString();
-                    //    textbox43.Text = opcClient.ReadTagVal("pred_smena_min").ToString();
-                    //    break_status = opcClient.ReadTagVal("status_break").ToString();
-                    //    // Do not use in production code, it is only a demo.
-                    //    // The connection to the OPC server should not be open and closed on each HTTP request
-                    //    // It should only be opened once and kept in the user's session
-                    //    // Disconnecting from the OPC must be handled inside the Session_End event 
-                    //    srv.Disconnect();
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
+                    string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                     string sqlExpression = @"delete FROM [Control].[dbo].[page_1]
                 where dt not in (SELECT top 1 dt FROM[Control].[dbo].[page_1] order by dt desc)
                 SELECT top 1*FROM[Control].[dbo].[page_1] order by dt desc";
@@ -126,57 +90,53 @@ namespace WEB_Scrin_ASP
                                 object prost_pred_smena_chas = reader.GetValue(19);
 
                                 object prost_pred_smena_min = reader.GetValue(20);
-                                object break_stat = reader.GetValue(21);
                                 object dt = reader.GetValue(22);
 
-                                textbox.Text = string.Format("{0:0.#}", fact_setki);
-                                textbox5.Text = string.Format("{0:0.#}", fact_nakat);
-                                textbox7.Text = target_gramm.ToString();
-                                textbox13.Text = string.Format("{0:0.#}", fact_gramm);
-                                textbox9.Text = tek_break.ToString();
-                                //textbox17.Text = String.Format("{0:0,0}", Convert.ToInt32(pred_PRS));
-                                textbox3.Text = Convert.ToString(target_god).Replace(" ", "");
-                                textbox21.Text = Convert.ToString(fact_god).Replace(" ", "");
-                                textbox23.Text = Convert.ToString(target_mes).Replace(" ", "");
-                                textbox25.Text = Convert.ToString(fact_mes).Replace(" ", "");
-                                textbox27.Text = Convert.ToString(target_smena).Replace(" ", "");
-                                textbox29.Text = Convert.ToString(tek_PRS).Replace(" ", "");
-                                textbox11.Text = pred_break.ToString();
-                                textbox33.Text = prost_tek_god_chas.ToString();
-                                textbox31.Text = prost_tek_god_min.ToString();
-                                textbox37.Text = prost_tek_mes_chas.ToString();
-                                textbox35.Text = prost_tek_mes_min.ToString();
-                                textbox41.Text = prost_tek_smena_chas.ToString();
-                                textbox39.Text = prost_tek_smena_min.ToString();
-                                textbox45.Text = prost_pred_smena_chas.ToString();
-                                textbox43.Text = prost_pred_smena_min.ToString();
-                                break_status = break_stat.ToString();
-                                 int temp = Convert.ToInt32(prost_tek_god_chas.ToString())*60+Convert.ToInt32(prost_tek_god_min.ToString());
+                                // Форматирование с единицами измерения
+                                textbox.Text = $"{string.Format("{0:0.#}", fact_setki)} м/мин";
+                                textbox5.Text = $"{string.Format("{0:0.#}", fact_nakat)} м/мин";
+                                textbox7.Text = $"{target_gramm} г/м²";
+                                textbox13.Text = $"{string.Format("{0:0.#}", fact_gramm)} г/м²";
+                                textbox9.Text = $"{tek_break} шт";
+                                textbox3.Text = Convert.ToString(target_god).Replace(" ", "") + " кг";
+                                textbox21.Text = Convert.ToString(fact_god).Replace(" ", "") + " кг";
+                                textbox23.Text = Convert.ToString(target_mes).Replace(" ", "") + " кг";
+                                textbox25.Text = Convert.ToString(fact_mes).Replace(" ", "") + " кг";
+                                textbox27.Text = Convert.ToString(target_smena).Replace(" ", "") + " кг";
+                                textbox29.Text = Convert.ToString(tek_PRS).Replace(" ", "") + " кг";
+                                textbox11.Text = $"{pred_break} шт";
+
+                                // Объединённое время работы БДМ за год
+                                int temp = Convert.ToInt32(prost_tek_god_chas.ToString()) * 60 + Convert.ToInt32(prost_tek_god_min.ToString());
                                 DateTime tekYear = new DateTime(DateTime.Now.Year, 1, 1);
-                                TimeSpan ts = DateTime.Now- tekYear;
+                                TimeSpan ts = DateTime.Now - tekYear;
                                 int temp2 = Convert.ToInt32(ts.TotalMinutes) - temp;
                                 if (temp2 > 0)
                                 {
-                                    textbox100.Text = (Convert.ToInt32(temp2) / 60).ToString();
-                                    textbox101.Text = (Convert.ToInt32(temp2) - (Convert.ToInt32(textbox100.Text) * 60)).ToString();
+                                    int hours = temp2 / 60;
+                                    int minutes = temp2 % 60;
+                                    textbox100.Text = $"{hours} ч {minutes} мин";
                                 }
                                 else
                                 {
-                                    textbox100.Text = "0";
-                                    textbox101.Text = "0";
+                                    textbox100.Text = "0 ч 0 мин";
                                 }
-                               
-                                //Label10.Text = "Дата обновления:   "+dt.ToString();
+
+                                // Объединённое время простоев
+                                textbox33.Text = $"{prost_tek_god_chas} ч {prost_tek_god_min} мин";
+                                textbox37.Text = $"{prost_tek_mes_chas} ч {prost_tek_mes_min} мин";
+                                textbox41.Text = $"{prost_tek_smena_chas} ч {prost_tek_smena_min} мин";
+                                textbox45.Text = $"{prost_pred_smena_chas} ч {prost_pred_smena_min} мин";
                             }
                         }
                         reader.Close();
                     }
-
                 }
                 catch (Exception ex)
                 {
-                    //  Label10.Text = "Ошибка ";
+                    // Обработка ошибки, можно логировать
                 }
+
                 try
                 {
                     // нужны дата и время чтоб делать выборки
@@ -190,11 +150,12 @@ namespace WEB_Scrin_ASP
                     string time_mes_end = year + month + den.ToString() + " 23:59:59";
                     string time_god_start = year + "0101 00:00:00";
                     string time_god_end = year + "1231 23:59:59";
-                    object otkl_mes=0, otkl_god=0;
-                    object temp_otkl_mes=0, temp_otkl_god=0;
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                    object otkl_mes = 0, otkl_god = 0;
+                    object temp_otkl_mes = 0, temp_otkl_god = 0;
+
+                    string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                     string sqlExpression = "SELECT (SELECT SUM(otcl_GP) FROM[Control].[dbo].[rep_BDM] WHERE dt BETWEEN CONVERT(DATE, @time_mes_start, 104) AND CONVERT(DATE, @time_mes_end, 104)) AS mes, (SELECT  SUM(otcl_GP) FROM[Control].[dbo].[rep_BDM] WHERE dt BETWEEN CONVERT(DATE, @time_god_start, 104) AND CONVERT(DATE, @time_god_end, 104)) AS god";
-                    
+
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
@@ -204,38 +165,34 @@ namespace WEB_Scrin_ASP
                         command.Parameters.AddWithValue("@time_god_start", time_god_start);
                         command.Parameters.AddWithValue("@time_god_end", time_god_end);
                         SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
+                        if (reader.HasRows)
                         {
-                            while (reader.Read()) // построчно считываем данные
+                            while (reader.Read())
                             {
                                 otkl_mes = reader.GetValue(0);
                                 otkl_god = reader.GetValue(1);
-                               
-
                             }
                         }
                         reader.Close();
                     }
 
-                    ///////////////////////////////////////////////////
                     string sqlExpression1 = "SELECT *FROM [Control].[dbo].[difference]where id=1";
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression1, connection);
-                       
                         SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
+                        if (reader.HasRows)
                         {
-                            while (reader.Read()) // построчно считываем данные
+                            while (reader.Read())
                             {
                                 temp_otkl_mes = reader.GetValue(2);
                                 temp_otkl_god = reader.GetValue(1);
-                              
                             }
                         }
                         reader.Close();
                     }
+
                     string connectionString1 = @"Data Source=10.0.9.4;Initial Catalog=kiu_opc; User ID = mes; pwd = mes";
                     string sqlExp_Pred = "SELECT top 1 WrDate ,VypuskGod FROM[kiu_opc].[dbo].[VypuskRS] where bd like 'zavod' and Date between DATEADD(HOUR,-12, DATEADD(year,-1, CONVERT(Datetime, @Date_Start, 104) ))  And DATEADD(year,-1, CONVERT(Datetime, @Date_End, 104) ) order by WrDate desc";
                     using (SqlConnection connection = new SqlConnection(connectionString1))
@@ -243,149 +200,87 @@ namespace WEB_Scrin_ASP
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExp_Pred, connection);
                         string ds = DateTime.Now.AddHours(-48).ToString("yyyyMMdd HH:mm:ss");
-                        command.Parameters.AddWithValue("@Date_Start", ds );
+                        command.Parameters.AddWithValue("@Date_Start", ds);
                         string dd = DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
                         command.Parameters.AddWithValue("@Date_End", dd);
                         SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
+                        if (reader.HasRows)
                         {
-                            while (reader.Read()) // построчно считываем данные
+                            while (reader.Read())
                             {
-
-                                textbox16.Text = reader.GetValue(1).ToString();
-
+                                textbox16.Text = reader.GetValue(1).ToString() + " кг";
                             }
                         }
                         reader.Close();
                     }
 
-                    //////////////////////////////////////////////////
                     if (Convert.ToInt32(otkl_god) > 0)
                     {
-                        textbox15.Text = String.Format("{0:0,0}", otkl_god );
+                        textbox15.Text = $"{Convert.ToInt32(otkl_god):N0} кг";
                         otkl_tek_god = Convert.ToInt32(otkl_god);
                     }
                     else
                     {
-                        textbox15.Text = String.Format("{0:0,0}", Convert.ToInt32(otkl_god) + Convert.ToInt32(temp_otkl_god));
+                        textbox15.Text = $"{Convert.ToInt32(otkl_god) + Convert.ToInt32(temp_otkl_god):N0} кг";
                         otkl_tek_god = Convert.ToInt32(otkl_god) + Convert.ToInt32(temp_otkl_god);
                     }
 
                     if (Convert.ToInt32(otkl_mes) > 0)
                     {
-                        textbox19.Text = String.Format("{0:0,0}", otkl_mes);
+                        textbox19.Text = $"{Convert.ToInt32(otkl_mes):N0} кг";
                         otkl_tek_mes = Convert.ToInt32(otkl_mes);
                     }
                     else
                     {
-                        textbox19.Text = String.Format("{0:0,0}", Convert.ToInt32(otkl_mes) + Convert.ToInt32(temp_otkl_mes));
-                        otkl_tek_mes = Convert.ToInt32(otkl_mes)+ Convert.ToInt32(temp_otkl_mes);
+                        textbox19.Text = $"{Convert.ToInt32(otkl_mes) + Convert.ToInt32(temp_otkl_mes):N0} кг";
+                        otkl_tek_mes = Convert.ToInt32(otkl_mes) + Convert.ToInt32(temp_otkl_mes);
                     }
-
                 }
                 catch (Exception ep)
                 {
                     string ddf = ep.Message.ToString();
                 }
             }
+        }
 
-
-}
         protected void Timer1_Tick(object sender, EventArgs e)
         {
             Counter += 1;
-        }
-
-        protected void textbox31_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void textbox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
-        protected void textbox46_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         protected void Page_LoadComplete(object sender, EventArgs e)
         {
             try
             {
-                if (break_status == "0")
-                {
-                    textbox46.Text = "НЕТ СВЯЗИ";
-                    textbox46.CssClass = "blnktext0";
-                }
-                else if (break_status == "1")
-                {
-                    textbox46.Text = "ОБРЫВ ПОЛОТНА, НО БДМ В РАБОТЕ";
-                    textbox46.CssClass = "blnktext1";
-                }
-                else if (break_status == "2")
-                {
-                    textbox46.Text = "ОБРЫВ ПОЛОТНА, МАССА СНЯТА С СЕТОЧНОГО СТОЛА";
-                    textbox46.CssClass = "blnktext2";
-                }
-                else if (break_status == "3")
-                {
-                    textbox46.Text = "ОБРЫВ ПОЛОТНА, МАССА СНЯТА С ВЕРХНЕГО СЕТОЧНОГО СТОЛА";
-                    textbox46.CssClass = "blnktext2";
-                }
-                else if (break_status == "4")
-                {
-                    textbox46.Text = "ОБРЫВ ПОЛОТНА, НЕ ЗАПЛАНИРОВАННЫЙ ОСТАНОВ";
-                    textbox46.CssClass = "blnktext4";
-                }
-                else if (break_status == "5")
-                {
-                    textbox46.Text = "ОБРЫВ ПОЛОТНА, ЗАПЛАНИРОВАННЫЙ ОСТАНОВ";
-                    textbox46.CssClass = "blnktext5";
-                }
-                else if (break_status == "6")
-                {
-                    textbox46.Text = "ХМ... ОСТАНОВ МАШИНЫ БОЛЬШЕ ЗАПЛАНИРОВАННОГО";
-                    textbox46.CssClass = "blnktext6";
-                }
-                else if (break_status == "7")
-                {
-                    textbox46.Text = "БДМ В РАБОТЕ";
-                    textbox46.CssClass = "blnktext7";
-                }
+                // Обновляем статусную строку через базовый метод
+                UpdateStatusTextBox(textbox46);
+
                 if (otkl_tek_mes < 0)
                 {
-                    textbox19.Text = String.Format("{0:0,0}", otkl_tek_mes);
+                    textbox19.Text = $"{otkl_tek_mes:N0} кг";
                     textbox19.CssClass = "textbox_otkl_red";
                 }
-                else if ((otkl_tek_mes > 0))
+                else if (otkl_tek_mes > 0)
                 {
-                    string plan_mes = String.Format("{0:0,0}", otkl_tek_mes);
-                    textbox19.Text = "+" + plan_mes;
+                    textbox19.Text = $"+{otkl_tek_mes:N0} кг";
                     textbox19.CssClass = "textbox_otkl_grin";
-
                 }
+
                 if (otkl_tek_god < 0)
                 {
-                    textbox15.Text = String.Format("{0:0,0}", otkl_tek_god);
+                    textbox15.Text = $"{otkl_tek_god:N0} кг";
                     textbox15.CssClass = "textbox_otkl_red";
                 }
-                else if ((otkl_tek_god > 0))
+                else if (otkl_tek_god > 0)
                 {
-                    string plan_god = String.Format("{0:0,0}", otkl_tek_god);
-                    textbox15.Text = "+ " + plan_god;
+                    textbox15.Text = $"+{otkl_tek_god:N0} кг";
                     textbox15.CssClass = "textbox_otkl_grin";
                 }
             }
             catch
             {
-
+                // игнорируем ошибки в LoadComplete
             }
-            
         }
-
     }
 }

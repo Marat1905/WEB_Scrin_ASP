@@ -1,208 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
+using System.Globalization;
 using System.Web.UI.WebControls;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class birthday : System.Web.UI.Page
+    public partial class birthday : BasePage   // изменено с System.Web.UI.Page на BasePage
     {
-        string mes_rod;
         protected void Page_Load(object sender, EventArgs e)
         {
-            // блокировка по году 2022г
-            if (DateTime.Now.Year < 2025)
-            {
-                // нужны дата и время чтоб делать выборки
-                DateTime date = DateTime.Now;
+            // Загружаем статус обрыва из базы (метод BasePage)
+            LoadBreakStatus();
 
-                // для выборки текущий месяц
+            if (DateTime.Now.Year < 2050)
+            {
+                DateTime date = DateTime.Now;
                 int month = date.Month;
 
-                switch (month)
-                {
-                    case 1:
-                        mes_rod = "Января";
-                        Label1.Text = "Дни рождения сотрудников в январе месяце ";
-                        break;
-                    case 2:
-                        mes_rod = "Февраля";
-                        Label1.Text = "Дни рождения сотрудников в феврале месяце ";
-                        break;
-                    case 3:
-                        mes_rod = "Марта";
-                        Label1.Text = "Дни рождения сотрудников в марте месяце ";
-                        break;
-                    case 4:
-                        mes_rod = "Апреля";
-                        Label1.Text = "Дни рождения сотрудников в апреле месяце ";
-                        break;
-                    case 5:
-                        mes_rod = "Мая";
-                        Label1.Text = "Дни рождения сотрудников в мае месяце ";
-                        break;
-                    case 6:
-                        mes_rod = "Июня";
-                        Label1.Text = "Дни рождения сотрудников в июне месяце ";
-                        break;
-                    case 7:
-                        mes_rod = "Июля";
-                        Label1.Text = "Дни рождения сотрудников в июле месяце ";
-                        break;
-                    case 8:
-                        mes_rod = "Августа";
-                        Label1.Text = "Дни рождения сотрудников в августе месяце ";
-                        break;
-                    case 9:
-                        mes_rod = "Сентября";
-                        Label1.Text = "Дни рождения сотрудников в сентябре месяце ";
-                        break;
-                    case 10:
-                        mes_rod = "Октября";
-                        Label1.Text = "Дни рождения сотрудников в октябре месяце ";
-                        break;
-                    case 11:
-                        mes_rod = "Ноября";
-                        Label1.Text = "Дни рождения сотрудников в ноябре месяце ";
-                        break;
-                    case 12:
-                        mes_rod = "Декабря";
-                        Label1.Text = "Дни рождения сотрудников в декабре месяце ";
-                        break;
-                }
+                // Устанавливаем заголовок в зависимости от месяца (предложный падеж)
+                string[] monthNamesPrepositional = {
+                    "", "январе", "феврале", "марте", "апреле", "мае", "июне",
+                    "июле", "августе", "сентябре", "октябре", "ноябре", "декабре"
+                };
+                Label1.Text = $"Дни рождения сотрудников в {monthNamesPrepositional[month]} месяце";
+
                 try
                 {
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
-                    string sqlExpression = "SELECT*FROM[Control].[dbo].[DOB]where MONTH(db)= @mes order by DAY(db) asc";
+                    string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
+                    string sqlExpression = "SELECT * FROM [Control].[dbo].[DOB] WHERE MONTH(db) = @mes ORDER BY DAY(db) asc";
+
+                    var birthdays = new List<BirthdayItem>();
+
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connection);
                         command.Parameters.AddWithValue("@mes", month);
                         SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
+
+                        // Русская культура для правильного склонения месяцев
+                        CultureInfo ruCulture = CultureInfo.GetCultureInfo("ru-RU");
+
+                        while (reader.Read())
                         {
-                            int n = 1;
-                            while (reader.Read()) // построчно считываем данные
+                            string fio = reader.GetValue(2).ToString();
+                            DateTime dbDate = DateTime.Parse(reader.GetValue(4).ToString());
+
+                            // Форматируем дату: "7 февраля" (родительный падеж)
+                            string displayDate = dbDate.ToString("d MMMM", ruCulture);
+
+                            birthdays.Add(new BirthdayItem
                             {
-                                object Date_FIO = reader.GetValue(2);
-                                object Date_Post = reader.GetValue(3);
-                                object Date_DB = reader.GetValue(4);
-                                //textbox19.Text = String.Format("{0:0,0}", otkl_mes);
-                                //textbox15.Text = String.Format("{0:0,0}", otkl_god);
-
-                                if (n == 1)
-                                {
-                                    Label2.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 2)
-                                {
-                                    Label3.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 3)
-                                {
-                                    Label4.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 4)
-                                {
-                                    Label5.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 5)
-                                {
-                                    Label6.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 6)
-                                {
-                                    Label7.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-
-                                if (n == 7)
-                                {
-                                    Label8.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 8)
-                                {
-                                    Label9.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 9)
-                                {
-                                    Label10.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 10)
-                                {
-                                    Label11.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 11)
-                                {
-                                    Label12.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 12)
-                                {
-                                    Label13.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-
-                                if (n == 13)
-                                {
-                                    Label14.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 14)
-                                {
-                                    Label15.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 15)
-                                {
-                                    Label16.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 16)
-                                {
-                                    Label17.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 17)
-                                {
-                                    Label18.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 18)
-                                {
-                                    Label19.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-
-                                if (n == 19)
-                                {
-                                    Label20.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 20)
-                                {
-                                    Label21.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 21)
-                                {
-                                    Label22.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-                                if (n == 22)
-                                {
-                                    Label23.Text = Date_FIO + " - " + (DateTime.Parse((Date_DB.ToString())).Day).ToString() + " " + mes_rod;
-                                }
-
-                                n++;
-
-                            }
+                                FullName = fio,
+                                DisplayDate = displayDate
+                            });
                         }
                         reader.Close();
                     }
+
+                    RepeaterBirthdays.DataSource = birthdays;
+                    RepeaterBirthdays.DataBind();
                 }
                 catch (Exception ex)
                 {
-
+                    // Логирование ошибки (можно заменить на более подходящее)
+                    Console.WriteLine(ex.ToString());
                 }
             }
-
         }
+
         protected void Timer1_Tick(object sender, EventArgs e)
         {
             Response.Redirect("default.aspx");
+        }
+
+        // Добавлен обработчик Page_LoadComplete для обновления статусной строки
+        protected void Page_LoadComplete(object sender, EventArgs e)
+        {
+            // Обновляем статусную строку через базовый метод
+            UpdateStatusTextBox(textbox200);
+        }
+
+        // Вспомогательный класс для хранения данных именинника
+        public class BirthdayItem
+        {
+            public string FullName { get; set; }
+            public string DisplayDate { get; set; }
         }
     }
 }

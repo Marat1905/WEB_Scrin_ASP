@@ -4,70 +4,85 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ООО "Завод Николь-Пак"</title>
-    <%--<meta name="keywords" content="пример, веб-сайт, веб-формы, вебприложение, web forms, ASP.NET" />
-    <meta name="description" content="Пример вебсайта на ASP.NET на бесплатном шаблоне" />--%>
-
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
-   
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
-    <style type="text/css">
-        #form1 {
-            height: 13px;
+    <style>
+        /* Дополнительные стили для улучшенного меню */
+        #navbar li.active a {
+            background-color: #f90;      /* подсветка активного пункта */
+            color: #000;
+            font-weight: bold;
         }
-        #templatemo_container {
-            height: 608px;
-            width: 572px;
+        #navbar li a:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        /* Фон бегущей строки как на странице default.aspx */
+        #navigation {
+            background-color: #0f1f39 !important;  /* тёмно-синий цвет шапки */
+            color: white;
+        }
+        #navigation marquee {
+            color: white;               /* текст белым для контраста */
+            font-weight: bold;
+            padding: 2px 0;              /* небольшие отступы */
         }
     </style>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-
         <div id="container">
+            <div id="header">
+                <nav aria-label="Главное меню">
+                    <ul id="navbar">
+                        <li><a href="default.aspx">Главная</a></li>
+                        <li><a href="idle%20time.aspx">Простои по службам</a></li>
+                        <li><a href="smena.aspx">Анализ работы смен</a></li>
+                        <li><a href="birthday.aspx">Именинники месяца</a></li>
+                        <li><a href="Grafik.aspx">График персонала</a></li>
+                    </ul>
+                </nav>
+            </div>
 
-<div id="header">
+            <div id="navigation" style="clear: both;">
+                <marquee scrollamount="9" class="marg_blue">
+                    <asp:Label ID="Label1" runat="server" Text=" "></asp:Label>
+                </marquee>
+            </div>
 
-<ul id="navbar">
-  <li><a href="default.aspx">Главная</a></li>
-  <li><a href="idle time.aspx">Простои по службам</a></li>
-  <li><a href="smena.aspx">Анализ работы смен</a></li>
-  <li><a href="birthday.aspx">Именинники месяца</a></li>
-    <li><a href="Grafik.aspx">График персонала</a></li>
-<%--  <li><a href="Caution.aspx">ВНИМАНИЕ!!!</a></li>--%>
-</ul>
+            <div id="temp_content">
+                <asp:ContentPlaceHolder ID="Content" runat="server">
+                    <%-- место для автоматической вставки кода дочерних страниц --%>
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
 
-</div>
+        <script>
+            // Подсветка активного пункта меню
+            (function () {
+                // Получаем имя текущего файла (например, "default.aspx" или "idle time.aspx")
+                var currentFile = window.location.pathname.split('/').pop();
+                if (currentFile === '') currentFile = 'default.aspx';          // для корня сайта
+                var currentName = currentFile.replace(/\.[^/.]+$/, '');       // убираем расширение
 
- 
-
-<div id="navigation">
-    <%--<marquee width="49%" style="color:blue; font-size: 18px; font-weight:normal; line-height: 100%; text-shadow: #000000 0px 1px 1px; height: 20px;">ООО "Завод Николь-Пак" г. Учалы ул.Кровельная 1</marquee><marquee width="49%" direction="right" style="color:blue; font-size: 18px; font-weight: normal; line-height: 100%; text-shadow: #000000 0px 1px 1px; height: 20px;">ООО "Завод Николь-Пак" г. Учалы ул.Кровельная 1</marquee>--%>
- <marquee scrollamount="9" style="marg_blue">
-<asp:Label ID="Label1" runat="server" Text=" "></asp:Label>
- </marquee>
-
-</div>
-
- 
- 
-
-<div id="temp_content">
-
-   <!-- Начало дочерней страницы -->
-            <asp:ContentPlaceHolder ID="Content" runat="server">
-                <% /*место для автоматической вставки кода дочерних страниц*/ %>
-            </asp:ContentPlaceHolder>
-            <!-- Конец дочерней страницы -->
-
-</div>
-
- 
-
-</div>
-    
+                var links = document.querySelectorAll('#navbar a');
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    var href = link.getAttribute('href');
+                    var hrefName = href.replace(/\.[^/.]+$/, '');             // имя файла без расширения
+                    // Декодируем (на случай %20) и сравниваем
+                    if (decodeURIComponent(hrefName) === currentName) {
+                        link.parentNode.classList.add('active');
+                        link.setAttribute('aria-current', 'page');
+                    }
+                }
+            })();
+        </script>
     </form>
 </body>
 </html>
