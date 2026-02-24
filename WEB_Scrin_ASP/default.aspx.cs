@@ -5,7 +5,7 @@ using System.Web.UI;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class _default : BasePage
+    public partial class Default : BasePage
     {
         int otkl_tek_mes, otkl_tek_god;
 

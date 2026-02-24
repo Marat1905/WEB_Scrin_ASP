@@ -40,10 +40,10 @@
             <div id="header">
                 <nav aria-label="Главное меню">
                     <ul id="navbar">
-                        <li><a href="default.aspx">Главная</a></li>
-                        <li><a href="idle%20time.aspx">Простои по службам</a></li>
-                        <li><a href="smena.aspx">Анализ работы смен</a></li>
-                        <li><a href="birthday.aspx">Именинники месяца</a></li>
+                        <li><a href="Default.aspx">Главная</a></li>
+                        <li><a href="IdleTime.aspx">Простои по службам</a></li>
+                        <li><a href="Smena.aspx">Анализ работы смен</a></li>
+                        <li><a href="Birthday.aspx">Именинники месяца</a></li>
                         <li><a href="GreenCross.aspx">Зеленый крест</a></li>
                         <li><a href="Grafik.aspx">График персонала</a></li>
                     </ul>
@@ -68,7 +68,7 @@
             (function () {
                 // Получаем имя текущего файла (например, "default.aspx" или "idle time.aspx")
                 var currentFile = window.location.pathname.split('/').pop();
-                if (currentFile === '') currentFile = 'default.aspx';          // для корня сайта
+                if (currentFile === '') currentFile = 'Default.aspx';          // для корня сайта
                 var currentName = currentFile.replace(/\.[^/.]+$/, '');       // убираем расширение
 
                 var links = document.querySelectorAll('#navbar a');

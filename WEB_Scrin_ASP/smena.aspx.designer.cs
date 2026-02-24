@@ -11,7 +11,7 @@ namespace WEB_Scrin_ASP
 {
 
 
-    public partial class smena
+    public partial class Smena
     {
 
         /// <summary>

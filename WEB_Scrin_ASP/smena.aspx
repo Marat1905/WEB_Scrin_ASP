@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="smena.aspx.cs" Inherits="WEB_Scrin_ASP.smena" Async="true" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="Smena.aspx.cs" Inherits="WEB_Scrin_ASP.Smena" Async="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <meta http-equiv="refresh" content="65" />
     <style>

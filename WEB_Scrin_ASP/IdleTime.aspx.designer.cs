@@ -11,7 +11,7 @@ namespace WEB_Scrin_ASP
 {
 
 
-    public partial class idle_time
+    public partial class IdleTime
     {
 
         /// <summary>

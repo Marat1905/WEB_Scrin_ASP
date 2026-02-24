@@ -11,7 +11,7 @@ namespace WEB_Scrin_ASP
 {
 
 
-    public partial class _default
+    public partial class Default
     {
 
         /// <summary>

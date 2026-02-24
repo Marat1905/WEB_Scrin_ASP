@@ -10,7 +10,7 @@ using System.Globalization;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class smena : BasePage
+    public partial class Smena : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

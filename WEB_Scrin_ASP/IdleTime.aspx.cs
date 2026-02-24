@@ -5,7 +5,7 @@ using System.Web.UI;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class idle_time : BasePage
+    public partial class IdleTime : BasePage
     {
         // Переменные для хранения данных из БД (минуты)
         object TekMes_Electro, PredMes_Electro, tekGod_Electro, PredGod_Electro;

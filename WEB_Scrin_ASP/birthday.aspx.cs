@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class birthday : BasePage   // изменено с System.Web.UI.Page на BasePage
+    public partial class Birthday : BasePage   // изменено с System.Web.UI.Page на BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -123,8 +123,8 @@
     <Content Include="font\mon-amour-one-medium_[allfont.ru].ttf" />
     <Content Include="GreenCross.aspx" />
     <None Include="packages.config" />
-    <Content Include="birthday.aspx" />
-    <Content Include="idle time.aspx" />
+    <Content Include="Birthday.aspx" />
+    <Content Include="IdleTime.aspx" />
     <Content Include="images\electric.png" />
     <Content Include="images\fire.jpg" />
     <Content Include="Screen.Master" />
@@ -138,8 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\style.css" />
-    <Content Include="default.aspx" />
-    <Content Include="smena.aspx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Smena.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -148,21 +148,21 @@
     <Compile Include="BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="birthday.aspx.cs">
-      <DependentUpon>birthday.aspx</DependentUpon>
+    <Compile Include="Birthday.aspx.cs">
+      <DependentUpon>Birthday.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="birthday.aspx.designer.cs">
-      <DependentUpon>birthday.aspx</DependentUpon>
+    <Compile Include="Birthday.aspx.designer.cs">
+      <DependentUpon>Birthday.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\IdlleSmartController.cs" />
     <Compile Include="Converter.cs" />
-    <Compile Include="default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="default.aspx.designer.cs">
-      <DependentUpon>default.aspx</DependentUpon>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Grafik.aspx.cs">
       <DependentUpon>Grafik.aspx</DependentUpon>
@@ -171,12 +171,12 @@
     <Compile Include="Grafik.aspx.designer.cs">
       <DependentUpon>Grafik.aspx</DependentUpon>
     </Compile>
-    <Compile Include="idle time.aspx.cs">
-      <DependentUpon>idle time.aspx</DependentUpon>
+    <Compile Include="IdleTime.aspx.cs">
+      <DependentUpon>IdleTime.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="idle time.aspx.designer.cs">
-      <DependentUpon>idle time.aspx</DependentUpon>
+    <Compile Include="IdleTime.aspx.designer.cs">
+      <DependentUpon>IdleTime.aspx</DependentUpon>
     </Compile>
     <Compile Include="InjuryDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -187,12 +187,12 @@
     <Compile Include="Screen.Master.designer.cs">
       <DependentUpon>Screen.Master</DependentUpon>
     </Compile>
-    <Compile Include="smena.aspx.cs">
-      <DependentUpon>smena.aspx</DependentUpon>
+    <Compile Include="Smena.aspx.cs">
+      <DependentUpon>Smena.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="smena.aspx.designer.cs">
-      <DependentUpon>smena.aspx</DependentUpon>
+    <Compile Include="Smena.aspx.designer.cs">
+      <DependentUpon>Smena.aspx</DependentUpon>
     </Compile>
     <Compile Include="GreenCross.aspx.cs">
       <DependentUpon>GreenCross.aspx</DependentUpon>

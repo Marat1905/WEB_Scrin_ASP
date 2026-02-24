@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="birthday.aspx.cs" Inherits="WEB_Scrin_ASP.birthday" Async="true" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="Birthday.aspx.cs" Inherits="WEB_Scrin_ASP.Birthday" Async="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
         /* Стили, специфичные для страницы дней рождения */

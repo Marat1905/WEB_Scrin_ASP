@@ -11,7 +11,7 @@ namespace WEB_Scrin_ASP
 {
 
 
-    public partial class birthday
+    public partial class Birthday
     {
 
         /// <summary>
