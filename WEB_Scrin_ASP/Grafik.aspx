@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="Grafik.aspx.cs" Inherits="WEB_Scrin_ASP.Grafik" Async="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <meta http-equiv="refresh" content="65" />
     <style>
         /* Специфические стили для страницы графика */
         .grafik-dashboard {
