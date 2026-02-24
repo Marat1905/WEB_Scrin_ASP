@@ -178,6 +178,7 @@
     <Compile Include="idle time.aspx.designer.cs">
       <DependentUpon>idle time.aspx</DependentUpon>
     </Compile>
+    <Compile Include="InjuryDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen.Master.cs">
       <DependentUpon>Screen.Master</DependentUpon>
