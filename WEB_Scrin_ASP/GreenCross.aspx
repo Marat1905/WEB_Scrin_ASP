@@ -505,9 +505,9 @@
         </div>
     </div>
 
-    <!-- ScriptManager и Timer (добавлены) -->
+    <!-- ScriptManager -->
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <asp:Timer ID="Timer1" OnTick="Timer1_Tick" runat="server" Interval="40000" />
+
 
     <asp:HiddenField ID="hfMonthName" runat="server" />
     <script type="text/javascript">

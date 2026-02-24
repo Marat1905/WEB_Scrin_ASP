@@ -42,15 +42,6 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
-        /// Timer1 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.Timer Timer1;
-
-        /// <summary>
         /// hfMonthName элемент управления.
         /// </summary>
         /// <remarks>

@@ -326,6 +326,5 @@
 
         <!-- Таймеры (оставлены как есть) -->
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
-        <asp:Timer ID="Timer1" OnTick="Timer1_Tick" runat="server" Interval="40000" />
     </div>
 </asp:Content>

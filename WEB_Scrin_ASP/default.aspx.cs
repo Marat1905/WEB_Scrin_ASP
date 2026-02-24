@@ -9,28 +9,6 @@ namespace WEB_Scrin_ASP
     {
         int otkl_tek_mes, otkl_tek_god;
 
-        private const string key = "counter";
-        protected int Counter
-        {
-            get
-            {
-                object obj = ViewState[key];
-                if (obj != null)
-                {
-                    return (int)obj;
-                }
-                else
-                {
-                    ViewState[key] = 0;
-                    return 0;
-                }
-            }
-            set
-            {
-                ViewState[key] = value;
-            }
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
             // Загружаем статус обрыва из базы
@@ -39,15 +17,6 @@ namespace WEB_Scrin_ASP
             // блокировка по году 2050г
             if (DateTime.Now.Year < 2050)
             {
-                Page.Server.ScriptTimeout = 180;
-                if (Counter >= 1)
-                {
-                    Response.Redirect("IdleTime.aspx");
-                }
-                else
-                {
-                    // ничего
-                }
 
                 try
                 {
@@ -241,11 +210,6 @@ namespace WEB_Scrin_ASP
                     string ddf = ep.Message.ToString();
                 }
             }
-        }
-
-        protected void Timer1_Tick(object sender, EventArgs e)
-        {
-            Counter += 1;
         }
 
         protected void Page_LoadComplete(object sender, EventArgs e)

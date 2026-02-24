@@ -63,6 +63,14 @@
             </div>
         </div>
 
+        <!-- Индикатор недоступности сервера (появляется при ошибках связи) -->
+        <div id="server-error-indicator" style="display: none; position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.85); color: white; padding: 12px 20px; border-radius: 8px; z-index: 9999; font-size: 16px; border-left: 5px solid #ff4444; box-shadow: 0 4px 12px rgba(0,0,0,0.3); backdrop-filter: blur(4px);">
+            <span style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 20px;">⚠️</span>
+                <span>Сервер недоступен. Повторная попытка через <span id="retry-countdown">5</span> сек...</span>
+            </span>
+        </div>
+
         <script>
             // Подсветка активного пункта меню
             (function () {
@@ -81,6 +89,164 @@
                         link.parentNode.classList.add('active');
                         link.setAttribute('aria-current', 'page');
                     }
+                }
+            })();
+        </script>
+
+        <!-- Скрипт автоматического переключения страниц с защитой от недоступности сервера -->
+        <script>
+            (function () {
+                // Определение последовательности переходов (страница -> следующая страница -> задержка)
+                // В точности соответствует таблице, предоставленной пользователем.
+                var steps = [
+                    { page: 'Default.aspx', next: 'Default.aspx', delay: 30000 },
+                    { page: 'Default.aspx', next: 'IdleTime.aspx', delay: 30000 },
+                    { page: 'IdleTime.aspx', next: 'Smena.aspx', delay: 40000 },
+                    { page: 'Smena.aspx', next: 'Birthday.aspx', delay: 40000 },
+                    { page: 'Birthday.aspx', next: 'GreenCross.aspx', delay: 50000 },
+                    { page: 'GreenCross.aspx', next: 'Default.aspx', delay: 40000 },
+                    { page: 'Grafik.aspx', next: 'Default.aspx', delay: 60000 }
+                ];
+
+                // Текущая страница (из URL)
+                var currentPage = window.location.pathname.split('/').pop() || 'Default.aspx';
+
+                // Поиск индекса текущего шага
+                var stepIndex = null;
+
+                // 1. Пробуем взять сохранённый индекс из sessionStorage
+                // Это позволяет после ручного перехода на любую страницу из списка продолжить
+                // автоматическое переключение с правильного шага.
+                var savedIndex = sessionStorage.getItem('stepIndex');
+                if (savedIndex !== null) {
+                    var idx = parseInt(savedIndex, 10);
+                    if (!isNaN(idx) && idx >= 0 && idx < steps.length && steps[idx].page === currentPage) {
+                        stepIndex = idx;
+                    }
+                }
+
+                // 2. Если не нашли, ищем первое вхождение текущей страницы в steps
+                if (stepIndex === null) {
+                    for (var i = 0; i < steps.length; i++) {
+                        if (steps[i].page === currentPage) {
+                            stepIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                // 3. Если страница вообще не найдена в списке, переходим на Default.aspx через 30 секунд
+                // Это защитный случай, чтобы киоск не остановился.
+                if (stepIndex === null) {
+                    console.warn('Страница не найдена в последовательности, переход на Default.aspx через 30 сек');
+                    setTimeout(function () {
+                        window.location.href = 'Default.aspx';
+                    }, 30000);
+                    return;
+                }
+
+                // Текущий шаг
+                var currentStep = steps[stepIndex];
+                var nextPage = currentStep.next;
+                var delay = currentStep.delay;
+
+                // Сохраняем следующий индекс (для циклического переключения)
+                var nextIndex = (stepIndex + 1) % steps.length;
+                sessionStorage.setItem('stepIndex', nextIndex);
+
+                // Элементы индикатора ошибки
+                var errorIndicator = document.getElementById('server-error-indicator');
+                var retrySpan = document.getElementById('retry-countdown');
+
+                // Переменные для повторных попыток при ошибках сети
+                var retryDelay = 5000;          // начальная задержка при ошибке (5 сек)
+                var maxRetryDelay = 60000;       // максимум 60 сек
+                var currentRetryDelay = retryDelay;
+                var timeoutId = null;
+                var countdownInterval = null;     // для обновления обратного отсчёта
+
+                // Функция скрытия индикатора и остановки счётчика
+                function hideErrorIndicator() {
+                    if (errorIndicator) errorIndicator.style.display = 'none';
+                    if (countdownInterval) {
+                        clearInterval(countdownInterval);
+                        countdownInterval = null;
+                    }
+                }
+
+                // Функция показа индикатора с обратным отсчётом
+                function showErrorIndicator(seconds) {
+                    if (!errorIndicator || !retrySpan) return;
+                    errorIndicator.style.display = 'block';
+                    // Обновляем счётчик каждую секунду
+                    if (countdownInterval) clearInterval(countdownInterval);
+                    var remaining = seconds;
+                    retrySpan.innerText = remaining;
+                    countdownInterval = setInterval(function () {
+                        remaining -= 1;
+                        if (remaining <= 0) {
+                            clearInterval(countdownInterval);
+                            countdownInterval = null;
+                            // Не скрываем сразу, даём следующей попытке обновить
+                        } else {
+                            retrySpan.innerText = remaining;
+                        }
+                    }, 1000);
+                }
+
+                // Функция проверки доступности сервера и перехода
+                function navigate() {
+                    // Скрываем индикатор перед новой попыткой
+                    hideErrorIndicator();
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('HEAD', '/' + nextPage, true);
+                    xhr.timeout = 10000; // таймаут 10 секунд
+
+                    xhr.onload = function () {
+                        if (xhr.status >= 200 && xhr.status < 500) {
+                            // Сервер доступен – переходим на следующую страницу
+                            window.location.href = nextPage;
+                        } else {
+                            // Сервер вернул ошибку (например, 500) – пробуем позже
+                            scheduleRetry();
+                        }
+                    };
+
+                    xhr.onerror = function () {
+                        // Сеть недоступна (сервер не отвечает) – пробуем позже
+                        scheduleRetry();
+                    };
+
+                    xhr.ontimeout = function () {
+                        scheduleRetry();
+                    };
+
+                    xhr.send();
+                }
+
+                // Планирование повторных попыток с экспоненциальной задержкой
+                function scheduleRetry() {
+                    clearTimeout(timeoutId);
+                    // Показываем индикатор с текущей задержкой (в секундах)
+                    showErrorIndicator(currentRetryDelay / 1000);
+                    timeoutId = setTimeout(function () {
+                        navigate();
+                        currentRetryDelay = Math.min(currentRetryDelay * 2, maxRetryDelay);
+                    }, currentRetryDelay);
+                }
+
+                // Запускаем основной таймер с задержкой, указанной для текущего шага
+                setTimeout(navigate, delay);
+
+                // Подавление ошибок AJAX от старых asp:Timer (если они остались на дочерних страницах)
+                if (typeof Sys !== 'undefined' && Sys.WebForms && Sys.WebForms.PageRequestManager) {
+                    var prm = Sys.WebForms.PageRequestManager.getInstance();
+                    prm.add_endRequest(function (sender, args) {
+                        if (args.get_error()) {
+                            args.set_errorHandled(true);
+                        }
+                    });
                 }
             })();
         </script>

@@ -155,10 +155,6 @@ namespace WEB_Scrin_ASP
             }
         }
 
-        protected void Timer1_Tick(object sender, EventArgs e)
-        {
-            Response.Redirect("Smena.aspx");
-        }
 
         protected void Page_LoadComplete(object sender, EventArgs e)
         {

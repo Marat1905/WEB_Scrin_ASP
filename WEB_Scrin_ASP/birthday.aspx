@@ -131,5 +131,4 @@
     </div>
 
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <asp:Timer ID="Timer1" OnTick="Timer1_Tick" runat="server" Interval="50000" />
 </asp:Content>

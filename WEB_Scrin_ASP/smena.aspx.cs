@@ -268,10 +268,7 @@ namespace WEB_Scrin_ASP
             }
 
         }
-        protected void Timer1_Tick(object sender, EventArgs e)
-        {
-            Response.Redirect("Birthday.aspx");
-        }
+
         protected void Page_LoadComplete(object sender, EventArgs e)
         {
             // Обновляем статусную строку через базовый метод
