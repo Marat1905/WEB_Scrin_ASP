@@ -296,7 +296,7 @@ namespace WEB_Scrin_ASP
 
         protected void Timer1_Tick(object sender, EventArgs e)
         {
-            Response.Redirect("default.aspx");
+            Response.Redirect("Default.aspx");
         }
 
         // Добавлен обработчик Page_LoadComplete для обновления статусной строки

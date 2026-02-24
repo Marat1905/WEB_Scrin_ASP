@@ -42,7 +42,7 @@ namespace WEB_Scrin_ASP
                 Page.Server.ScriptTimeout = 180;
                 if (Counter >= 1)
                 {
-                    Response.Redirect("idle time.aspx");
+                    Response.Redirect("IdleTime.aspx");
                 }
                 else
                 {
