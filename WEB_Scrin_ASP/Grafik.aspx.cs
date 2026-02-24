@@ -143,7 +143,7 @@ namespace WEB_Scrin_ASP
                                     break;
 
                             }
-                            string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                            string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                             string sqlExpression = "select " + text + ",t3.[1],t3.[2],t3.[3]" +
             ",t3.[4],t3.[5],t3.[6],t3.[7],t3.[8],t3.[9],t3.[10],t3.[11],t3.[12],t3.[13],t3.[14],t3.[15]" +
             ",t3.[16],t3.[17],t3.[18],t3.[19],t3.[20],t3.[21],t3.[22],t3.[23],t3.[24],t3.[25],t3.[26],t3.[27]" +

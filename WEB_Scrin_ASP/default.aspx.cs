@@ -51,7 +51,7 @@ namespace WEB_Scrin_ASP
 
                 try
                 {
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
+                    string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                     string sqlExpression = @"delete FROM [Control].[dbo].[page_1]
                 where dt not in (SELECT top 1 dt FROM[Control].[dbo].[page_1] order by dt desc)
                 SELECT top 1*FROM[Control].[dbo].[page_1] order by dt desc";
@@ -153,7 +153,7 @@ namespace WEB_Scrin_ASP
                     object otkl_mes = 0, otkl_god = 0;
                     object temp_otkl_mes = 0, temp_otkl_god = 0;
 
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                    string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                     string sqlExpression = "SELECT (SELECT SUM(otcl_GP) FROM[Control].[dbo].[rep_BDM] WHERE dt BETWEEN CONVERT(DATE, @time_mes_start, 104) AND CONVERT(DATE, @time_mes_end, 104)) AS mes, (SELECT  SUM(otcl_GP) FROM[Control].[dbo].[rep_BDM] WHERE dt BETWEEN CONVERT(DATE, @time_god_start, 104) AND CONVERT(DATE, @time_god_end, 104)) AS god";
 
                     using (SqlConnection connection = new SqlConnection(connectionString))

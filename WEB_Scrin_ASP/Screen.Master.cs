@@ -35,7 +35,7 @@ namespace WEB_Scrin_ASP
                 string timePredStart = $"{prevYear}{prevMonth}01 00:00:00";
                 string timePredEnd = $"{prevYear}{prevMonth}{daysInPrevMonth} 23:59:59";
 
-                string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                 string sqlExpression = @"
                     DECLARE @userData TABLE (
                         fact_GP int,

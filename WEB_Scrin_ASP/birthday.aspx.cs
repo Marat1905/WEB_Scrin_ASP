@@ -70,7 +70,7 @@ namespace WEB_Scrin_ASP
                 }
                 try
                 {
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                    string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                     string sqlExpression = "SELECT*FROM[Control].[dbo].[DOB]where MONTH(db)= @mes order by DAY(db) asc";
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {

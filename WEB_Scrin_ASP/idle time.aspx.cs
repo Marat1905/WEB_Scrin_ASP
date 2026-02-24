@@ -127,7 +127,7 @@ namespace WEB_Scrin_ASP
                     }
 
                     // Данные корректировки (difference)
-                    string connectionString1 = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                    string connectionString1 = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                     string sqlExpression1 = "SELECT * FROM [Control].[dbo].[difference] WHERE id=1";
                     using (SqlConnection connection = new SqlConnection(connectionString1))
                     {

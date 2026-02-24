@@ -24,7 +24,7 @@ namespace WEB_Scrin_ASP
         {
             try
             {
-                string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                 string sqlExpression = "SELECT TOP 1 * FROM [Control].[dbo].[page_1] ORDER BY dt DESC";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -45,8 +45,9 @@ namespace WEB_Scrin_ASP
                     reader.Close();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 // В случае ошибки оставляем значение по умолчанию "0"
                 breakStatus = "0";
             }

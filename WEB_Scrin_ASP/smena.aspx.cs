@@ -41,7 +41,7 @@ namespace WEB_Scrin_ASP
                 // читаем данные с sql за текущий месяц
                 try
                 {
-                    string connectionString = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                    string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
                     string sqlExpression = "SELECT SUM(fact_GP),SUM(zad_GP),SUM(otcl_GP),SUM(kol_break),SUM(break_set),SUM(break_sush),SUM(run_BDM),count(id),avg(fact_GP),brigada FROM[Control].[dbo].[rep_BDM] Where dt Between CONVERT(date, @time1, 104) AND CONVERT(date, @time2, 104) GROUP BY[Control].[dbo].[rep_BDM].[brigada] order by SUM(otcl_GP) DESC";
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
@@ -170,7 +170,7 @@ namespace WEB_Scrin_ASP
                 try
                 {
                     // читаем данные с sql за предыдущий месяц
-                    string connectionString1 = @"Data Source=NICOLPAK\WINCC;Initial Catalog=Control;Integrated Security=True";
+                    string connectionString1 = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
 
                     string sqlExpression1 = "SELECT SUM(fact_GP),SUM(zad_GP),SUM(otcl_GP),SUM(kol_break),SUM(break_set),SUM(break_sush),SUM(run_BDM),count(id),avg(fact_GP),brigada FROM[Control].[dbo].[rep_BDM] Where dt Between CONVERT(date, @time1, 104) AND CONVERT(date, @time2, 104) GROUP BY[Control].[dbo].[rep_BDM].[brigada] order by SUM(otcl_GP) DESC";
                     using (SqlConnection connection1 = new SqlConnection(connectionString1))
