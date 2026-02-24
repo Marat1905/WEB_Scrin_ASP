@@ -11,18 +11,18 @@ html, body {
 
 #container {
     width: 100%;
-    height: 100vh; /* на всю высоту окна */
+    height: 100vh;
     margin: 0;
     background: #FFFFFF;
     display: flex;
     flex-direction: column;
 }
 
-/* Шапка и меню (исправлено) */
+/* Шапка и меню */
 #header {
     background: #0f1f39;
     width: 100%;
-    overflow: hidden; /* гарантирует, что header расширится по высоте дочерних элементов */
+    overflow: hidden;
 }
 
 #navbar {
@@ -39,8 +39,8 @@ html, body {
 }
 
     #navbar li {
-        flex: 1 1 auto; /* пункты могут расти, чтобы заполнить пространство */
-        min-width: fit-content; /* предотвращает чрезмерное сжатие */
+        flex: 1 1 auto;
+        min-width: fit-content;
     }
 
         #navbar li a {
@@ -57,15 +57,14 @@ html, body {
             white-space: normal;
             word-wrap: break-word;
             line-height: 1.2;
-            height: 100%; /* занимает всю высоту родительского li */
-            box-sizing: border-box; /* padding не увеличивает общую ширину */
+            height: 100%;
+            box-sizing: border-box;
         }
 
             #navbar li a:hover {
                 background-color: #f90;
             }
 
-    /* Подменю (скрыто по умолчанию) */
     #navbar ul {
         display: none;
         background-color: #0094ff;
@@ -77,7 +76,6 @@ html, body {
         display: block;
     }
 
-/* Вертикальное меню для узких экранов (планшеты и мобильные) */
 @media (max-width: 768px) {
     #navbar {
         flex-direction: column;
@@ -98,7 +96,6 @@ html, body {
             }
 }
 
-/* Для очень маленьких экранов (телефоны) */
 @media (max-width: 480px) {
     #navbar li a {
         font-size: 16px;
@@ -106,18 +103,20 @@ html, body {
     }
 }
 
+/* Адаптивная высота для навигационной полосы */
 #navigation {
     background: #ffffff;
     width: 100%;
-    height: 20px;
-    clear: both; /* предотвращает наложение */
+    height: 2vh;
+    min-height: 15px;
+    clear: both;
 }
 
 #temp_content {
     background: #2777a8;
     width: 100%;
-    flex: 1; /* занимает всё оставшееся пространство */
-    overflow: auto; /* если контент не помещается, появляется скролл */
+    flex: 1;
+    overflow: auto;
 }
 
 /* Заголовки */
@@ -150,65 +149,76 @@ h4 {
     font-weight: bold;
 }
 
-/* Анимации */
-.blnktext {
-    -webkit-animation-name: textblink;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-name: textblink;
-    -moz-animation-duration: 1s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: infinite;
-    animation-name: textblink;
-    animation-duration: 1s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
-@-moz-keyframes textblink {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}
-
-@-webkit-keyframes textblink {
-    0% {
-        opacity: 1.0;
-    }
-
-    50% {
-        opacity: 0.0;
-    }
-
-    100% {
-        opacity: 1.0;
-    }
-}
-
+/* Анимации (единое определение textblink с полным исчезновением) */
 @keyframes textblink {
     0% {
-        opacity: 1.0;
+        opacity: 1;
     }
 
     50% {
-        opacity: 0.0;
+        opacity: 0;
     }
 
     100% {
-        opacity: 1.0;
+        opacity: 1;
     }
 }
 
-/* Основные блоки страницы default.aspx */
+/* Статусная строка (обрыв и т.д.) с адаптивной высотой */
+.status {
+    width: 100%;
+    height: 6vh;
+    min-height: 30px;
+}
+
+.blnktext0, .blnktext1, .blnktext2, .blnktext4, .blnktext5, .blnktext6, .blnktext7 {
+    text-align: center;
+    font-size: 2.2vw;
+    font-weight: bold;
+    color: #fff;
+    float: left;
+    width: 100%;
+    height: 6vh;
+    min-height: 35px;
+    background-color: aqua;
+    border-color: Black;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    animation: textblink 2s linear infinite;
+}
+
+.blnktext1 {
+    background-color: yellow;
+    color: blue;
+}
+
+.blnktext2 {
+    background-color: chartreuse;
+    color: blue;
+}
+
+.blnktext4 {
+    background-color: red;
+    color: white;
+}
+
+.blnktext5 {
+    background-color: thistle;
+    color: blue;
+}
+
+.blnktext6 {
+    background-color: crimson;
+    color: white;
+}
+
+.blnktext7 {
+    background-color: lawngreen;
+    color: #fff;
+    animation: none; /* отключаем мигание для статуса 7 */
+}
+
+/* Основные блоки страницы default.aspx (оставлены без изменений) */
 .label_L {
     text-align: left;
     font-size: 20px;
@@ -311,66 +321,6 @@ h4 {
     margin-bottom: 20px;
 }
 
-/* Статусная строка (обрыв и т.д.) */
-.status {
-    width: 100%;
-    height: 45px;
-}
-
-.blnktext0, .blnktext1, .blnktext2, .blnktext4, .blnktext5, .blnktext6, .blnktext7 {
-    text-align: center;
-    font-size: 2.2vw;
-    font-weight: bold;
-    color: #fff;
-    float: left;
-    width: 100%;
-    height: 40px;
-    background-color: aqua;
-    border-color: Black;
-    margin-bottom: 10px;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-name: textblink;
-    -moz-animation-duration: 2s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: infinite;
-    animation-name: textblink;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
-.blnktext1 {
-    background-color: yellow;
-    color: blue;
-}
-
-.blnktext2 {
-    background-color: chartreuse;
-    color: blue;
-}
-
-.blnktext4 {
-    background-color: red;
-    color: white;
-}
-
-.blnktext5 {
-    background-color: thistle;
-    color: blue;
-}
-
-.blnktext6 {
-    background-color: crimson;
-    color: white;
-}
-
-.blnktext7 {
-    background-color: lawngreen;
-    color: #fff;
-    animation: none;
-}
-
 /* Блоки простоев */
 .layer_mex, .layer_tex, .layer_energo, .layer_ppr, .layer_other {
     float: left;
@@ -389,7 +339,7 @@ h4 {
     width: 100%;
     height: 100%;
     padding: 5px;
-    table-layout: fixed; /* фиксированная вёрстка, чтобы ячейки не разъезжались */
+    table-layout: fixed;
 }
 
     .smena td, .smena th {
@@ -499,7 +449,7 @@ h4 {
     animation-iteration-count: infinite;
 }
 
-@-webkit-keyframes otkl {
+@keyframes otkl {
     0% {
         color: red;
     }
@@ -530,14 +480,10 @@ h4 {
     width: 32%;
     border-style: double;
     border-color: darkblue;
-    -webkit-animation-name: example_red;
-    -webkit-animation-duration: 4s;
-    animation-name: example_red;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
+    animation: example_red 4s infinite;
 }
 
-@-webkit-keyframes example_red {
+@keyframes example_red {
     0% {
         background-color: transparent;
     }
@@ -561,14 +507,10 @@ h4 {
     width: 32%;
     border-style: double;
     border-color: darkblue;
-    -webkit-animation-name: example_yellow;
-    -webkit-animation-duration: 4s;
-    animation-name: example_yellow;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
+    animation: example_yellow 4s infinite;
 }
 
-@-webkit-keyframes example_yellow {
+@keyframes example_yellow {
     0% {
         background-color: transparent;
     }
@@ -586,7 +528,7 @@ h4 {
     }
 }
 
-/* Страница именинников */
+/* Страница именинников с адаптивными высотами */
 .label_DN {
     height: 10%;
     width: 100%;
@@ -639,29 +581,33 @@ h4 {
     color: mediumblue;
 }
 
+/* Адаптивные высоты для шагов */
 .step {
-    height: 22px;
+    height: 3vh;
+    min-height: 18px;
     width: 100%;
     margin-bottom: 5px;
     margin-left: 5%;
 }
 
 .step1 {
-    height: 22px;
+    height: 3vh;
+    min-height: 18px;
     width: 100%;
     margin-bottom: 5px;
     margin-left: 10%;
 }
 
 .DN {
-    height: 28px;
+    height: 3.5vh;
+    min-height: 22px;
     width: 100%;
     text-align: center;
 }
 
 .marg_blue {
     color: blue;
-    font-size: 18px;
+    font-size: 2vh;
     font-weight: bolder;
     line-height: 100%;
     text-shadow: #000000 0px 1px 1px;
@@ -669,7 +615,7 @@ h4 {
 
 .marg_red {
     color: red;
-    font-size: 18px;
+    font-size: 2vh;
     font-weight: bolder;
     line-height: 100%;
     text-shadow: #000000 0px 1px 1px;
@@ -681,9 +627,10 @@ h4 {
     font-size: 8px;
 }
 
-/* Страница предупреждения (Caution) */
+/* Страница предупреждения (Caution) с адаптивной высотой */
 #label_Countion_lbl {
-    height: 36px;
+    height: 5vh;
+    min-height: 30px;
     font-size: 2.5vw;
     -webkit-animation: blink 2s linear infinite;
     animation: blink 2s linear infinite;
@@ -695,6 +642,20 @@ h4 {
 }
 
 @-webkit-keyframes blink {
+    0% {
+        color: yellow;
+    }
+
+    50% {
+        color: red;
+    }
+
+    100% {
+        color: yellow;
+    }
+}
+
+@keyframes blink {
     0% {
         color: yellow;
     }
@@ -789,7 +750,7 @@ h4 {
         color: #fff;
     }
 
-/* Блоки простоев (idle time) */
+/* Блоки простоев (idle time) с адаптивными высотами */
 .status_Mod {
     width: 100%;
     height: 8%;
@@ -805,13 +766,15 @@ h4 {
     height: 100%;
 }
 
+/* Единое определение для .textbox_break_Mod (адаптивная высота) */
 .textbox_break_Mod {
     text-align: center;
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     font-weight: bold;
     color: #fff;
     width: 100%;
-    height: 40px;
+    height: 5vh;
+    min-height: 30px;
     background-color: #2777a8;
     border-color: Black;
     margin-bottom: 2px;
@@ -901,9 +864,8 @@ h4 {
     height: 100%;
 }
 
-/* Новый класс для объединённого времени */
 .col-2-time {
-    flex: 4; /* занимает примерно 4/5 ширины */
+    flex: 4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -977,16 +939,11 @@ h4 {
     width: 32.8%;
     border-style: double;
     border-color: darkblue;
-    -webkit-animation-name: example_red;
-    -webkit-animation-duration: 4s;
-    animation-name: example_red;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
+    animation: example_red 4s infinite;
     box-sizing: border-box;
     margin: 0.2%;
 }
 
-/* Таблицы внутри простоев */
 .table_q {
     border: 2px solid black;
     width: 100%;
@@ -1034,23 +991,23 @@ h4 {
 
 .colorRedtext {
     color: red;
-    font-size: 18px;
+    font-size: 2vh;
     font-weight: bolder;
 }
 
 .colorGreentext {
     color: #3EDC6C;
-    font-size: 18px;
+    font-size: 2vh;
     font-weight: bolder;
 }
 
 .colorBluetext {
     color: blue;
-    font-size: 18px;
+    font-size: 2vh;
     font-weight: bolder;
 }
 
-/* Стили только для TV-версии default.aspx */
+/* Стили для TV-версии default.aspx */
 .tv-dashboard {
     height: 100%;
     display: flex;
@@ -1182,24 +1139,14 @@ h4 {
         white-space: nowrap;
     }
 
-/* Специфические классы для отклонений (задаются в коде) */
-.textbox_otkl_grin,
-.textbox_otkl_red {
-    font-weight: bold;
-}
+    /* Специфические классы для отклонений */
+    .tv-dashboard .textbox_otkl_grin {
+        color: #8bc34a !important;
+    }
 
-.tv-dashboard .textbox_otkl_grin {
-    color: #8bc34a !important;
-}
-
-.tv-dashboard .textbox_otkl_red {
-    color: #ff6b6b !important;
-}
-
-/* Мигающие статусы */
-.blnktext0, .blnktext1, .blnktext2, .blnktext4, .blnktext5, .blnktext6, .blnktext7 {
-    animation-duration: 2s;
-}
+    .tv-dashboard .textbox_otkl_red {
+        color: #ff6b6b !important;
+    }
 
 /* ========== Стили, перенесённые из default.aspx ========== */
 :root {
@@ -1230,9 +1177,11 @@ h4 {
     width: 100%;
 }
 
+/* Переопределение .textbox_break_Mod для тёмной темы (адаптивная высота) */
 .textbox_break_Mod {
     width: 100%;
     height: 5vh;
+    min-height: 30px;
     font-size: 2.2vh;
     font-weight: bold;
     text-align: center;
@@ -1276,7 +1225,6 @@ h4 {
     min-height: 5vh;
 }
 
-/* Исправление вертикального центрирования содержимого колонок */
 .col-1-1L, .col-1-2L, .col-1-3L,
 .col-1-1La, .col-1-2La, .col-1-3La,
 .col-1-1Li, .col-1-2Li, .col-1-3Li,
@@ -1311,9 +1259,8 @@ h4 {
     color: #aaa;
 }
 
-/* Новый класс для колонки с объединённым временем (используется в default.aspx) */
 .col-2-time {
-    flex: 4; /* примерно сумма ширин col-2-2Li + col-2-3Li + col-2-4Li + col-2-5Li */
+    flex: 4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1364,7 +1311,6 @@ h4 {
     text-shadow: 1px 1px 2px #000;
 }
 
-/* Специфические колонки для простоев (оставлено для других страниц) */
 .col-2-1Li {
     flex: 3 1 45%;
 }
@@ -1385,7 +1331,6 @@ h4 {
     flex: 0 1 10%;
 }
 
-/* Адаптация для очень высоких экранов */
 @media (min-height: 900px) {
     .row_Ri {
         min-height: 4vh;
@@ -1394,25 +1339,6 @@ h4 {
     .textbox_Ri, .textbox_Li {
         height: 3.5vh;
         font-size: 2vh;
-    }
-}
-
-/* Мерцание для статуса */
-.blnktext0, .blnktext1, .blnktext2, .blnktext4, .blnktext5, .blnktext6, .blnktext7 {
-    animation: textblink 2s linear infinite;
-}
-
-@keyframes textblink {
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.3;
-    }
-
-    100% {
-        opacity: 1;
     }
 }
 
@@ -1465,10 +1391,10 @@ h4 {
 
 .idle-card {
     flex: 1 1 0;
-    background: var(--bg-dark); /* как у .layer1 */
-    border-radius: 12px; /* как у .layer1 */
+    background: var(--bg-dark);
+    border-radius: 12px;
     padding: 1.5vh 1vw;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.6); /* как у .layer1 */
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
@@ -1543,7 +1469,6 @@ h4 {
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
 }
 
-/* Адаптация для очень маленьких экранов */
 @media (max-width: 1280px) {
     .stat-item {
         font-size: 1.8vh;
