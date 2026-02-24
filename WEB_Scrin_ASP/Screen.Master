@@ -44,6 +44,7 @@
                         <li><a href="idle%20time.aspx">Простои по службам</a></li>
                         <li><a href="smena.aspx">Анализ работы смен</a></li>
                         <li><a href="birthday.aspx">Именинники месяца</a></li>
+                        <li><a href="GreenCross.aspx">Зеленый крест</a></li>
                         <li><a href="Grafik.aspx">График персонала</a></li>
                     </ul>
                 </nav>

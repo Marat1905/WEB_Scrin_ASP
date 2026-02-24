@@ -1,4 +1,4 @@
-﻿﻿ /* Общие сбросы */
+﻿/* Общие сбросы */
 html, body {
     height: 100%;
     margin: 0;
@@ -11,7 +11,7 @@ html, body {
 
 #container {
     width: 100%;
-    height: 100vh;
+    height: 100dvh; /* заменено с 100vh на 100dvh для учёта адресной строки */
     margin: 0;
     background: #FFFFFF;
     display: flex;
@@ -107,7 +107,7 @@ html, body {
 #navigation {
     background: #ffffff;
     width: 100%;
-    height: 2vh;
+    height: 2dvh; /* заменено */
     min-height: 15px;
     clear: both;
 }
@@ -167,7 +167,7 @@ h4 {
 /* Статусная строка (обрыв и т.д.) с адаптивной высотой */
 .status {
     width: 100%;
-    height: 6vh;
+    height: 6dvh; /* заменено */
     min-height: 30px;
 }
 
@@ -178,7 +178,7 @@ h4 {
     color: #fff;
     float: left;
     width: 100%;
-    height: 6vh;
+    height: 6dvh; /* заменено */
     min-height: 35px;
     background-color: aqua;
     border-color: Black;
@@ -343,7 +343,7 @@ h4 {
 }
 
     .smena td, .smena th {
-        padding: 1vh 0.5vw;
+        padding: 1dvh 0.5vw; /* заменено */
         text-align: center;
         border-bottom: 1px solid #F4EEE8;
         transition: all 0.5s linear;
@@ -414,7 +414,7 @@ h4 {
 
 .shift, .sm, .PL {
     text-align: center;
-    font-size: 1.5vh;
+    font-size: 1.5dvh; /* заменено */
     font-weight: bold;
     color: green;
     width: 100%;
@@ -425,7 +425,7 @@ h4 {
 
 .shift_red, .sm_red, .PL_red {
     text-align: center;
-    font-size: 1.5vh;
+    font-size: 1.5dvh; /* заменено */
     font-weight: bold;
     color: red;
     width: 100%;
@@ -437,7 +437,7 @@ h4 {
 
 .PL_otkl {
     text-align: center;
-    font-size: 1.5vh;
+    font-size: 1.5dvh; /* заменено */
     font-weight: bold;
     color: red;
     width: 100%;
@@ -569,21 +569,21 @@ h4 {
 
 .label_Fio {
     text-align: left;
-    font-size: 1.8vh;
+    font-size: 1.8dvh; /* заменено */
     font-family: 'mon-amur';
     color: black;
 }
 
 .label_Fio1 {
     text-align: left;
-    font-size: 1.8vh;
+    font-size: 1.8dvh; /* заменено */
     font-family: 'mon-amur';
     color: mediumblue;
 }
 
 /* Адаптивные высоты для шагов */
 .step {
-    height: 3vh;
+    height: 3dvh; /* заменено */
     min-height: 18px;
     width: 100%;
     margin-bottom: 5px;
@@ -591,7 +591,7 @@ h4 {
 }
 
 .step1 {
-    height: 3vh;
+    height: 3dvh; /* заменено */
     min-height: 18px;
     width: 100%;
     margin-bottom: 5px;
@@ -599,7 +599,7 @@ h4 {
 }
 
 .DN {
-    height: 3.5vh;
+    height: 3.5dvh; /* заменено */
     min-height: 22px;
     width: 100%;
     text-align: center;
@@ -607,7 +607,7 @@ h4 {
 
 .marg_blue {
     color: blue;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bolder;
     line-height: 100%;
     text-shadow: #000000 0px 1px 1px;
@@ -615,7 +615,7 @@ h4 {
 
 .marg_red {
     color: red;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bolder;
     line-height: 100%;
     text-shadow: #000000 0px 1px 1px;
@@ -629,7 +629,7 @@ h4 {
 
 /* Страница предупреждения (Caution) с адаптивной высотой */
 #label_Countion_lbl {
-    height: 5vh;
+    height: 5dvh; /* заменено */
     min-height: 30px;
     font-size: 2.5vw;
     -webkit-animation: blink 2s linear infinite;
@@ -671,7 +671,7 @@ h4 {
 
 #label_Warn_txt {
     text-align: justify;
-    font-size: 1.8vh;
+    font-size: 1.8dvh; /* заменено */
     color: #fff;
     margin: 0px 0px 3px 5px;
     width: 98%;
@@ -679,7 +679,7 @@ h4 {
 
 #label_Warn_txt_bolt {
     text-align: justify;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bold;
     text-align: center;
     color: red;
@@ -689,14 +689,14 @@ h4 {
 
 #label_Warn_Admin {
     text-align: right;
-    font-size: 1.8vh;
+    font-size: 1.8dvh; /* заменено */
     color: #fff;
     margin: 0px 0px 3px 5px;
     width: 98%;
 }
 
 #label_Countion_Nomer {
-    font-size: 2.2vh;
+    font-size: 2.2dvh; /* заменено */
     -webkit-animation: blink 2s linear infinite;
     animation: blink 2s linear infinite;
     font-weight: bold;
@@ -716,7 +716,7 @@ h4 {
 /* Таблицы графика (Grafik.aspx) */
 .table_dark {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-    font-size: 1.8vh;
+    font-size: 1.8dvh; /* заменено */
     width: 98%;
     text-align: left;
     border-collapse: collapse;
@@ -769,11 +769,11 @@ h4 {
 /* Единое определение для .textbox_break_Mod (адаптивная высота) */
 .textbox_break_Mod {
     text-align: center;
-    font-size: 2.2vh;
+    font-size: 2.2dvh; /* заменено */
     font-weight: bold;
     color: #fff;
     width: 100%;
-    height: 5vh;
+    height: 5dvh; /* заменено */
     min-height: 30px;
     background-color: #2777a8;
     border-color: Black;
@@ -783,7 +783,7 @@ h4 {
 
 .textbox_plan {
     text-align: center;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bold;
     color: #fff;
     float: right;
@@ -795,7 +795,7 @@ h4 {
 
 .label_Li {
     text-align: left;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bold;
     color: #fff;
     float: left;
@@ -803,7 +803,7 @@ h4 {
 
 .textbox_lbl_Li, .textbox_Li {
     text-align: center;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bold;
     color: #fff;
     float: left;
@@ -814,7 +814,7 @@ h4 {
 
 .textbox_otkl_grin {
     text-align: center;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bold;
     color: greenyellow;
     float: left;
@@ -825,7 +825,7 @@ h4 {
 
 .textbox_otkl_red {
     text-align: center;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bold;
     color: red;
     float: left;
@@ -904,7 +904,7 @@ h4 {
 
 .label_slujba {
     text-align: center;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bold;
     width: 100%;
     color: #fff;
@@ -913,7 +913,7 @@ h4 {
 
 .label_prostoi {
     text-align: left;
-    font-size: 1.8vh;
+    font-size: 1.8dvh; /* заменено */
     font-weight: bold;
     width: 100%;
     height: 100%;
@@ -952,7 +952,7 @@ h4 {
 
     .table_q th {
         text-align: center;
-        font-size: 1.8vh;
+        font-size: 1.8dvh; /* заменено */
         font-weight: bold;
         color: #fff;
         border: 2px solid black;
@@ -982,7 +982,7 @@ h4 {
 
 .label_mes_txt {
     text-align: center;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bold;
     width: 100%;
     color: #fff;
@@ -991,19 +991,19 @@ h4 {
 
 .colorRedtext {
     color: red;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bolder;
 }
 
 .colorGreentext {
     color: #3EDC6C;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bolder;
 }
 
 .colorBluetext {
     color: blue;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: bolder;
 }
 
@@ -1018,16 +1018,16 @@ h4 {
 }
 
     .tv-dashboard .status-bar {
-        height: 8vh;
+        height: 8dvh; /* заменено */
         min-height: 40px;
-        margin-bottom: 1vh;
+        margin-bottom: 1dvh; /* заменено */
     }
 
     .tv-dashboard .status-text {
         width: 100%;
         height: 100%;
         text-align: center;
-        font-size: 3vh;
+        font-size: 3dvh; /* заменено */
         font-weight: bold;
         border: none;
         border-radius: 8px;
@@ -1041,7 +1041,7 @@ h4 {
         flex: 1;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1.5vh;
+        gap: 1.5dvh; /* заменено */
         padding: 0 1vw;
         overflow: hidden;
     }
@@ -1062,7 +1062,7 @@ h4 {
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(8px);
         border-radius: 20px;
-        padding: 2vh 1.5vw;
+        padding: 2dvh 1.5vw; /* заменено */
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         border: 1px solid rgba(255, 255, 255, 0.1);
         height: 100%;
@@ -1075,12 +1075,12 @@ h4 {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 1.2vh;
+        margin-bottom: 1.2dvh; /* заменено */
         flex-wrap: nowrap;
     }
 
     .tv-dashboard .label {
-        font-size: 2vh;
+        font-size: 2dvh; /* заменено */
         font-weight: 500;
         color: #b0b7d0;
         flex: 3;
@@ -1104,8 +1104,8 @@ h4 {
         background: rgba(10, 20, 40, 0.7);
         border: 1px solid #3a4a6a;
         border-radius: 8px;
-        padding: 0.8vh 0.5vw;
-        font-size: 2.2vh;
+        padding: 0.8dvh 0.5vw; /* заменено */
+        font-size: 2.2dvh; /* заменено */
         font-weight: bold;
         color: #ffffff;
         text-align: center;
@@ -1115,8 +1115,8 @@ h4 {
 
         .tv-dashboard .value-box.small {
             width: 45%;
-            font-size: 2vh;
-            padding: 0.5vh 0.3vw;
+            font-size: 2dvh; /* заменено */
+            padding: 0.5dvh 0.3vw; /* заменено */
         }
 
         .tv-dashboard .value-box.deviation {
@@ -1128,7 +1128,7 @@ h4 {
         min-width: 4vw;
         background: transparent;
         border: none;
-        font-size: 1.8vh;
+        font-size: 1.8dvh; /* заменено */
         color: #8e9bb5;
         text-align: left;
         padding-left: 0.2vw;
@@ -1166,9 +1166,9 @@ h4 {
     width: 100%;
     background: var(--bg-dark);
     color: var(--text-light);
-    padding: 0.5vh 0.5vw;
+    padding: 0.5dvh 0.5vw; /* заменено */
     box-sizing: border-box;
-    gap: 0.5vh;
+    gap: 0.5dvh; /* заменено */
     overflow: hidden;
 }
 
@@ -1180,9 +1180,9 @@ h4 {
 /* Переопределение .textbox_break_Mod для тёмной темы (адаптивная высота) */
 .textbox_break_Mod {
     width: 100%;
-    height: 5vh;
+    height: 5dvh; /* заменено */
     min-height: 30px;
-    font-size: 2.2vh;
+    font-size: 2.2dvh; /* заменено */
     font-weight: bold;
     text-align: center;
     background: var(--bg-medium);
@@ -1207,7 +1207,7 @@ h4 {
     flex-direction: column;
     background: var(--bg-dark);
     border-radius: 12px;
-    padding: 0.8vh 0.5vw;
+    padding: 0.8dvh 0.5vw; /* заменено */
     box-sizing: border-box;
     box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
     overflow: hidden;
@@ -1216,13 +1216,13 @@ h4 {
 .row_Ri {
     display: flex;
     align-items: center;
-    margin-bottom: 0.6vh;
+    margin-bottom: 0.6dvh; /* заменено */
     background: rgba(30, 58, 95, 0.6);
     border-radius: 8px;
-    padding: 0.2vh 0.5vw;
+    padding: 0.2dvh 0.5vw; /* заменено */
     box-shadow: 0 2px 4px rgba(0,0,0,0.4);
     flex: 1 1 auto;
-    min-height: 5vh;
+    min-height: 5dvh; /* заменено */
 }
 
 .col-1-1L, .col-1-2L, .col-1-3L,
@@ -1239,7 +1239,7 @@ h4 {
     flex: 3 1 50%;
     text-align: left;
     padding-left: 0.5vw;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: 600;
     color: var(--text-light);
     text-shadow: 1px 1px 2px black;
@@ -1255,7 +1255,7 @@ h4 {
 .col-1-3L, .col-1-3La, .col-1-3Li, .col-2-3Li, .col-2-4Li, .col-2-5Li {
     flex: 0 1 15%;
     text-align: left;
-    font-size: 1.8vh;
+    font-size: 1.8dvh; /* заменено */
     color: #aaa;
 }
 
@@ -1270,8 +1270,8 @@ h4 {
 .textbox_Ri, .textbox_Li, .textbox_lbl_Ri, .textbox_lbl_Li,
 .textbox_otkl_grin, .textbox_otkl_red {
     width: 100%;
-    height: 4vh;
-    font-size: 2.2vh;
+    height: 4dvh; /* заменено */
+    font-size: 2.2dvh; /* заменено */
     font-weight: bold;
     text-align: right;
     padding-right: 8px;
@@ -1298,14 +1298,14 @@ h4 {
     border: none;
     box-shadow: none;
     color: #9bb7d4;
-    font-size: 1.8vh;
+    font-size: 1.8dvh; /* заменено */
     text-align: left;
     padding-left: 0.2vw;
 }
 
 .label_Ri, .label_Li {
     display: inline-block;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     font-weight: 600;
     color: #d4e3fd;
     text-shadow: 1px 1px 2px #000;
@@ -1333,12 +1333,12 @@ h4 {
 
 @media (min-height: 900px) {
     .row_Ri {
-        min-height: 4vh;
+        min-height: 4dvh; /* заменено */
     }
 
     .textbox_Ri, .textbox_Li {
-        height: 3.5vh;
-        font-size: 2vh;
+        height: 3.5dvh; /* заменено */
+        font-size: 2dvh; /* заменено */
     }
 }
 
@@ -1350,14 +1350,14 @@ h4 {
     background: linear-gradient(145deg, #0a0f1e 0%, #1a1f2f 100%);
     color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 0.5vh 0.5vw;
+    padding: 0.5dvh 0.5vw; /* заменено */
     box-sizing: border-box;
-    gap: 1vh;
+    gap: 1dvh; /* заменено */
 }
 
 .status-bar {
     flex: 0 0 auto;
-    height: 7vh;
+    height: 7dvh; /* заменено */
     min-height: 40px;
 }
 
@@ -1365,7 +1365,7 @@ h4 {
     width: 100%;
     height: 100%;
     text-align: center;
-    font-size: 3vh;
+    font-size: 3dvh; /* заменено */
     font-weight: bold;
     border: none;
     border-radius: 8px;
@@ -1378,7 +1378,7 @@ h4 {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1vh;
+    gap: 1dvh; /* заменено */
     min-height: 0;
 }
 
@@ -1393,7 +1393,7 @@ h4 {
     flex: 1 1 0;
     background: var(--bg-dark);
     border-radius: 12px;
-    padding: 1.5vh 1vw;
+    padding: 1.5dvh 1vw; /* заменено */
     box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -1423,12 +1423,12 @@ h4 {
 }
 
 .card-header {
-    font-size: 2.2vh;
+    font-size: 2.2dvh; /* заменено */
     font-weight: 600;
     color: #b0b7d0;
     text-align: center;
-    padding-bottom: 1vh;
-    margin-bottom: 1vh;
+    padding-bottom: 1dvh; /* заменено */
+    margin-bottom: 1dvh; /* заменено */
     border-bottom: 1px solid rgba(255,255,255,0.1);
     white-space: nowrap;
     overflow: hidden;
@@ -1440,14 +1440,14 @@ h4 {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    gap: 0.8vh;
+    gap: 0.8dvh; /* заменено */
 }
 
 .stat-item {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 2vh;
+    font-size: 2dvh; /* заменено */
     line-height: 1.4;
 }
 
@@ -1463,7 +1463,7 @@ h4 {
     background: rgba(10, 20, 40, 0.7);
     border: 1px solid #3a4a6a;
     border-radius: 6px;
-    padding: 0.4vh 0.8vw;
+    padding: 0.4dvh 0.8vw; /* заменено */
     min-width: 8vw;
     text-align: center;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
@@ -1471,17 +1471,17 @@ h4 {
 
 @media (max-width: 1280px) {
     .stat-item {
-        font-size: 1.8vh;
+        font-size: 1.8dvh; /* заменено */
     }
 
     .card-header {
-        font-size: 2vh;
+        font-size: 2dvh; /* заменено */
     }
 }
 
 @media (max-width: 1024px) {
     .stat-item {
-        font-size: 1.6vh;
+        font-size: 1.6dvh; /* заменено */
     }
 
     .stat-value {

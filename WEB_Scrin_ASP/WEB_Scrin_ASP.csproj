@@ -121,6 +121,7 @@
     <Content Include="images\DN.jpg" />
     <Content Include="font\11325.ttf" />
     <Content Include="font\mon-amour-one-medium_[allfont.ru].ttf" />
+    <Content Include="GreenCross.aspx" />
     <None Include="packages.config" />
     <Content Include="birthday.aspx" />
     <Content Include="idle time.aspx" />
@@ -191,6 +192,13 @@
     </Compile>
     <Compile Include="smena.aspx.designer.cs">
       <DependentUpon>smena.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GreenCross.aspx.cs">
+      <DependentUpon>GreenCross.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GreenCross.aspx.designer.cs">
+      <DependentUpon>GreenCross.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
