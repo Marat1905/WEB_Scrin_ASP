@@ -47,7 +47,7 @@ namespace WEB_Scrin_ASP
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+               Console.WriteLine(ex.Message);
                 // В случае ошибки оставляем значение по умолчанию "0"
                 breakStatus = "0";
             }
