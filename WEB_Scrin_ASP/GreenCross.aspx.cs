@@ -312,5 +312,11 @@ namespace WEB_Scrin_ASP
             // Обновляем статусную строку через базовый метод
             UpdateStatusTextBox(textboxStatus);
         }
+
+        // Обработчик таймера – перенаправление на default.aspx
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            Response.Redirect("default.aspx");
+        }
     }
 }
