@@ -42,15 +42,6 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.WebControls.TextBox textbox;
 
         /// <summary>
-        /// textbox1 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox1;
-
-        /// <summary>
         /// Label5 элемент управления.
         /// </summary>
         /// <remarks>
@@ -67,15 +58,6 @@ namespace WEB_Scrin_ASP
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox5;
-
-        /// <summary>
-        /// textbox4 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox4;
 
         /// <summary>
         /// Label6 элемент управления.
@@ -96,15 +78,6 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.WebControls.TextBox textbox7;
 
         /// <summary>
-        /// textbox6 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox6;
-
-        /// <summary>
         /// Label9 элемент управления.
         /// </summary>
         /// <remarks>
@@ -121,15 +94,6 @@ namespace WEB_Scrin_ASP
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox13;
-
-        /// <summary>
-        /// textbox12 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox12;
 
         /// <summary>
         /// Label7 элемент управления.
@@ -150,15 +114,6 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.WebControls.TextBox textbox9;
 
         /// <summary>
-        /// textbox8 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox8;
-
-        /// <summary>
         /// Label8 элемент управления.
         /// </summary>
         /// <remarks>
@@ -175,15 +130,6 @@ namespace WEB_Scrin_ASP
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox11;
-
-        /// <summary>
-        /// textbox10 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox10;
 
         /// <summary>
         /// Label12 элемент управления.
@@ -204,15 +150,6 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.WebControls.TextBox textbox27;
 
         /// <summary>
-        /// textbox26 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox26;
-
-        /// <summary>
         /// Label16 элемент управления.
         /// </summary>
         /// <remarks>
@@ -229,15 +166,6 @@ namespace WEB_Scrin_ASP
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox29;
-
-        /// <summary>
-        /// textbox28 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox28;
 
         /// <summary>
         /// Label1 элемент управления.
@@ -258,15 +186,6 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.WebControls.TextBox textbox3;
 
         /// <summary>
-        /// textbox2 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox2;
-
-        /// <summary>
         /// Label2 элемент управления.
         /// </summary>
         /// <remarks>
@@ -283,15 +202,6 @@ namespace WEB_Scrin_ASP
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox21;
-
-        /// <summary>
-        /// textbox20 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox20;
 
         /// <summary>
         /// Label20 элемент управления.
@@ -312,15 +222,6 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.WebControls.TextBox textbox16;
 
         /// <summary>
-        /// textbox47 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox47;
-
-        /// <summary>
         /// Label4 элемент управления.
         /// </summary>
         /// <remarks>
@@ -337,15 +238,6 @@ namespace WEB_Scrin_ASP
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox15;
-
-        /// <summary>
-        /// textbox14 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox14;
 
         /// <summary>
         /// Label10 элемент управления.
@@ -366,15 +258,6 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.WebControls.TextBox textbox23;
 
         /// <summary>
-        /// textbox22 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox22;
-
-        /// <summary>
         /// Label13 элемент управления.
         /// </summary>
         /// <remarks>
@@ -393,15 +276,6 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.WebControls.TextBox textbox25;
 
         /// <summary>
-        /// textbox24 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox24;
-
-        /// <summary>
         /// Label14 элемент управления.
         /// </summary>
         /// <remarks>
@@ -418,15 +292,6 @@ namespace WEB_Scrin_ASP
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox19;
-
-        /// <summary>
-        /// textbox18 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически созданное поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox18;
 
         /// <summary>
         /// Label11 элемент управления.

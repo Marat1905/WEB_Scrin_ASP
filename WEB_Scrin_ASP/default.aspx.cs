@@ -92,18 +92,19 @@ namespace WEB_Scrin_ASP
                                 object prost_pred_smena_min = reader.GetValue(20);
                                 object dt = reader.GetValue(22);
 
-                                textbox.Text = string.Format("{0:0.#}", fact_setki);
-                                textbox5.Text = string.Format("{0:0.#}", fact_nakat);
-                                textbox7.Text = target_gramm.ToString();
-                                textbox13.Text = string.Format("{0:0.#}", fact_gramm);
-                                textbox9.Text = tek_break.ToString();
-                                textbox3.Text = Convert.ToString(target_god).Replace(" ", "");
-                                textbox21.Text = Convert.ToString(fact_god).Replace(" ", "");
-                                textbox23.Text = Convert.ToString(target_mes).Replace(" ", "");
-                                textbox25.Text = Convert.ToString(fact_mes).Replace(" ", "");
-                                textbox27.Text = Convert.ToString(target_smena).Replace(" ", "");
-                                textbox29.Text = Convert.ToString(tek_PRS).Replace(" ", "");
-                                textbox11.Text = pred_break.ToString();
+                                // Форматирование с единицами измерения
+                                textbox.Text = $"{string.Format("{0:0.#}", fact_setki)} м/мин";
+                                textbox5.Text = $"{string.Format("{0:0.#}", fact_nakat)} м/мин";
+                                textbox7.Text = $"{target_gramm} г/м²";
+                                textbox13.Text = $"{string.Format("{0:0.#}", fact_gramm)} г/м²";
+                                textbox9.Text = $"{tek_break} шт";
+                                textbox3.Text = Convert.ToString(target_god).Replace(" ", "") + " кг";
+                                textbox21.Text = Convert.ToString(fact_god).Replace(" ", "") + " кг";
+                                textbox23.Text = Convert.ToString(target_mes).Replace(" ", "") + " кг";
+                                textbox25.Text = Convert.ToString(fact_mes).Replace(" ", "") + " кг";
+                                textbox27.Text = Convert.ToString(target_smena).Replace(" ", "") + " кг";
+                                textbox29.Text = Convert.ToString(tek_PRS).Replace(" ", "") + " кг";
+                                textbox11.Text = $"{pred_break} шт";
 
                                 // Объединённое время работы БДМ за год
                                 int temp = Convert.ToInt32(prost_tek_god_chas.ToString()) * 60 + Convert.ToInt32(prost_tek_god_min.ToString());
@@ -126,7 +127,6 @@ namespace WEB_Scrin_ASP
                                 textbox37.Text = $"{prost_tek_mes_chas} ч {prost_tek_mes_min} мин";
                                 textbox41.Text = $"{prost_tek_smena_chas} ч {prost_tek_smena_min} мин";
                                 textbox45.Text = $"{prost_pred_smena_chas} ч {prost_pred_smena_min} мин";
-
                             }
                         }
                         reader.Close();
@@ -208,7 +208,7 @@ namespace WEB_Scrin_ASP
                         {
                             while (reader.Read())
                             {
-                                textbox16.Text = reader.GetValue(1).ToString();
+                                textbox16.Text = reader.GetValue(1).ToString() + " кг";
                             }
                         }
                         reader.Close();
@@ -216,23 +216,23 @@ namespace WEB_Scrin_ASP
 
                     if (Convert.ToInt32(otkl_god) > 0)
                     {
-                        textbox15.Text = String.Format("{0:0,0}", otkl_god);
+                        textbox15.Text = $"{Convert.ToInt32(otkl_god):N0} кг";
                         otkl_tek_god = Convert.ToInt32(otkl_god);
                     }
                     else
                     {
-                        textbox15.Text = String.Format("{0:0,0}", Convert.ToInt32(otkl_god) + Convert.ToInt32(temp_otkl_god));
+                        textbox15.Text = $"{Convert.ToInt32(otkl_god) + Convert.ToInt32(temp_otkl_god):N0} кг";
                         otkl_tek_god = Convert.ToInt32(otkl_god) + Convert.ToInt32(temp_otkl_god);
                     }
 
                     if (Convert.ToInt32(otkl_mes) > 0)
                     {
-                        textbox19.Text = String.Format("{0:0,0}", otkl_mes);
+                        textbox19.Text = $"{Convert.ToInt32(otkl_mes):N0} кг";
                         otkl_tek_mes = Convert.ToInt32(otkl_mes);
                     }
                     else
                     {
-                        textbox19.Text = String.Format("{0:0,0}", Convert.ToInt32(otkl_mes) + Convert.ToInt32(temp_otkl_mes));
+                        textbox19.Text = $"{Convert.ToInt32(otkl_mes) + Convert.ToInt32(temp_otkl_mes):N0} кг";
                         otkl_tek_mes = Convert.ToInt32(otkl_mes) + Convert.ToInt32(temp_otkl_mes);
                     }
                 }
@@ -248,21 +248,6 @@ namespace WEB_Scrin_ASP
             Counter += 1;
         }
 
-        protected void textbox31_TextChanged(object sender, EventArgs e)
-        {
-            // удалено
-        }
-
-        protected void textbox4_TextChanged(object sender, EventArgs e)
-        {
-            // удалено
-        }
-
-        protected void textbox46_TextChanged(object sender, EventArgs e)
-        {
-            // удалено
-        }
-
         protected void Page_LoadComplete(object sender, EventArgs e)
         {
             try
@@ -272,25 +257,23 @@ namespace WEB_Scrin_ASP
 
                 if (otkl_tek_mes < 0)
                 {
-                    textbox19.Text = String.Format("{0:0,0}", otkl_tek_mes);
+                    textbox19.Text = $"{otkl_tek_mes:N0} кг";
                     textbox19.CssClass = "textbox_otkl_red";
                 }
-                else if ((otkl_tek_mes > 0))
+                else if (otkl_tek_mes > 0)
                 {
-                    string plan_mes = String.Format("{0:0,0}", otkl_tek_mes);
-                    textbox19.Text = "+" + plan_mes;
+                    textbox19.Text = $"+{otkl_tek_mes:N0} кг";
                     textbox19.CssClass = "textbox_otkl_grin";
                 }
 
                 if (otkl_tek_god < 0)
                 {
-                    textbox15.Text = String.Format("{0:0,0}", otkl_tek_god);
+                    textbox15.Text = $"{otkl_tek_god:N0} кг";
                     textbox15.CssClass = "textbox_otkl_red";
                 }
-                else if ((otkl_tek_god > 0))
+                else if (otkl_tek_god > 0)
                 {
-                    string plan_god = String.Format("{0:0,0}", otkl_tek_god);
-                    textbox15.Text = "+ " + plan_god;
+                    textbox15.Text = $"+{otkl_tek_god:N0} кг";
                     textbox15.CssClass = "textbox_otkl_grin";
                 }
             }
