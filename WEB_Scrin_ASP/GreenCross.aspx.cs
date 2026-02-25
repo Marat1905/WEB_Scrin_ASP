@@ -232,20 +232,16 @@ namespace WEB_Scrin_ASP
                             if (isToday)
                                 cssClass += " today";
 
-                            string onClick;
+                            string onClick = "";
                             if (hasInjury)
                             {
                                 var injury = InjuriesMonth.First(inj => DateTime.Parse(inj.Date).Date == cellDate);
                                 string encodedType = HttpUtility.JavaScriptStringEncode(injury.Type);
                                 string encodedDesc = HttpUtility.JavaScriptStringEncode(injury.Description);
-                                onClick = $"showInfo({day}, true, \"{encodedType}\", \"{encodedDesc}\")";
-                            }
-                            else
-                            {
-                                onClick = $"showInfo({day}, false, \"\", \"\")";
+                                onClick = $" onclick='showInfo({day}, true, \"{encodedType}\", \"{encodedDesc}\")'";
                             }
 
-                            sb.AppendLine($"<div class='{cssClass}' onclick='{onClick}'>{day}</div>");
+                            sb.AppendLine($"<div class='{cssClass}'{onClick}>{day}</div>");
                         }
                         else
                         {
@@ -306,17 +302,13 @@ namespace WEB_Scrin_ASP
                     if (isToday)
                         cssClass += " today";
 
-                    string onClick;
+                    string onClick = "";
                     if (hasInjury)
                     {
                         var injury = InjuriesYear.First(inj => DateTime.Parse(inj.Date).Date == cellDate);
                         string encodedType = HttpUtility.JavaScriptStringEncode(injury.Type);
                         string encodedDesc = HttpUtility.JavaScriptStringEncode(injury.Description);
                         onClick = $" onclick='showInfo({d}, true, \"{encodedType}\", \"{encodedDesc}\")'";
-                    }
-                    else
-                    {
-                        onClick = $" onclick='showInfo({d}, false, \"\", \"\")'";
                     }
 
                     sb.AppendLine($"<div class='{cssClass}'{onClick}>{d}</div>");
