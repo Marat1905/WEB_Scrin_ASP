@@ -236,11 +236,13 @@ namespace WEB_Scrin_ASP
                             if (hasInjury)
                             {
                                 var injury = InjuriesMonth.First(inj => DateTime.Parse(inj.Date).Date == cellDate);
-                                onClick = $"showInfo({day}, true, '{HttpUtility.HtmlAttributeEncode(injury.Type)}', '{HttpUtility.HtmlAttributeEncode(injury.Description)}')";
+                                string encodedType = HttpUtility.JavaScriptStringEncode(injury.Type);
+                                string encodedDesc = HttpUtility.JavaScriptStringEncode(injury.Description);
+                                onClick = $"showInfo({day}, true, \"{encodedType}\", \"{encodedDesc}\")";
                             }
                             else
                             {
-                                onClick = $"showInfo({day}, false, '', '')";
+                                onClick = $"showInfo({day}, false, \"\", \"\")";
                             }
 
                             sb.AppendLine($"<div class='{cssClass}' onclick='{onClick}'>{day}</div>");
@@ -308,7 +310,9 @@ namespace WEB_Scrin_ASP
                     if (hasInjury)
                     {
                         var injury = InjuriesYear.First(inj => DateTime.Parse(inj.Date).Date == cellDate);
-                        onClick = $" onclick='showInfo({d}, true, \"{HttpUtility.HtmlAttributeEncode(injury.Type)}\", \"{HttpUtility.HtmlAttributeEncode(injury.Description)}\")'";
+                        string encodedType = HttpUtility.JavaScriptStringEncode(injury.Type);
+                        string encodedDesc = HttpUtility.JavaScriptStringEncode(injury.Description);
+                        onClick = $" onclick='showInfo({d}, true, \"{encodedType}\", \"{encodedDesc}\")'";
                     }
                     else
                     {
