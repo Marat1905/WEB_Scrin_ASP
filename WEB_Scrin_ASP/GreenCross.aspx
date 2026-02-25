@@ -55,7 +55,7 @@
             min-height: 0;
         }
 
-        /* Левая колонка – статистика */
+        /* Левая колонка – статистика (с прокруткой) */
         .stats-panel {
             flex: 1 1 25%;
             background: rgba(30, 40, 60, 0.6);
@@ -414,6 +414,38 @@
             .stat-value { font-size: 3vh; }
             .cell { font-size: 2vh; }
         }
+
+        /* ===== КАСТОМНЫЙ СКРОЛЛБАР ДЛЯ ПРОКРУЧИВАЕМЫХ ОБЛАСТЕЙ ===== */
+        .stats-panel::-webkit-scrollbar,
+        .visual-content::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .stats-panel::-webkit-scrollbar-track,
+        .visual-content::-webkit-scrollbar-track {
+            background: #2a2f3f;
+            border-radius: 10px;
+        }
+
+        .stats-panel::-webkit-scrollbar-thumb,
+        .visual-content::-webkit-scrollbar-thumb {
+            background: #4a4f5f;
+            border-radius: 10px;
+            border: 2px solid #2a2f3f;
+        }
+
+        .stats-panel::-webkit-scrollbar-thumb:hover,
+        .visual-content::-webkit-scrollbar-thumb:hover {
+            background: #5a6a8a;
+        }
+
+        /* Firefox */
+        .stats-panel,
+        .visual-content {
+            scrollbar-width: thin;
+            scrollbar-color: #4a4f5f #2a2f3f;
+        }
     </style>
 </asp:Content>
 
@@ -507,7 +539,6 @@
 
     <!-- ScriptManager -->
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
-
 
     <asp:HiddenField ID="hfMonthName" runat="server" />
     <script type="text/javascript">

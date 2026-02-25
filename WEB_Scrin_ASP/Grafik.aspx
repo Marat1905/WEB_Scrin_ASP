@@ -137,6 +137,33 @@
                 font-size: 1.4vh;
             }
         }
+
+        /* ===== КАСТОМНЫЙ СКРОЛЛБАР ДЛЯ .grafik-tables ===== */
+        .grafik-tables::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .grafik-tables::-webkit-scrollbar-track {
+            background: #2a2f3f;
+            border-radius: 10px;
+        }
+
+        .grafik-tables::-webkit-scrollbar-thumb {
+            background: #4a4f5f;
+            border-radius: 10px;
+            border: 2px solid #2a2f3f;
+        }
+
+        .grafik-tables::-webkit-scrollbar-thumb:hover {
+            background: #5a6a8a;
+        }
+
+        /* Firefox */
+        .grafik-tables {
+            scrollbar-width: thin;
+            scrollbar-color: #4a4f5f #2a2f3f;
+        }
     </style>
 </asp:Content>
 
