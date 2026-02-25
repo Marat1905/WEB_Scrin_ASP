@@ -20,6 +20,7 @@ namespace WEB_Scrin_ASP
         // Данные
         private List<InjuryDto> InjuriesMonth { get; set; } = new List<InjuryDto>();
         private List<InjuryDto> InjuriesYear { get; set; } = new List<InjuryDto>();
+        private InjuryDto LatestInjury { get; set; } = null; // последняя травма (глобально)
 
         // Статистика
         public int MonthInjuriesCount => InjuriesMonth?.Count ?? 0;
@@ -97,6 +98,19 @@ namespace WEB_Scrin_ASP
                         InjuriesYear = JsonConvert.DeserializeObject<List<InjuryDto>>(jsonYear) ?? new List<InjuryDto>();
                     }
 
+                    // Запрос последней травмы (глобально)
+                    string latestUrl = "safety/injuries/latest";
+                    var responseLatest = await client.GetAsync(latestUrl);
+                    if (responseLatest.IsSuccessStatusCode)
+                    {
+                        var jsonLatest = await responseLatest.Content.ReadAsStringAsync();
+                        LatestInjury = JsonConvert.DeserializeObject<InjuryDto>(jsonLatest);
+                    }
+                    else
+                    {
+                        LatestInjury = null; // 404 или ошибка – нет травм
+                    }
+
                     // Вычисляем статистику
                     CalculateStats();
                 }
@@ -113,58 +127,33 @@ namespace WEB_Scrin_ASP
 
         private void CalculateStats()
         {
-            int year = CurrentDate.Year;
             DateTime today = DateTime.Today;
-            DateTime endDate;
+            DateTime yesterday = today.AddDays(-1);
 
-            if (year == today.Year)
+            if (LatestInjury == null)
             {
-                // Не включаем сегодняшний день – берём вчера
-                endDate = today.AddDays(-1);
-            }
-            else if (year < today.Year)
-            {
-                // Прошедший год – последний день года
-                endDate = new DateTime(year, 12, 31);
-            }
-            else
-            {
-                // Будущий год (не должен встречаться в статистике) – для безопасности берём конец года
-                endDate = new DateTime(year, 12, 31);
-            }
-
-            if (InjuriesYear == null || InjuriesYear.Count == 0)
-            {
-                // Нет травм – считаем полные дни с начала года до endDate включительно
-                DateTime startOfYear = new DateTime(year, 1, 1);
-                if (endDate < startOfYear)
-                {
-                    // Например, сегодня 1 января, тогда endDate – 31 декабря прошлого года
-                    DaysWithoutInjury = 0;
-                }
-                else
-                {
-                    DaysWithoutInjury = (int)(endDate - startOfYear).TotalDays + 1;
-                }
+                // Травм не было вообще
+                DaysWithoutInjury = 0;
                 LastInjuryDateStr = "";
             }
             else
             {
-                // Последняя травма в выбранном году
-                var lastInjury = InjuriesYear
-                    .Select(i => DateTime.Parse(i.Date).Date)
-                    .Max();
+                DateTime lastDate = DateTime.Parse(LatestInjury.Date).Date;
 
-                if (lastInjury > endDate)
+                if (lastDate > yesterday)
                 {
-                    // Травма произошла сегодня или позже endDate (например, сегодня, а endDate = вчера)
+                    // Последняя травма сегодня или позже (если данные из будущего – не должно быть)
                     DaysWithoutInjury = 0;
                 }
                 else
                 {
-                    DaysWithoutInjury = (int)(endDate - lastInjury).TotalDays;
+                    // Количество полных дней между lastDate и yesterday включительно
+                    // Если lastDate = вчера, то разница = 1 день, но мы хотим 0 дней без травм,
+                    // поэтому вычитаем 1, как в React.
+                    DaysWithoutInjury = (int)(yesterday - lastDate).TotalDays;
                 }
-                LastInjuryDateStr = lastInjury.ToString("dd.MM.yyyy");
+
+                LastInjuryDateStr = lastDate.ToString("dd.MM.yyyy");
             }
         }
 
@@ -240,6 +229,11 @@ namespace WEB_Scrin_ASP
                                 string encodedDesc = HttpUtility.JavaScriptStringEncode(injury.Description);
                                 onClick = $" onclick='showInfo({day}, true, \"{encodedType}\", \"{encodedDesc}\")'";
                             }
+                            else if (!isFuture)
+                            {
+                                // День без травмы – можно показать информацию (нет травмы)
+                                onClick = $" onclick='showInfo({day}, false, \"\", \"\")'";
+                            }
 
                             sb.AppendLine($"<div class='{cssClass}'{onClick}>{day}</div>");
                         }
@@ -309,6 +303,11 @@ namespace WEB_Scrin_ASP
                         string encodedType = HttpUtility.JavaScriptStringEncode(injury.Type);
                         string encodedDesc = HttpUtility.JavaScriptStringEncode(injury.Description);
                         onClick = $" onclick='showInfo({d}, true, \"{encodedType}\", \"{encodedDesc}\")'";
+                    }
+                    else if (!isFuture)
+                    {
+                        // День без травмы
+                        onClick = $" onclick='showInfo({d}, false, \"\", \"\")'";
                     }
 
                     sb.AppendLine($"<div class='{cssClass}'{onClick}>{d}</div>");
