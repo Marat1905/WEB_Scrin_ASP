@@ -118,27 +118,52 @@ namespace WEB_Scrin_ASP
             DateTime endDate;
 
             if (year == today.Year)
-                endDate = today;
+            {
+                // Не включаем сегодняшний день – берём вчера
+                endDate = today.AddDays(-1);
+            }
             else if (year < today.Year)
+            {
+                // Прошедший год – последний день года
                 endDate = new DateTime(year, 12, 31);
+            }
             else
-                endDate = new DateTime(year, 12, 31); // будущий год (не должен встречаться)
+            {
+                // Будущий год (не должен встречаться в статистике) – для безопасности берём конец года
+                endDate = new DateTime(year, 12, 31);
+            }
 
             if (InjuriesYear == null || InjuriesYear.Count == 0)
             {
-                // Нет травм – считаем с начала года до endDate
+                // Нет травм – считаем полные дни с начала года до endDate включительно
                 DateTime startOfYear = new DateTime(year, 1, 1);
-                DaysWithoutInjury = (int)(endDate - startOfYear).TotalDays + 1; // включая первый день
+                if (endDate < startOfYear)
+                {
+                    // Например, сегодня 1 января, тогда endDate – 31 декабря прошлого года
+                    DaysWithoutInjury = 0;
+                }
+                else
+                {
+                    DaysWithoutInjury = (int)(endDate - startOfYear).TotalDays + 1;
+                }
                 LastInjuryDateStr = "";
             }
             else
             {
-                // Последняя травма
+                // Последняя травма в выбранном году
                 var lastInjury = InjuriesYear
                     .Select(i => DateTime.Parse(i.Date).Date)
                     .Max();
-                if (lastInjury > endDate) lastInjury = endDate;
-                DaysWithoutInjury = (int)(endDate - lastInjury).TotalDays;
+
+                if (lastInjury > endDate)
+                {
+                    // Травма произошла сегодня или позже endDate (например, сегодня, а endDate = вчера)
+                    DaysWithoutInjury = 0;
+                }
+                else
+                {
+                    DaysWithoutInjury = (int)(endDate - lastInjury).TotalDays;
+                }
                 LastInjuryDateStr = lastInjury.ToString("dd.MM.yyyy");
             }
         }
