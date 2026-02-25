@@ -1,4 +1,4 @@
-﻿/* Общие сбросы */
+﻿﻿ /* Общие сбросы */
 html, body {
     height: 100%;
     margin: 0;
@@ -76,23 +76,37 @@ html, body {
         display: block;
     }
 
-@media (max-width: 768px) {
+/* Исправленный медиа-запрос для мобильных устройств — меню в одну строку с прокруткой */
+@media (max-width: 1280px) {
     #navbar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 2px;
+        flex-direction: row; /* горизонтальное направление */
+        flex-wrap: nowrap; /* запрет переноса строк */
+        overflow-x: auto; /* горизонтальный скролл при необходимости */
+        -webkit-overflow-scrolling: touch; /* плавный скролл на iOS */
+        justify-content: flex-start;
+        align-items: center;
+        gap: 4px;
+        padding: 5px 10px;
+        /* скрываем полосу прокрутки для аккуратного вида (опционально) */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
     }
 
+        #navbar::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
         #navbar li {
-            flex: 1 1 auto;
-            width: 100%;
+            flex: 0 0 auto; /* элементы не растягиваются, ширина по содержимому */
+            width: auto;
         }
 
             #navbar li a {
-                width: 100%;
-                text-align: left;
-                padding: 12px 15px;
-                font-size: 18px;
+                width: auto;
+                text-align: center;
+                padding: 8px 10px;
+                font-size: 16px;
+                white-space: nowrap; /* текст в одну строку */
             }
 }
 
