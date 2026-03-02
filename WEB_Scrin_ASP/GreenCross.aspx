@@ -21,8 +21,8 @@
             display: flex;
             flex-direction: column;
             background: linear-gradient(145deg, #0a0f1e 0%, #1a1f2f 100%);
-            padding: 1dvh 1vw;          /* изменено с 1vh на 1dvh */
-            gap: 1dvh;                   /* изменено с 1vh на 1dvh */
+            padding: 1dvh 1vw;
+            gap: 1dvh;
             overflow: hidden;
             color: #fff;
         }
@@ -30,7 +30,7 @@
         /* Статусная строка */
         .status-bar {
             flex: 0 0 auto;
-            height: 7dvh;                /* изменено с 7vh на 7dvh */
+            height: 7dvh;
             min-height: 40px;
         }
 
@@ -38,7 +38,7 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            font-size: 3dvh;              /* изменено с 3vh на 3dvh */
+            font-size: 3dvh;
             font-weight: bold;
             border: none;
             border-radius: 8px;
@@ -61,24 +61,24 @@
             background: rgba(30, 40, 60, 0.6);
             backdrop-filter: blur(8px);
             border-radius: 24px;
-            padding: 2dvh 1vw;            /* изменено с 2vh на 2dvh */
+            padding: 2dvh 1vw;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.1);
             display: flex;
             flex-direction: column;
-            gap: 2dvh;                    /* изменено с 2vh на 2dvh */
+            gap: 2dvh;
             overflow-y: auto;
         }
 
         .stats-title {
-            font-size: 2.2dvh;            /* изменено с 2.2vh на 2.2dvh */
+            font-size: 2.2dvh;
             font-weight: 600;
             color: #ffd966;
             display: flex;
             align-items: center;
             gap: 0.5vw;
             border-bottom: 1px solid #3a4a6a;
-            padding-bottom: 1dvh;          /* изменено с 1vh на 1dvh */
+            padding-bottom: 1dvh;
         }
 
         .stat-item {
@@ -88,14 +88,14 @@
         }
 
         .stat-icon {
-            width: 5dvh;                   /* изменено с 5vh на 5dvh */
-            height: 5dvh;                  /* изменено с 5vh на 5dvh */
+            width: 5dvh;
+            height: 5dvh;
             background: #1e3a5f;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5dvh;             /* изменено с 2.5vh на 2.5dvh */
+            font-size: 2.5dvh;
             color: #ffd966;
         }
 
@@ -104,19 +104,19 @@
         }
 
         .stat-label {
-            font-size: 1.8dvh;             /* изменено с 1.8vh на 1.8dvh */
+            font-size: 1.8dvh;
             color: #b0b7d0;
         }
 
         .stat-value {
-            font-size: 3.5dvh;             /* изменено с 3.5vh на 3.5dvh */
+            font-size: 3.5dvh;
             font-weight: 700;
             color: #fff;
             line-height: 1.2;
         }
 
         .stat-note {
-            font-size: 1.6dvh;             /* изменено с 1.6vh на 1.6dvh */
+            font-size: 1.6dvh;
             color: #b0b7d0;
         }
 
@@ -124,7 +124,7 @@
             margin-top: auto;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 16px;
-            padding: 1.5dvh 1vw;           /* изменено с 1.5vh на 1.5dvh */
+            padding: 1.5dvh 1vw;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
@@ -132,14 +132,14 @@
             display: flex;
             align-items: center;
             gap: 0.8vw;
-            margin-bottom: 1dvh;           /* изменено с 1vh на 1dvh */
-            font-size: 1.8dvh;             /* изменено с 1.8vh на 1.8dvh */
+            margin-bottom: 1dvh;
+            font-size: 1.8dvh;
             color: #b0b7d0;
         }
 
         .legend-color {
-            width: 2.5dvh;                 /* изменено с 2.5vh на 2.5dvh */
-            height: 2.5dvh;                /* изменено с 2.5vh на 2.5dvh */
+            width: 2.5dvh;
+            height: 2.5dvh;
             border-radius: 6px;
         }
 
@@ -154,7 +154,7 @@
             background: rgba(30, 40, 60, 0.6);
             backdrop-filter: blur(8px);
             border-radius: 24px;
-            padding: 2dvh 1vw;            /* изменено с 2vh на 2dvh */
+            padding: 2dvh 1vw;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.1);
             display: flex;
@@ -168,7 +168,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1dvh;           /* изменено с 1vh на 1dvh */
+            margin-bottom: 1dvh;
             padding: 0 0.5vw;
         }
 
@@ -182,8 +182,8 @@
             background: #2a2f3f;
             border: 1px solid #3a4a6a;
             border-radius: 12px;
-            padding: 0.6dvh 1vw;           /* изменено с 0.6vh на 0.6dvh */
-            font-size: 2dvh;               /* изменено с 2vh на 2dvh */
+            padding: 0.6dvh 1vw;
+            font-size: 2dvh;
             font-weight: 600;
             color: #fff;
             cursor: pointer;
@@ -200,7 +200,7 @@
         }
 
         .current-date {
-            font-size: 2.2dvh;             /* изменено с 2.2vh на 2.2dvh */
+            font-size: 2.2dvh;
             font-weight: 700;
             color: #ffd966;
             min-width: 12vw;
@@ -216,10 +216,10 @@
         }
 
         .mode-btn {
-            padding: 0.6dvh 1.2vw;         /* изменено с 0.6vh на 0.6dvh */
+            padding: 0.6dvh 1.2vw;
             border: none;
             border-radius: 10px;
-            font-size: 2dvh;               /* изменено с 2vh на 2dvh */
+            font-size: 2dvh;
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
@@ -244,10 +244,10 @@
         .cross-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 0.6dvh;                  /* изменено с 0.6vh на 0.6dvh */
+            gap: 0.6dvh;
             aspect-ratio: 1 / 1;
             width: 100%;
-            max-width: min(65dvh, 100%);   /* адаптивное ограничение */
+            max-width: min(65dvh, 100%);
             margin: 0 auto;
         }
 
@@ -258,7 +258,7 @@
             justify-content: center;
             border-radius: 12px;
             font-weight: 700;
-            font-size: clamp(1.2rem, 2.2dvh, 2rem); /* динамический размер */
+            font-size: clamp(1.2rem, 2.2dvh, 2rem);
             color: white;
             cursor: pointer;
             transition: transform 0.1s, box-shadow 0.1s;
@@ -293,32 +293,32 @@
         .year-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1.5dvh 1vw;              /* изменено с 1.5vh на 1.5dvh */
+            gap: 1.5dvh 1vw;
             width: 100%;
         }
 
         .month-card {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 16px;
-            padding: 1dvh 0.5vw;           /* изменено с 1vh на 1dvh */
+            padding: 1dvh 0.5vw;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
         .month-name {
-            font-size: 1.8dvh;             /* изменено с 1.8vh на 1.8dvh */
+            font-size: 1.8dvh;
             font-weight: 600;
             text-align: center;
             color: #ffd966;
-            margin-bottom: 0.8dvh;         /* изменено с 0.8vh на 0.8dvh */
+            margin-bottom: 0.8dvh;
         }
 
         .month-weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            font-size: 1.2dvh;             /* изменено с 1.2vh на 1.2dvh */
+            font-size: 1.2dvh;
             color: #b0b7d0;
             text-align: center;
-            margin-bottom: 0.5dvh;         /* изменено с 0.5vh на 0.5dvh */
+            margin-bottom: 0.5dvh;
         }
 
         .month-days {
@@ -332,7 +332,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(0.8rem, 1.8dvh, 1.4rem); /* динамический размер */
+            font-size: clamp(0.8rem, 1.8dvh, 1.4rem);
             font-weight: 500;
             border-radius: 4px;
             color: white;
@@ -361,7 +361,7 @@
         .modal-content {
             background: #1a1f2f;
             border-radius: 24px;
-            padding: 2dvh 2vw;            /* изменено с 2vh на 2dvh */
+            padding: 2dvh 2vw;
             max-width: 40vw;
             width: 90%;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
@@ -374,19 +374,19 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #3a4a6a;
-            padding-bottom: 1dvh;          /* изменено с 1vh на 1dvh */
-            margin-bottom: 2dvh;           /* изменено с 2vh на 2dvh */
+            padding-bottom: 1dvh;
+            margin-bottom: 2dvh;
         }
 
         .modal-header h3 {
-            font-size: 2.5dvh;             /* изменено с 2.5vh на 2.5dvh */
+            font-size: 2.5dvh;
             color: #ffd966;
         }
 
         .close-btn {
             background: none;
             border: none;
-            font-size: 3dvh;               /* изменено с 3vh на 3dvh */
+            font-size: 3dvh;
             cursor: pointer;
             color: #b0b7d0;
         }
@@ -396,13 +396,13 @@
         }
 
         .modal-body {
-            font-size: 2dvh;               /* изменено с 2vh на 2dvh */
+            font-size: 2dvh;
             line-height: 1.5;
             color: #b0b7d0;
         }
 
         .modal-body p {
-            margin-bottom: 1dvh;           /* изменено с 1vh на 1dvh */
+            margin-bottom: 1dvh;
         }
 
         .modal-body strong {
@@ -411,17 +411,16 @@
 
         /* Адаптация */
         @media (max-width: 1280px) {
-            .stat-value { font-size: 3dvh; }      /* изменено с 3vh на 3dvh */
-            .cell { font-size: clamp(1rem, 2dvh, 1.8rem); } /* уточнение */
+            .stat-value { font-size: 3dvh; }
+            .cell { font-size: clamp(1rem, 2dvh, 1.8rem); }
         }
 
-        /* Дополнительный медиа-запрос для очень маленьких экранов */
         @media (max-width: 480px) {
             .cross-grid {
-                gap: 0.3dvh;               /* уменьшенный gap */
+                gap: 0.3dvh;
             }
             .cell {
-                font-size: 1.8dvh;          /* фиксированный минимум */
+                font-size: 1.8dvh;
             }
         }
 
@@ -550,12 +549,13 @@
     <!-- ScriptManager -->
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
+    <!-- Скрытое поле можно оставить или удалить – оно не используется -->
     <asp:HiddenField ID="hfMonthName" runat="server" />
-    <script type="text/javascript">
-        var monthName = '<%= CurrentDate.ToString("MMMM", new System.Globalization.CultureInfo("ru-RU")) %>';
 
-        function showInfo(day, hasInjury, type, desc) {
-            document.getElementById('modal-date').innerText = day + ' ' + monthName;
+    <script type="text/javascript">
+        // Функция отображения модального окна с полной строкой даты
+        function showInfo(dateStr, hasInjury, type, desc) {
+            document.getElementById('modal-date').innerText = dateStr;
             if (hasInjury) {
                 document.getElementById('modal-type').innerText = type;
                 document.getElementById('modal-desc').innerText = desc;
