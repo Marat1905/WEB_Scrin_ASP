@@ -33,13 +33,22 @@ namespace WEB_Scrin_ASP
         protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// RepeaterBirthdays элемент управления.
+        /// RepeaterLeft элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически созданное поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterBirthdays;
+        protected global::System.Web.UI.WebControls.Repeater RepeaterLeft;
+
+        /// <summary>
+        /// RepeaterRight элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически созданное поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterRight;
 
         /// <summary>
         /// ScriptManager1 элемент управления.

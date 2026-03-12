@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Screen.Master" AutoEventWireup="true" CodeBehind="Birthday.aspx.cs" Inherits="WEB_Scrin_ASP.Birthday" Async="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        /* Стили, специфичные для страницы дней рождения */
+        /* Контейнер всей страницы */
         .birthday-container {
             height: 100%;
             display: flex;
@@ -12,15 +12,15 @@
             padding: 1vh 1vw;
             box-sizing: border-box;
             gap: 1vh;
+            overflow: hidden;
         }
 
-        /* Статусная строка (единый стиль с другими страницами) */
+        /* Статусная строка */
         .status-bar {
             flex: 0 0 auto;
             height: 7vh;
             min-height: 40px;
         }
-
         .status-text {
             width: 100%;
             height: 100%;
@@ -34,6 +34,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
+        /* Заголовок */
         .birthday-header {
             flex: 0 0 auto;
             text-align: center;
@@ -46,61 +47,87 @@
             margin-bottom: 1vh;
         }
 
-        .birthday-grid {
+        /* Ряд с двумя колонками */
+        .birthday-row {
             flex: 1;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1vh 1vw;
+            display: flex;
+            flex-direction: row;
+            gap: 1vw;
+            min-height: 0;  /* необходимо для правильного расчёта высоты */
             overflow: hidden;
-            min-height: 0;
         }
 
+        /* Каждая колонка – flex-контейнер с вертикальным направлением */
+        .birthday-column {
+            flex: 1 1 0;          /* равная ширина */
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* Карточка именинника */
         .birthday-card {
+            flex: 1 1 0;           /* равномерное распределение по высоте внутри колонки */
+            display: flex;
+            align-items: center;
             background: rgba(30, 40, 60, 0.6);
             backdrop-filter: blur(4px);
             border-radius: 16px;
-            padding: 1vh 1vw;
-            display: flex;
-            align-items: center;
+            padding: 0.5vh 1vw;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-            height: 100%;
             box-sizing: border-box;
+            overflow: hidden;
         }
-
         .birthday-card:nth-child(odd) {
             background: rgba(40, 50, 70, 0.7);
         }
 
+        /* Именинник: значок */
         .birthday-icon {
-            font-size: clamp(1.2rem, 3vh, 2rem);
-            margin-right: 1vw;
+            font-size: clamp(1.5rem, 3vh, 2.5rem);
+            margin-right: 0.8vw;
             color: #ffb347;
+            flex-shrink: 0;
         }
 
+        /* Имя: занимает оставшееся место, обрезается с многоточием */
         .birthday-name {
-            font-size: clamp(0.9rem, 2.2vh, 1.4rem);
+            font-size: clamp(1rem, 2.2vh, 1.4rem);
             font-weight: 500;
             color: #ffffff;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            flex: 1;
+            flex: 1 1 auto;
+            line-height: 1.2;
         }
 
+        /* Дата: фиксированной ширины */
         .birthday-date {
-            font-size: clamp(0.8rem, 2vh, 1.2rem);
+            font-size: clamp(0.9rem, 2vh, 1.2rem);
             font-weight: 400;
             color: #a0b0c0;
             margin-left: 1vw;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        /* Адаптация для очень маленьких экранов */
+        /* Адаптация для узких экранов */
         @media (max-width: 768px) {
-            .birthday-grid {
-                grid-template-columns: 1fr;
+            .birthday-card {
+                padding: 0.3vh 2vw;
+            }
+            .birthday-name {
+                font-size: clamp(0.8rem, 1.8vh, 1rem);
+            }
+            .birthday-date {
+                font-size: clamp(0.7rem, 1.6vh, 0.9rem);
+            }
+            .birthday-icon {
+                font-size: clamp(1.2rem, 2.5vh, 2rem);
             }
         }
     </style>
@@ -108,25 +135,43 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <div class="birthday-container">
-        <!-- СТАТУСНАЯ СТРОКА БДМ (добавлено) -->
+        <!-- СТАТУСНАЯ СТРОКА -->
         <div class="status-bar">
             <asp:TextBox ID="textbox200" CssClass="status-text" runat="server" ReadOnly="True" />
         </div>
 
+        <!-- ЗАГОЛОВОК -->
         <div class="birthday-header">
-            <asp:Label ID="Label1" runat="server" CssClass="" Text="" />
+            <asp:Label ID="Label1" runat="server" Text="" />
         </div>
 
-        <div class="birthday-grid">
-            <asp:Repeater ID="RepeaterBirthdays" runat="server">
-                <ItemTemplate>
-                    <div class="birthday-card">
-                        <span class="birthday-icon">🎂</span>
-                        <span class="birthday-name"><%# Eval("FullName") %></span>
-                        <span class="birthday-date"><%# Eval("DisplayDate") %></span>
-                    </div>
-                </ItemTemplate>
-            </asp:Repeater>
+        <!-- ДВЕ КОЛОНКИ -->
+        <div class="birthday-row">
+            <!-- Левая колонка -->
+            <div class="birthday-column">
+                <asp:Repeater ID="RepeaterLeft" runat="server">
+                    <ItemTemplate>
+                        <div class="birthday-card">
+                            <span class="birthday-icon">🎂</span>
+                            <span class="birthday-name"><%# Eval("FullName") %></span>
+                            <span class="birthday-date"><%# Eval("DisplayDate") %></span>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
+
+            <!-- Правая колонка -->
+            <div class="birthday-column">
+                <asp:Repeater ID="RepeaterRight" runat="server">
+                    <ItemTemplate>
+                        <div class="birthday-card">
+                            <span class="birthday-icon">🎂</span>
+                            <span class="birthday-name"><%# Eval("FullName") %></span>
+                            <span class="birthday-date"><%# Eval("DisplayDate") %></span>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
         </div>
     </div>
 

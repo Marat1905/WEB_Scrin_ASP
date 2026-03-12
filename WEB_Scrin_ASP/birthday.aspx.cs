@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;                // добавлено для разделения списка
 using System.Web.UI.WebControls;
 
 namespace WEB_Scrin_ASP
 {
-    public partial class Birthday : BasePage   // изменено с System.Web.UI.Page на BasePage
+    public partial class Birthday : BasePage   // наследуем от BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -59,8 +60,15 @@ namespace WEB_Scrin_ASP
                         reader.Close();
                     }
 
-                    RepeaterBirthdays.DataSource = birthdays;
-                    RepeaterBirthdays.DataBind();
+                    // Разделяем список на две колонки
+                    int total = birthdays.Count;
+                    int mid = (total + 1) / 2;   // левая колонка получает на одного больше при нечётном количестве
+
+                    RepeaterLeft.DataSource = birthdays.Take(mid).ToList();
+                    RepeaterLeft.DataBind();
+
+                    RepeaterRight.DataSource = birthdays.Skip(mid).ToList();
+                    RepeaterRight.DataBind();
                 }
                 catch (Exception ex)
                 {
@@ -70,8 +78,7 @@ namespace WEB_Scrin_ASP
             }
         }
 
-
-        // Добавлен обработчик Page_LoadComplete для обновления статусной строки
+        // Обработчик Page_LoadComplete для обновления статусной строки
         protected void Page_LoadComplete(object sender, EventArgs e)
         {
             // Обновляем статусную строку через базовый метод
