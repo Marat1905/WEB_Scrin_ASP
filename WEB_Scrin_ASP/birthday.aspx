@@ -38,7 +38,7 @@
         .birthday-header {
             flex: 0 0 auto;
             text-align: center;
-            font-size: clamp(1.8rem, 5vh, 3rem);
+            font-size: clamp(1.8rem, 3.5vh, 2.5rem);
             font-weight: 600;
             color: #ffd966;
             text-shadow: 0 0 10px rgba(255, 220, 100, 0.5);
