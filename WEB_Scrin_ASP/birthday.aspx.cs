@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;                // добавлено для разделения списка
+using System.Linq;                // для разделения списка
 using System.Web.UI.WebControls;
 
 namespace WEB_Scrin_ASP
@@ -16,8 +16,8 @@ namespace WEB_Scrin_ASP
 
             if (DateTime.Now.Year < 2050)
             {
-                DateTime date = DateTime.Now;
-                int month = date.Month;
+                DateTime today = DateTime.Now;
+                int month = today.Month;
 
                 // Устанавливаем заголовок в зависимости от месяца (предложный падеж)
                 string[] monthNamesPrepositional = {
@@ -51,10 +51,14 @@ namespace WEB_Scrin_ASP
                             // Форматируем дату: "7 февраля" (родительный падеж)
                             string displayDate = dbDate.ToString("d MMMM", ruCulture);
 
+                            // Проверяем, сегодня ли день рождения (совпадение дня и месяца)
+                            bool isToday = (dbDate.Day == today.Day && dbDate.Month == today.Month);
+
                             birthdays.Add(new BirthdayItem
                             {
                                 FullName = fio,
-                                DisplayDate = displayDate
+                                DisplayDate = displayDate,
+                                IsToday = isToday
                             });
                         }
                         reader.Close();
@@ -90,6 +94,7 @@ namespace WEB_Scrin_ASP
         {
             public string FullName { get; set; }
             public string DisplayDate { get; set; }
+            public bool IsToday { get; set; }
         }
     }
 }

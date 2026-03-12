@@ -67,7 +67,7 @@
             overflow: hidden;
         }
 
-        /* Карточка именинника */
+        /* Карточка именинника (обычная) */
         .birthday-card {
             flex: 1 1 0;           /* равномерное распределение по высоте внутри колонки */
             display: flex;
@@ -80,14 +80,31 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             box-sizing: border-box;
             overflow: hidden;
+            transition: all 0.2s ease;
         }
         .birthday-card:nth-child(odd) {
             background: rgba(40, 50, 70, 0.7);
         }
 
+        /* Выделение для сегодняшних именинников – без изменения размеров */
+        .birthday-today {
+            border: 1px solid #ffd966;           /* золотая рамка, но той же толщины */
+            background: rgba(70, 90, 140, 0.9);   /* более светлый фон */
+            box-shadow: inset 0 0 12px rgba(255, 215, 0, 0.4); /* внутреннее свечение */
+            transform: none;                       /* отключаем масштабирование */
+        }
+        .birthday-today .birthday-name {
+            font-weight: 700;
+            color: #fff3c9;
+        }
+        .birthday-today .birthday-icon {
+            color: #ffaa00;
+            text-shadow: 0 0 8px #ffaa00;
+        }
+
         /* Именинник: значок */
         .birthday-icon {
-            font-size: clamp(1.5rem, 3vh, 2.5rem);
+            font-size: clamp(1.5rem, 2.5vh, 2rem);
             margin-right: 0.8vw;
             color: #ffb347;
             flex-shrink: 0;
@@ -151,7 +168,7 @@
             <div class="birthday-column">
                 <asp:Repeater ID="RepeaterLeft" runat="server">
                     <ItemTemplate>
-                        <div class="birthday-card">
+                        <div class="birthday-card <%# (bool)Eval("IsToday") ? "birthday-today" : "" %>">
                             <span class="birthday-icon">🎂</span>
                             <span class="birthday-name"><%# Eval("FullName") %></span>
                             <span class="birthday-date"><%# Eval("DisplayDate") %></span>
@@ -164,7 +181,7 @@
             <div class="birthday-column">
                 <asp:Repeater ID="RepeaterRight" runat="server">
                     <ItemTemplate>
-                        <div class="birthday-card">
+                        <div class="birthday-card <%# (bool)Eval("IsToday") ? "birthday-today" : "" %>">
                             <span class="birthday-icon">🎂</span>
                             <span class="birthday-name"><%# Eval("FullName") %></span>
                             <span class="birthday-date"><%# Eval("DisplayDate") %></span>
