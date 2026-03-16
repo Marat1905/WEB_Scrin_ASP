@@ -104,7 +104,7 @@
 
         /* Именинник: значок */
         .birthday-icon {
-            font-size: clamp(1.5rem, 2.5vh, 2rem);
+            font-size: clamp(1.0rem, 2.5vh, 2rem);
             margin-right: 0.8vw;
             color: #ffb347;
             flex-shrink: 0;
@@ -112,7 +112,7 @@
 
         /* Имя: занимает оставшееся место, обрезается с многоточием */
         .birthday-name {
-            font-size: clamp(1rem, 2.2vh, 1.4rem);
+            font-size: clamp(0.9rem, 2.2vh, 1.4rem);
             font-weight: 500;
             color: #ffffff;
             white-space: nowrap;
@@ -124,7 +124,7 @@
 
         /* Дата: фиксированной ширины */
         .birthday-date {
-            font-size: clamp(0.9rem, 2vh, 1.2rem);
+            font-size: clamp(0.8rem, 2vh, 1.2rem);
             font-weight: 400;
             color: #a0b0c0;
             margin-left: 1vw;

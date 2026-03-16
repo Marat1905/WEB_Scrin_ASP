@@ -9,13 +9,15 @@ html, body {
     font-size: 12px;
 }
 
+/* Контейнер занимает ровно высоту экрана, без прокрутки */
 #container {
     width: 100%;
-    height: 100dvh; /* заменено с 100vh на 100dvh для учёта адресной строки */
+    height: 100dvh;
     margin: 0;
     background: #FFFFFF;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 /* Шапка и меню */
@@ -79,25 +81,24 @@ html, body {
 /* Исправленный медиа-запрос для мобильных устройств — меню в одну строку с прокруткой */
 @media (max-width: 1280px) {
     #navbar {
-        flex-direction: row; /* горизонтальное направление */
-        flex-wrap: nowrap; /* запрет переноса строк */
-        overflow-x: auto; /* горизонтальный скролл при необходимости */
-        -webkit-overflow-scrolling: touch; /* плавный скролл на iOS */
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         justify-content: flex-start;
         align-items: center;
         gap: 4px;
         padding: 5px 10px;
-        /* скрываем полосу прокрутки для аккуратного вида (опционально) */
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE/Edge */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
 
         #navbar::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
+            display: none;
         }
 
         #navbar li {
-            flex: 0 0 auto; /* элементы не растягиваются, ширина по содержимому */
+            flex: 0 0 auto;
             width: auto;
         }
 
@@ -106,7 +107,7 @@ html, body {
                 text-align: center;
                 padding: 8px 10px;
                 font-size: 16px;
-                white-space: nowrap; /* текст в одну строку */
+                white-space: nowrap;
             }
 }
 
@@ -121,7 +122,7 @@ html, body {
 #navigation {
     background: #ffffff;
     width: 100%;
-    height: 2dvh; /* заменено */
+    height: 2dvh;
     min-height: 15px;
     clear: both;
 }
@@ -181,7 +182,7 @@ h4 {
 /* Статусная строка (обрыв и т.д.) с адаптивной высотой */
 .status {
     width: 100%;
-    height: 6dvh; /* заменено */
+    height: 6dvh;
     min-height: 30px;
 }
 
@@ -192,7 +193,7 @@ h4 {
     color: #fff;
     float: left;
     width: 100%;
-    height: 6dvh; /* заменено */
+    height: 6dvh;
     min-height: 35px;
     background-color: aqua;
     border-color: Black;
@@ -229,7 +230,7 @@ h4 {
 .blnktext7 {
     background-color: lawngreen;
     color: #fff;
-    animation: none; /* отключаем мигание для статуса 7 */
+    animation: none;
 }
 
 /* Основные блоки страницы default.aspx (оставлены без изменений) */
@@ -272,14 +273,14 @@ h4 {
 .layer1 {
     float: left;
     width: 46%;
-    height: 90%;
+    height: 100%;
     margin-left: 1%;
 }
 
 .layer2 {
     width: 49%;
     float: left;
-    height: 90%;
+    height: 100%;
     margin-left: 2%;
     margin-right: 1%;
 }
@@ -357,7 +358,7 @@ h4 {
 }
 
     .smena td, .smena th {
-        padding: 1dvh 0.5vw; /* заменено */
+        padding: 1dvh 0.5vw;
         text-align: center;
         border-bottom: 1px solid #F4EEE8;
         transition: all 0.5s linear;
@@ -428,7 +429,7 @@ h4 {
 
 .shift, .sm, .PL {
     text-align: center;
-    font-size: 1.5dvh; /* заменено */
+    font-size: 1.5dvh;
     font-weight: bold;
     color: green;
     width: 100%;
@@ -439,7 +440,7 @@ h4 {
 
 .shift_red, .sm_red, .PL_red {
     text-align: center;
-    font-size: 1.5dvh; /* заменено */
+    font-size: 1.5dvh;
     font-weight: bold;
     color: red;
     width: 100%;
@@ -451,7 +452,7 @@ h4 {
 
 .PL_otkl {
     text-align: center;
-    font-size: 1.5dvh; /* заменено */
+    font-size: 1.5dvh;
     font-weight: bold;
     color: red;
     width: 100%;
@@ -583,21 +584,21 @@ h4 {
 
 .label_Fio {
     text-align: left;
-    font-size: 1.8dvh; /* заменено */
+    font-size: 1.8dvh;
     font-family: 'mon-amur';
     color: black;
 }
 
 .label_Fio1 {
     text-align: left;
-    font-size: 1.8dvh; /* заменено */
+    font-size: 1.8dvh;
     font-family: 'mon-amur';
     color: mediumblue;
 }
 
 /* Адаптивные высоты для шагов */
 .step {
-    height: 3dvh; /* заменено */
+    height: 3dvh;
     min-height: 18px;
     width: 100%;
     margin-bottom: 5px;
@@ -605,7 +606,7 @@ h4 {
 }
 
 .step1 {
-    height: 3dvh; /* заменено */
+    height: 3dvh;
     min-height: 18px;
     width: 100%;
     margin-bottom: 5px;
@@ -613,7 +614,7 @@ h4 {
 }
 
 .DN {
-    height: 3.5dvh; /* заменено */
+    height: 3.5dvh;
     min-height: 22px;
     width: 100%;
     text-align: center;
@@ -621,7 +622,7 @@ h4 {
 
 .marg_blue {
     color: blue;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bolder;
     line-height: 100%;
     text-shadow: #000000 0px 1px 1px;
@@ -629,7 +630,7 @@ h4 {
 
 .marg_red {
     color: red;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bolder;
     line-height: 100%;
     text-shadow: #000000 0px 1px 1px;
@@ -643,7 +644,7 @@ h4 {
 
 /* Страница предупреждения (Caution) с адаптивной высотой */
 #label_Countion_lbl {
-    height: 5dvh; /* заменено */
+    height: 5dvh;
     min-height: 30px;
     font-size: 2.5vw;
     -webkit-animation: blink 2s linear infinite;
@@ -685,7 +686,7 @@ h4 {
 
 #label_Warn_txt {
     text-align: justify;
-    font-size: 1.8dvh; /* заменено */
+    font-size: 1.8dvh;
     color: #fff;
     margin: 0px 0px 3px 5px;
     width: 98%;
@@ -693,7 +694,7 @@ h4 {
 
 #label_Warn_txt_bolt {
     text-align: justify;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bold;
     text-align: center;
     color: red;
@@ -703,14 +704,14 @@ h4 {
 
 #label_Warn_Admin {
     text-align: right;
-    font-size: 1.8dvh; /* заменено */
+    font-size: 1.8dvh;
     color: #fff;
     margin: 0px 0px 3px 5px;
     width: 98%;
 }
 
 #label_Countion_Nomer {
-    font-size: 2.2dvh; /* заменено */
+    font-size: 2.2dvh;
     -webkit-animation: blink 2s linear infinite;
     animation: blink 2s linear infinite;
     font-weight: bold;
@@ -730,7 +731,7 @@ h4 {
 /* Таблицы графика (Grafik.aspx) */
 .table_dark {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-    font-size: 1.8dvh; /* заменено */
+    font-size: 1.8dvh;
     width: 98%;
     text-align: left;
     border-collapse: collapse;
@@ -783,11 +784,11 @@ h4 {
 /* Единое определение для .textbox_break_Mod (адаптивная высота) */
 .textbox_break_Mod {
     text-align: center;
-    font-size: 2.2dvh; /* заменено */
+    font-size: 2.2dvh;
     font-weight: bold;
     color: #fff;
     width: 100%;
-    height: 5dvh; /* заменено */
+    height: 5dvh;
     min-height: 30px;
     background-color: #2777a8;
     border-color: Black;
@@ -797,7 +798,7 @@ h4 {
 
 .textbox_plan {
     text-align: center;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bold;
     color: #fff;
     float: right;
@@ -809,7 +810,7 @@ h4 {
 
 .label_Li {
     text-align: left;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bold;
     color: #fff;
     float: left;
@@ -817,7 +818,7 @@ h4 {
 
 .textbox_lbl_Li, .textbox_Li {
     text-align: center;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bold;
     color: #fff;
     float: left;
@@ -828,7 +829,7 @@ h4 {
 
 .textbox_otkl_grin {
     text-align: center;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bold;
     color: greenyellow;
     float: left;
@@ -839,7 +840,7 @@ h4 {
 
 .textbox_otkl_red {
     text-align: center;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bold;
     color: red;
     float: left;
@@ -918,7 +919,7 @@ h4 {
 
 .label_slujba {
     text-align: center;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bold;
     width: 100%;
     color: #fff;
@@ -927,7 +928,7 @@ h4 {
 
 .label_prostoi {
     text-align: left;
-    font-size: 1.8dvh; /* заменено */
+    font-size: 1.8dvh;
     font-weight: bold;
     width: 100%;
     height: 100%;
@@ -966,7 +967,7 @@ h4 {
 
     .table_q th {
         text-align: center;
-        font-size: 1.8dvh; /* заменено */
+        font-size: 1.8dvh;
         font-weight: bold;
         color: #fff;
         border: 2px solid black;
@@ -996,7 +997,7 @@ h4 {
 
 .label_mes_txt {
     text-align: center;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bold;
     width: 100%;
     color: #fff;
@@ -1005,19 +1006,19 @@ h4 {
 
 .colorRedtext {
     color: red;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bolder;
 }
 
 .colorGreentext {
     color: #3EDC6C;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bolder;
 }
 
 .colorBluetext {
     color: blue;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: bolder;
 }
 
@@ -1032,16 +1033,16 @@ h4 {
 }
 
     .tv-dashboard .status-bar {
-        height: 8dvh; /* заменено */
+        height: 8dvh;
         min-height: 40px;
-        margin-bottom: 1dvh; /* заменено */
+        margin-bottom: 1dvh;
     }
 
     .tv-dashboard .status-text {
         width: 100%;
         height: 100%;
         text-align: center;
-        font-size: 3dvh; /* заменено */
+        font-size: 3dvh;
         font-weight: bold;
         border: none;
         border-radius: 8px;
@@ -1055,7 +1056,7 @@ h4 {
         flex: 1;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1.5dvh; /* заменено */
+        gap: 1.5dvh;
         padding: 0 1vw;
         overflow: hidden;
     }
@@ -1076,7 +1077,7 @@ h4 {
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(8px);
         border-radius: 20px;
-        padding: 2dvh 1.5vw; /* заменено */
+        padding: 2dvh 1.5vw;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         border: 1px solid rgba(255, 255, 255, 0.1);
         height: 100%;
@@ -1089,12 +1090,12 @@ h4 {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 1.2dvh; /* заменено */
+        margin-bottom: 1.2dvh;
         flex-wrap: nowrap;
     }
 
     .tv-dashboard .label {
-        font-size: 2dvh; /* заменено */
+        font-size: 2dvh;
         font-weight: 500;
         color: #b0b7d0;
         flex: 3;
@@ -1118,8 +1119,8 @@ h4 {
         background: rgba(10, 20, 40, 0.7);
         border: 1px solid #3a4a6a;
         border-radius: 8px;
-        padding: 0.8dvh 0.5vw; /* заменено */
-        font-size: 2.2dvh; /* заменено */
+        padding: 0.8dvh 0.5vw;
+        font-size: 2.2dvh;
         font-weight: bold;
         color: #ffffff;
         text-align: center;
@@ -1129,8 +1130,8 @@ h4 {
 
         .tv-dashboard .value-box.small {
             width: 45%;
-            font-size: 2dvh; /* заменено */
-            padding: 0.5dvh 0.3vw; /* заменено */
+            font-size: 2dvh;
+            padding: 0.5dvh 0.3vw;
         }
 
         .tv-dashboard .value-box.deviation {
@@ -1142,7 +1143,7 @@ h4 {
         min-width: 4vw;
         background: transparent;
         border: none;
-        font-size: 1.8dvh; /* заменено */
+        font-size: 1.8dvh;
         color: #8e9bb5;
         text-align: left;
         padding-left: 0.2vw;
@@ -1153,7 +1154,6 @@ h4 {
         white-space: nowrap;
     }
 
-    /* Специфические классы для отклонений */
     .tv-dashboard .textbox_otkl_grin {
         color: #8bc34a !important;
     }
@@ -1173,6 +1173,7 @@ h4 {
     --border-light: #4b7b9d;
 }
 
+/* content_Mod занимает всю высоту и использует flex */
 .content_Mod {
     display: flex;
     flex-direction: column;
@@ -1180,9 +1181,9 @@ h4 {
     width: 100%;
     background: var(--bg-dark);
     color: var(--text-light);
-    padding: 0.5dvh 0.5vw; /* заменено */
+    padding: 0.5dvh 0.5vw;
     box-sizing: border-box;
-    gap: 0.5dvh; /* заменено */
+    gap: 0.5dvh;
     overflow: hidden;
 }
 
@@ -1191,12 +1192,12 @@ h4 {
     width: 100%;
 }
 
-/* Переопределение .textbox_break_Mod для тёмной темы (адаптивная высота) */
+/* Переопределение .textbox_break_Mod для тёмной темы */
 .textbox_break_Mod {
     width: 100%;
-    height: 5dvh; /* заменено */
+    height: 5dvh;
     min-height: 30px;
-    font-size: 2.2dvh; /* заменено */
+    font-size: 2.2dvh;
     font-weight: bold;
     text-align: center;
     background: var(--bg-medium);
@@ -1207,36 +1208,39 @@ h4 {
     box-sizing: border-box;
 }
 
+/* columns занимает оставшееся пространство и не даёт переполнения */
 .columns {
     flex: 1 1 auto;
     display: flex;
     flex-direction: row;
     gap: 0.5vw;
     min-height: 0;
+    overflow: hidden;
 }
 
+/* layer1 и layer2 — flex-колонки без скролла, равномерно распределяют дочерние элементы */
 .layer1, .layer2 {
     flex: 1 1 50%;
     display: flex;
     flex-direction: column;
     background: var(--bg-dark);
     border-radius: 12px;
-    padding: 0.8dvh 0.5vw; /* заменено */
+    padding: 0.8dvh 0.5vw;
     box-sizing: border-box;
     box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
-    overflow: hidden;
+    overflow: hidden; /* убираем прокрутку */
 }
 
 .row_Ri {
     display: flex;
     align-items: center;
-    margin-bottom: 0.6dvh; /* заменено */
+    margin-bottom: 0.2dvh; /* уменьшенный отступ */
     background: rgba(30, 58, 95, 0.6);
     border-radius: 8px;
-    padding: 0.2dvh 0.5vw; /* заменено */
+    padding: 0.2dvh 0.5vw;
     box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-    flex: 1 1 auto;
-    min-height: 5dvh; /* заменено */
+    flex: 1 1 0; /* равномерное распределение высоты */
+    min-height: 0; /* важно для сжатия */
 }
 
 .col-1-1L, .col-1-2L, .col-1-3L,
@@ -1253,7 +1257,7 @@ h4 {
     flex: 3 1 50%;
     text-align: left;
     padding-left: 0.5vw;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: 600;
     color: var(--text-light);
     text-shadow: 1px 1px 2px black;
@@ -1269,7 +1273,7 @@ h4 {
 .col-1-3L, .col-1-3La, .col-1-3Li, .col-2-3Li, .col-2-4Li, .col-2-5Li {
     flex: 0 1 15%;
     text-align: left;
-    font-size: 1.8dvh; /* заменено */
+    font-size: 1.8dvh;
     color: #aaa;
 }
 
@@ -1284,8 +1288,8 @@ h4 {
 .textbox_Ri, .textbox_Li, .textbox_lbl_Ri, .textbox_lbl_Li,
 .textbox_otkl_grin, .textbox_otkl_red {
     width: 100%;
-    height: 4dvh; /* заменено */
-    font-size: 2.2dvh; /* заменено */
+    height: 4dvh; /* относительная высота */
+    font-size: 2.2dvh;
     font-weight: bold;
     text-align: right;
     padding-right: 8px;
@@ -1312,14 +1316,14 @@ h4 {
     border: none;
     box-shadow: none;
     color: #9bb7d4;
-    font-size: 1.8dvh; /* заменено */
+    font-size: 1.8dvh;
     text-align: left;
     padding-left: 0.2vw;
 }
 
 .label_Ri, .label_Li {
     display: inline-block;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     font-weight: 600;
     color: #d4e3fd;
     text-shadow: 1px 1px 2px #000;
@@ -1347,12 +1351,12 @@ h4 {
 
 @media (min-height: 900px) {
     .row_Ri {
-        min-height: 4dvh; /* заменено */
+        min-height: 4dvh;
     }
 
     .textbox_Ri, .textbox_Li {
-        height: 3.5dvh; /* заменено */
-        font-size: 2dvh; /* заменено */
+        height: 3.5dvh;
+        font-size: 2dvh;
     }
 }
 
@@ -1364,14 +1368,14 @@ h4 {
     background: linear-gradient(145deg, #0a0f1e 0%, #1a1f2f 100%);
     color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 0.5dvh 0.5vw; /* заменено */
+    padding: 0.5dvh 0.5vw;
     box-sizing: border-box;
-    gap: 1dvh; /* заменено */
+    gap: 1dvh;
 }
 
 .status-bar {
     flex: 0 0 auto;
-    height: 7dvh; /* заменено */
+    height: 7dvh;
     min-height: 40px;
 }
 
@@ -1379,7 +1383,7 @@ h4 {
     width: 100%;
     height: 100%;
     text-align: center;
-    font-size: 3dvh; /* заменено */
+    font-size: 3dvh;
     font-weight: bold;
     border: none;
     border-radius: 8px;
@@ -1392,7 +1396,7 @@ h4 {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1dvh; /* заменено */
+    gap: 1dvh;
     min-height: 0;
 }
 
@@ -1407,7 +1411,7 @@ h4 {
     flex: 1 1 0;
     background: var(--bg-dark);
     border-radius: 12px;
-    padding: 1.5dvh 1vw; /* заменено */
+    padding: 1.5dvh 1vw;
     box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -1437,12 +1441,12 @@ h4 {
 }
 
 .card-header {
-    font-size: 2.2dvh; /* заменено */
+    font-size: 2.2dvh;
     font-weight: 600;
     color: #b0b7d0;
     text-align: center;
-    padding-bottom: 1dvh; /* заменено */
-    margin-bottom: 1dvh; /* заменено */
+    padding-bottom: 1dvh;
+    margin-bottom: 1dvh;
     border-bottom: 1px solid rgba(255,255,255,0.1);
     white-space: nowrap;
     overflow: hidden;
@@ -1454,14 +1458,14 @@ h4 {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    gap: 0.8dvh; /* заменено */
+    gap: 0.8dvh;
 }
 
 .stat-item {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 2dvh; /* заменено */
+    font-size: 2dvh;
     line-height: 1.4;
 }
 
@@ -1477,7 +1481,7 @@ h4 {
     background: rgba(10, 20, 40, 0.7);
     border: 1px solid #3a4a6a;
     border-radius: 6px;
-    padding: 0.4dvh 0.8vw; /* заменено */
+    padding: 0.4dvh 0.8vw;
     min-width: 8vw;
     text-align: center;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
@@ -1485,20 +1489,56 @@ h4 {
 
 @media (max-width: 1280px) {
     .stat-item {
-        font-size: 1.8dvh; /* заменено */
+        font-size: 1.8dvh;
     }
 
     .card-header {
-        font-size: 2dvh; /* заменено */
+        font-size: 2dvh;
     }
 }
 
 @media (max-width: 1024px) {
     .stat-item {
-        font-size: 1.6dvh; /* заменено */
+        font-size: 1.6dvh;
     }
 
     .stat-value {
         min-width: 10vw;
+    }
+}
+
+/* ===== Стили для группировки данных (секции) ===== */
+.section {
+    margin-bottom: 0.5dvh;
+    padding: 0.5dvh 0.5vw;
+    background: rgba(20, 30, 50, 0.6);
+    border-radius: 12px;
+    border-left: 6px solid #2a6f97;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    backdrop-filter: blur(2px);
+}
+
+.section-title {
+    font-size: 2.2dvh;
+    font-weight: bold;
+    color: #ffd966;
+    margin-bottom: 0.5dvh;
+    padding-bottom: 0.3dvh;
+    border-bottom: 2px solid #3a5f7a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Для мобильных устройств чуть уменьшаем отступы */
+@media (max-width: 768px) {
+    .section {
+        padding: 0.3dvh 2vw;
+    }
+
+    .section-title {
+        font-size: 2dvh;
     }
 }

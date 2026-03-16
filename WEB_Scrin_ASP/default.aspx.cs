@@ -17,7 +17,6 @@ namespace WEB_Scrin_ASP
             // блокировка по году 2050г
             if (DateTime.Now.Year < 2050)
             {
-
                 try
                 {
                     string connectionString = @"Data Source=10.0.9.7\WINCC;Initial Catalog=Control;User ID=admin;Password=123";
@@ -162,12 +161,13 @@ namespace WEB_Scrin_ASP
                         reader.Close();
                     }
 
+                    // ===================== ЗАПРОС 1: Для VypuskGod (предыдущий год) =====================
                     string connectionString1 = @"Data Source=10.0.9.4;Initial Catalog=kiu_opc; User ID = mes; pwd = mes";
-                    string sqlExp_Pred = "SELECT top 1 WrDate ,VypuskGod FROM[kiu_opc].[dbo].[VypuskRS] where bd like 'zavod' and Date between DATEADD(HOUR,-12, DATEADD(year,-1, CONVERT(Datetime, @Date_Start, 104) ))  And DATEADD(year,-1, CONVERT(Datetime, @Date_End, 104) ) order by WrDate desc";
+                    string sqlExp_PredYear = "SELECT top 1 VypuskGod FROM [kiu_opc].[dbo].[VypuskRS] where bd like 'zavod' and Date between DATEADD(HOUR,-12, DATEADD(year,-1, CONVERT(Datetime, @Date_Start, 104) ))  And DATEADD(year,-1, CONVERT(Datetime, @Date_End, 104) ) order by WrDate desc";
                     using (SqlConnection connection = new SqlConnection(connectionString1))
                     {
                         connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExp_Pred, connection);
+                        SqlCommand command = new SqlCommand(sqlExp_PredYear, connection);
                         string ds = DateTime.Now.AddHours(-48).ToString("yyyyMMdd HH:mm:ss");
                         command.Parameters.AddWithValue("@Date_Start", ds);
                         string dd = DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
@@ -177,11 +177,34 @@ namespace WEB_Scrin_ASP
                         {
                             while (reader.Read())
                             {
-                                textbox16.Text = reader.GetValue(1).ToString() + " кг";
+                                // Только VypuskGod для textbox16
+                                textbox16.Text = reader.GetValue(0)?.ToString() + " кг";
                             }
                         }
                         reader.Close();
                     }
+
+                    // ===================== ЗАПРОС 2: Для VypuskPredSmenaKol и VypuskPredMes (последняя запись) =====================
+                    string sqlExp_Last = "SELECT TOP 1 VypuskPredSmenaKol, VypuskPredMes FROM [kiu_opc].[dbo].[VypuskRS] WHERE bd like 'zavod' ORDER BY WrDate DESC";
+                    using (SqlConnection connection = new SqlConnection(connectionString1))
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(sqlExp_Last, connection);
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                object predSmena = reader.GetValue(0);
+                                object predMes = reader.GetValue(1);
+
+                                textboxPredSmena.Text = (predSmena != null ? predSmena.ToString() : "0") + " кг";
+                                textboxPredMes.Text = (predMes != null ? predMes.ToString() : "0") + " кг";
+                            }
+                        }
+                        reader.Close();
+                    }
+                    // ===================== КОНЕЦ НОВОГО ЗАПРОСА =====================
 
                     if (Convert.ToInt32(otkl_god) > 0)
                     {
