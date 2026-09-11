@@ -20,13 +20,12 @@ namespace WEB_Scrin_ASP
         // Данные
         private List<InjuryDto> InjuriesMonth { get; set; } = new List<InjuryDto>();
         private List<InjuryDto> InjuriesYear { get; set; } = new List<InjuryDto>();
-        private InjuryDto LatestInjury { get; set; } = null; // последняя травма (глобально)
 
-        // Статистика
-        public int MonthInjuriesCount => InjuriesMonth?.Count ?? 0;
-        public int YearInjuriesCount => InjuriesYear?.Count ?? 0;
+        // Статистика (теперь приходит с бэкенда, а не рассчитывается локально)
+        public int MonthSignificantCount { get; set; }
+        public int YearSignificantCount { get; set; }
         public int DaysWithoutInjury { get; set; }
-        public string LastInjuryDateStr { get; set; } = "";
+        public string LastSignificantDateStr { get; set; } = "";
 
         // Для навигации
         public int PrevYear, PrevMonth, NextYear, NextMonth;
@@ -44,8 +43,10 @@ namespace WEB_Scrin_ASP
 
             int year = DateTime.Today.Year;
             int month = DateTime.Today.Month;
+
             if (!string.IsNullOrEmpty(Request.QueryString["year"]))
                 int.TryParse(Request.QueryString["year"], out year);
+
             if (!string.IsNullOrEmpty(Request.QueryString["month"]) && ViewMode == "cross")
                 int.TryParse(Request.QueryString["month"], out month);
 
@@ -77,11 +78,12 @@ namespace WEB_Scrin_ASP
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://10.21.2.95:30006/api/");
+                    // НОВЫЙ БАЗОВЫЙ АДРЕС API (в соответствии с SafetyInjuryRegistry)
+                    client.BaseAddress = new Uri("http://10.21.2.95:30006/safety/api/v1/");
                     client.DefaultRequestHeaders.Add("Accept", "application/json");
 
                     // Запрос за месяц
-                    string monthUrl = $"safety/injuries?year={CurrentDate.Year}&month={CurrentDate.Month}";
+                    string monthUrl = $"injuries?year={CurrentDate.Year}&month={CurrentDate.Month}";
                     var responseMonth = await client.GetAsync(monthUrl);
                     if (responseMonth.IsSuccessStatusCode)
                     {
@@ -90,7 +92,7 @@ namespace WEB_Scrin_ASP
                     }
 
                     // Запрос за год
-                    string yearUrl = $"safety/injuries/year/{CurrentDate.Year}";
+                    string yearUrl = $"injuries/year/{CurrentDate.Year}";
                     var responseYear = await client.GetAsync(yearUrl);
                     if (responseYear.IsSuccessStatusCode)
                     {
@@ -98,21 +100,23 @@ namespace WEB_Scrin_ASP
                         InjuriesYear = JsonConvert.DeserializeObject<List<InjuryDto>>(jsonYear) ?? new List<InjuryDto>();
                     }
 
-                    // Запрос последней травмы (глобально)
-                    string latestUrl = "safety/injuries/latest";
-                    var responseLatest = await client.GetAsync(latestUrl);
-                    if (responseLatest.IsSuccessStatusCode)
+                    // Запрос статистики (теперь расчет выполняется на бэкенде)
+                    string statsUrl = $"injuries/statistics?year={CurrentDate.Year}&month={CurrentDate.Month}";
+                    var responseStats = await client.GetAsync(statsUrl);
+                    if (responseStats.IsSuccessStatusCode)
                     {
-                        var jsonLatest = await responseLatest.Content.ReadAsStringAsync();
-                        LatestInjury = JsonConvert.DeserializeObject<InjuryDto>(jsonLatest);
+                        var jsonStats = await responseStats.Content.ReadAsStringAsync();
+                        var stats = JsonConvert.DeserializeObject<InjuryStatisticsDto>(jsonStats);
+                        if (stats != null)
+                        {
+                            MonthSignificantCount = stats.MonthSignificantCount;
+                            YearSignificantCount = stats.YearSignificantCount;
+                            DaysWithoutInjury = stats.DaysWithoutInjury;
+                            LastSignificantDateStr = stats.LastSignificantDate.HasValue
+                                ? stats.LastSignificantDate.Value.ToString("dd.MM.yyyy")
+                                : "";
+                        }
                     }
-                    else
-                    {
-                        LatestInjury = null; // 404 или ошибка – нет травм
-                    }
-
-                    // Вычисляем статистику
-                    CalculateStats();
                 }
             }
             catch (Exception ex)
@@ -123,38 +127,6 @@ namespace WEB_Scrin_ASP
 
             // Генерация HTML для визуализации
             GenerateVisual();
-        }
-
-        private void CalculateStats()
-        {
-            DateTime today = DateTime.Today;
-            DateTime yesterday = today.AddDays(-1);
-
-            if (LatestInjury == null)
-            {
-                // Травм не было вообще
-                DaysWithoutInjury = 0;
-                LastInjuryDateStr = "";
-            }
-            else
-            {
-                DateTime lastDate = DateTime.Parse(LatestInjury.Date).Date;
-
-                if (lastDate > yesterday)
-                {
-                    // Последняя травма сегодня или позже (если данные из будущего – не должно быть)
-                    DaysWithoutInjury = 0;
-                }
-                else
-                {
-                    // Количество полных дней между lastDate и yesterday включительно
-                    // Если lastDate = вчера, то разница = 1 день, но мы хотим 0 дней без травм,
-                    // поэтому вычитаем 1, как в React.
-                    DaysWithoutInjury = (int)(yesterday - lastDate).TotalDays;
-                }
-
-                LastInjuryDateStr = lastDate.ToString("dd.MM.yyyy");
-            }
         }
 
         private void GenerateVisual()
@@ -172,25 +144,31 @@ namespace WEB_Scrin_ASP
             int daysInMonth = DateTime.DaysInMonth(year, month);
             var ru = new System.Globalization.CultureInfo("ru-RU");
 
-            // Список ключей клеток креста в формате "row_col" (все 33 позиции)
-            var crossCellKeys = new List<string>();
+            // Координаты клеток, образующих крест (7x7, где центральные строки и столбцы)
+            // Используем класс CellCoord вместо ValueTuple для совместимости со старыми версиями .NET Framework
+            var crossCells = new List<CellCoord>();
             for (int row = 0; row < 7; row++)
             {
                 for (int col = 0; col < 7; col++)
                 {
                     if ((row >= 2 && row <= 4) || (col >= 2 && col <= 4))
-                        crossCellKeys.Add($"{row}_{col}");
+                    {
+                        crossCells.Add(new CellCoord { Row = row, Col = col });
+                    }
                 }
             }
-            crossCellKeys.Sort(); // сортировка по row, затем col
+            crossCells.Sort((a, b) => (a.Row == b.Row ? a.Col - b.Col : a.Row - b.Row));
 
-            // Словарь: ключ "row_col" -> номер дня (если есть)
-            var dayMap = new Dictionary<string, int>();
-
-            // Заполняем последовательно: первый день в первую ячейку креста и т.д.
-            for (int i = 0; i < daysInMonth && i < crossCellKeys.Count; i++)
+            // Особое размещение для месяцев с 31 днём (30-й и 31-й дни), как в React-проекте
+            var cellValues = new int?[33];
+            if (daysInMonth == 31)
             {
-                dayMap[crossCellKeys[i]] = i + 1;
+                for (int i = 0; i < 30; i++) cellValues[i] = i + 1;
+                cellValues[31] = 31; // 31-й день в предпоследнюю ячейку
+            }
+            else
+            {
+                for (int i = 0; i < daysInMonth; i++) cellValues[i] = i + 1;
             }
 
             var sb = new StringBuilder();
@@ -200,62 +178,68 @@ namespace WEB_Scrin_ASP
             {
                 for (int col = 0; col < 7; col++)
                 {
-                    string key = $"{row}_{col}";
-                    // Проверяем, является ли эта ячейка частью креста
-                    if (crossCellKeys.Contains(key))
+                    var cellIndex = crossCells.FindIndex(c => c.Row == row && c.Col == col);
+                    if (cellIndex != -1)
                     {
-                        if (dayMap.TryGetValue(key, out int day))
+                        int? dayNumber = cellValues[cellIndex];
+                        if (dayNumber.HasValue)
                         {
-                            DateTime cellDate = new DateTime(year, month, day);
-                            bool hasInjury = InjuriesMonth.Any(inj => DateTime.Parse(inj.Date).Date == cellDate.Date);
-                            bool isFuture = cellDate > DateTime.Today;
-                            bool isToday = cellDate == DateTime.Today;
+                            DateTime cellDate = new DateTime(year, month, dayNumber.Value);
+                            var injury = InjuriesMonth.FirstOrDefault(inj =>
+                                DateTime.Parse(inj.Date, System.Globalization.CultureInfo.InvariantCulture).Date == cellDate.Date);
+
+                            bool isFuture = cellDate.Date > DateTime.Today.Date;
+                            bool isToday = cellDate.Date == DateTime.Today.Date;
 
                             string cssClass = "cell";
                             if (isFuture)
+                            {
                                 cssClass += " future";
-                            else if (hasInjury)
-                                cssClass += " injury";
+                            }
+                            else if (injury != null)
+                            {
+                                // Используем InjuryCategoryHelper для определения значимости категории
+                                if (InjuryCategoryHelper.IsSignificant(injury.Category))
+                                    cssClass += " injury-significant";
+                                else
+                                    cssClass += " injury-minor";
+                            }
                             else
+                            {
                                 cssClass += " safe";
+                            }
 
                             if (isToday)
                                 cssClass += " today";
 
-                            // Формируем строку даты для отображения в модальном окне
-                            string dateStr = cellDate.ToString("d MMMM", ru);
-                            string encodedDate = HttpUtility.JavaScriptStringEncode(dateStr);
+                            // onclick добавляется ТОЛЬКО если есть травма
+                            // Для безопасных дней (без травм) клик ничего не делает
                             string onClick = "";
-
-                            if (hasInjury)
+                            if (injury != null)
                             {
-                                var injury = InjuriesMonth.First(inj => DateTime.Parse(inj.Date).Date == cellDate);
+                                string dateStr = cellDate.ToString("d MMMM", ru);
+                                string encodedDate = HttpUtility.JavaScriptStringEncode(dateStr);
                                 string encodedType = HttpUtility.JavaScriptStringEncode(injury.Type);
                                 string encodedDesc = HttpUtility.JavaScriptStringEncode(injury.Description);
-                                onClick = $" onclick='showInfo(\"{encodedDate}\", true, \"{encodedType}\", \"{encodedDesc}\")'";
-                            }
-                            else if (!isFuture)
-                            {
-                                // День без травмы – можно показать информацию (нет травмы)
-                                onClick = $" onclick='showInfo(\"{encodedDate}\", false, \"\", \"\")'";
+                                // ИЗМЕНЕНО: передаём в модальное окно человекочитаемую метку категории
+                                string categoryLabel = InjuryCategoryHelper.GetLabel(injury.Category);
+                                string encodedCategory = HttpUtility.JavaScriptStringEncode(categoryLabel);
+                                onClick = $" onclick='showInfo(event, \"{encodedDate}\", true, \"{encodedCategory}\", \"{encodedType}\", \"{encodedDesc}\")'";
                             }
 
-                            sb.AppendLine($"<div class='{cssClass}'{onClick}>{day}</div>");
+                            sb.AppendLine($"<div class='{cssClass}'{onClick}>{dayNumber.Value}</div>");
                         }
                         else
                         {
-                            // Пустая ячейка креста (нет дня) — делаем видимой, но не кликабельной
                             sb.AppendLine("<div class='cell empty'></div>");
                         }
                     }
                     else
                     {
-                        // Ячейка вне формы креста (фоновая) — невидимая
                         sb.AppendLine("<div class='cell out'></div>");
                     }
                 }
             }
-
             sb.AppendLine("</div>");
             return sb.ToString();
         }
@@ -286,36 +270,46 @@ namespace WEB_Scrin_ASP
                 for (int d = 1; d <= daysInMonth; d++)
                 {
                     DateTime cellDate = new DateTime(year, month, d);
-                    bool hasInjury = InjuriesYear.Any(inj => DateTime.Parse(inj.Date).Date == cellDate.Date);
-                    bool isFuture = cellDate > DateTime.Today;
-                    bool isToday = cellDate == DateTime.Today;
+                    var injury = InjuriesYear.FirstOrDefault(inj =>
+                        DateTime.Parse(inj.Date, System.Globalization.CultureInfo.InvariantCulture).Date == cellDate.Date);
+
+                    bool isFuture = cellDate.Date > DateTime.Today.Date;
+                    bool isToday = cellDate.Date == DateTime.Today.Date;
 
                     string cssClass = "month-day";
                     if (isFuture)
+                    {
                         cssClass += " future";
-                    else if (hasInjury)
-                        cssClass += " injury";
+                    }
+                    else if (injury != null)
+                    {
+                        // Используем InjuryCategoryHelper для определения значимости категории
+                        if (InjuryCategoryHelper.IsSignificant(injury.Category))
+                            cssClass += " injury-significant";
+                        else
+                            cssClass += " injury-minor";
+                    }
                     else
+                    {
                         cssClass += " safe";
+                    }
 
                     if (isToday)
                         cssClass += " today";
 
-                    string dateStr = cellDate.ToString("d MMMM", ru);
-                    string encodedDate = HttpUtility.JavaScriptStringEncode(dateStr);
+                    // onclick добавляется ТОЛЬКО если есть травма
+                    // Для безопасных дней (без травм) клик ничего не делает
                     string onClick = "";
-
-                    if (hasInjury)
+                    if (injury != null)
                     {
-                        var injury = InjuriesYear.First(inj => DateTime.Parse(inj.Date).Date == cellDate);
+                        string dateStr = cellDate.ToString("d MMMM", ru);
+                        string encodedDate = HttpUtility.JavaScriptStringEncode(dateStr);
                         string encodedType = HttpUtility.JavaScriptStringEncode(injury.Type);
                         string encodedDesc = HttpUtility.JavaScriptStringEncode(injury.Description);
-                        onClick = $" onclick='showInfo(\"{encodedDate}\", true, \"{encodedType}\", \"{encodedDesc}\")'";
-                    }
-                    else if (!isFuture)
-                    {
-                        // День без травмы
-                        onClick = $" onclick='showInfo(\"{encodedDate}\", false, \"\", \"\")'";
+                        // ИЗМЕНЕНО: передаём в модальное окно человекочитаемую метку категории
+                        string categoryLabel = InjuryCategoryHelper.GetLabel(injury.Category);
+                        string encodedCategory = HttpUtility.JavaScriptStringEncode(categoryLabel);
+                        onClick = $" onclick='showInfo(event, \"{encodedDate}\", true, \"{encodedCategory}\", \"{encodedType}\", \"{encodedDesc}\")'";
                     }
 
                     sb.AppendLine($"<div class='{cssClass}'{onClick}>{d}</div>");
@@ -340,5 +334,12 @@ namespace WEB_Scrin_ASP
             // Обновляем статусную строку через базовый метод
             UpdateStatusTextBox(textboxStatus);
         }
+    }
+
+    // Вспомогательный класс для замены ValueTuple в старых версиях .NET Framework (исправление ошибки CS8179)
+    public class CellCoord
+    {
+        public int Row { get; set; }
+        public int Col { get; set; }
     }
 }
