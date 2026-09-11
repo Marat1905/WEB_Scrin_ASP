@@ -148,8 +148,8 @@
             border-radius: 6px;
         }
 
-        /* ИЗМЕНЕНО: зелёный цвет сделан темнее и насыщеннее */
-        .color-safe { background: linear-gradient(145deg, #22c55e, #15803d); }
+        /* ИЗМЕНЕНО: зелёный цвет сделан ещё темнее и приглушённее */
+        .color-safe { background: linear-gradient(145deg, #15803d, #14532d); }
         .color-injury-significant { background: linear-gradient(145deg, #f87171, #dc2626); }
         .color-injury-minor { background: linear-gradient(145deg, #fbbf24, #d97706); }
         .color-future { background: #4a4f5f; }
@@ -274,10 +274,10 @@
             user-select: none;
         }
 
-        /* ИЗМЕНЕНО: зелёный цвет сделан темнее и насыщеннее */
+        /* ИЗМЕНЕНО: зелёный цвет сделан ещё темнее и приглушённее */
         .cell.safe {
-            background: linear-gradient(145deg, #22c55e, #15803d);
-            box-shadow: 0 4px 10px rgba(34, 197, 94, 0.25);
+            background: linear-gradient(145deg, #15803d, #14532d);
+            box-shadow: 0 4px 10px rgba(20, 83, 45, 0.4);
         }
         .cell.injury-significant {
             background: linear-gradient(145deg, #f87171, #dc2626);
@@ -370,7 +370,7 @@
         }
 
         /* ИЗМЕНЕНО: зелёный цвет сделан темнее */
-        .month-day.safe { background: #16a34a; }
+        .month-day.safe { background: #166534; }
         .month-day.injury-significant { background: #dc2626; }
         .month-day.injury-minor { background: #d97706; }
         .month-day.future { background: #4a4f5f; cursor: not-allowed; color: #94a3b8; }
