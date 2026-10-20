@@ -62,41 +62,48 @@
             background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(12px);
             border-radius: 24px;
-            padding: 2dvh 1.5vw;
+            /* УМЕНЬШЕНО: padding для экономии места по вертикали */
+            padding: 1.5dvh 1vw; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.1);
             display: flex;
             flex-direction: column;
-            gap: 2dvh;
+            /* УМЕНЬШЕНО: gap между блоками */
+            gap: 1.5dvh; 
             overflow-y: auto;
         }
 
         .stats-title {
-            font-size: 2.2dvh;
+            /* УМЕНЬШЕНО: размер шрифта заголовка */
+            font-size: 2dvh; 
             font-weight: 600;
             color: #fbbf24;
             display: flex;
             align-items: center;
             gap: 0.5vw;
             border-bottom: 1px solid #475569;
-            padding-bottom: 1dvh;
+            /* УМЕНЬШЕНО: отступ под заголовком */
+            padding-bottom: 0.5dvh; 
         }
 
         .stat-item {
             display: flex;
             align-items: center;
-            gap: 1vw;
+            /* УМЕНЬШЕНО: отступ между иконкой и текстом */
+            gap: 0.8vw; 
         }
 
         .stat-icon {
-            width: 5dvh;
-            height: 5dvh;
+            /* УМЕНЬШЕНО: размер иконки */
+            width: 4.5dvh; 
+            height: 4.5dvh;
             background: #1e3a8a;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5dvh;
+            /* УМЕНЬШЕНО: размер шрифта внутри иконки */
+            font-size: 2.2dvh; 
             color: #60a5fa;
         }
 
@@ -105,27 +112,31 @@
         }
 
         .stat-label {
-            font-size: 1.8dvh;
+            /* УМЕНЬШЕНО: размер шрифта подписи */
+            font-size: 1.6dvh; 
             color: #94a3b8;
         }
 
         .stat-value {
-            font-size: 3.5dvh;
+            /* УМЕНЬШЕНО: размер шрифта значения */
+            font-size: 3dvh; 
             font-weight: 700;
             color: #f8fafc;
             line-height: 1.2;
         }
 
         .stat-note {
-            font-size: 1.6dvh;
+            font-size: 1.5dvh;
             color: #94a3b8;
         }
 
         .legend {
-            margin-top: auto;
+            /* Изменено: auto прижимает к низу, но мы уменьшили отступы, чтобы он не выезжал */
+            margin-top: auto; 
             background: rgba(15, 23, 42, 0.5);
             border-radius: 16px;
-            padding: 1.5dvh 1vw;
+            /* УМЕНЬШЕНО: padding легенды */
+            padding: 1dvh 1vw; 
             border: 1px solid rgba(255,255,255,0.1);
         }
 
@@ -133,8 +144,10 @@
             display: flex;
             align-items: center;
             gap: 0.8vw;
-            margin-bottom: 1dvh;
-            font-size: 1.8dvh;
+            /* УМЕНЬШЕНО: отступ между пунктами легенды */
+            margin-bottom: 0.5dvh; 
+            /* УМЕНЬШЕНО: размер шрифта легенды */
+            font-size: 1.6dvh; 
             color: #cbd5e1;
         }
 
@@ -143,9 +156,11 @@
         }
 
         .legend-color {
-            width: 2.5dvh;
-            height: 2.5dvh;
+            /* УМЕНЬШЕНО: размер цветовых квадратиков */
+            width: 2dvh; 
+            height: 2dvh;
             border-radius: 6px;
+            flex-shrink: 0;
         }
 
         /* ИЗМЕНЕНО: зелёный цвет сделан ещё темнее и приглушённее */
@@ -159,26 +174,29 @@
         .zero-injury-panel {
             background: rgba(15, 23, 42, 0.6);
             border-radius: 16px;
-            padding: 1.5dvh 1vw;
+            /* УМЕНЬШЕНО: padding панели */
+            padding: 1dvh 1vw; 
             border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 1.5dvh;
+            /* УМЕНЬШЕНО: отступ снизу */
+            margin-bottom: 0.5dvh; 
         }
         .zero-injury-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #475569;
-            padding-bottom: 1dvh;
-            margin-bottom: 1dvh;
+            padding-bottom: 0.5dvh;
+            margin-bottom: 0.5dvh;
         }
         .zero-injury-title {
-            font-size: 2.2dvh;
+            /* УМЕНЬШЕНО: размер шрифта заголовка */
+            font-size: 2dvh; 
             font-weight: 600;
             color: #fbbf24;
         }
         .zero-injury-link {
             color: #60a5fa;
-            font-size: 1.6dvh;
+            font-size: 1.5dvh;
             text-decoration: none;
             cursor: pointer;
         }
@@ -523,7 +541,7 @@
 
         /* Адаптация */
         @media (max-width: 1280px) {
-            .stat-value { font-size: 3dvh; }
+            .stat-value { font-size: 2.8dvh; }
             .cell { font-size: clamp(1rem, 2dvh, 1.8rem); }
             .year-grid { grid-template-columns: repeat(3, 1fr); }
             .zero-modal-content { max-width: 80vw; }
@@ -605,41 +623,42 @@
                     <% if (ZeroInjuryStatus != null && ZeroInjuryStatus.CurrentProgram != null) { 
                         var prog = ZeroInjuryStatus.CurrentProgram;
                     %>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1dvh;">
-                            <div style="font-size: 2.5dvh; font-weight: 700; color: #f8fafc;">
-                                <%= prog.DaysPassed %> <span style="font-size: 1.8dvh; color: #94a3b8; font-weight: 400;">/ <%= prog.TargetDays %> дн.</span>
+                        <!-- УВЕЛИЧЕНЫ ЦИФРЫ -->
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5dvh;">
+                            <div style="font-size: 3.5dvh; font-weight: 700; color: #f8fafc; line-height: 1;">
+                                <%= prog.DaysPassed %> <span style="font-size: 2.2dvh; color: #94a3b8; font-weight: 400;">/ <%= prog.TargetDays %> дн.</span>
                             </div>
-                            <div style="font-size: 1.6dvh; color: #10b981; background: rgba(16,185,129,0.2); padding: 0.3dvh 0.8vw; border-radius: 8px;">Активна</div>
+                            <div style="font-size: 1.4dvh; color: #10b981; background: rgba(16,185,129,0.2); padding: 0.2dvh 0.6vw; border-radius: 8px;">Активна</div>
                         </div>
-                        <div class="zero-progress-bg">
+                        <div class="zero-progress-bg" style="margin-top: 1dvh;">
                             <div class="zero-progress-fill" style="width: <%= Math.Min(100, (int)((prog.DaysPassed * 100.0) / prog.TargetDays)) %>%;"></div>
                         </div>
-                        <div style="font-size: 1.6dvh; color: #94a3b8; margin-top: 1dvh;">Начало: <%= prog.StartDate.ToString("dd.MM.yyyy") %></div>
+                        <div style="font-size: 1.4dvh; color: #94a3b8; margin-top: 0.5dvh;">Начало: <%= prog.StartDate.ToString("dd.MM.yyyy") %></div>
                     <% } else if (ZeroInjuryStatus != null && ZeroInjuryStatus.LastFinalizedProgram != null) { 
                         var last = ZeroInjuryStatus.LastFinalizedProgram;
                     %>
-                        <div style="font-size: 1.8dvh; color: #94a3b8;">Программа не запущена.</div>
+                        <div style="font-size: 1.6dvh; color: #94a3b8;">Программа не запущена.</div>
                         <% if (last.IsSuccessfullyCompleted) { %>
-                            <div style="font-size: 1.6dvh; color: #10b981; margin-top: 1dvh;">
+                            <div style="font-size: 1.4dvh; color: #10b981; margin-top: 0.5dvh;">
                                 Последняя завершена успешно (<%= last.DaysPassed %> дн.)
                                 <% if (last.CompletedAt.HasValue) { %>
-                                    <br/><span style="color: #94a3b8; font-size: 1.4dvh;">Завершена: <%= last.CompletedAt.Value.ToString("dd.MM.yyyy") %></span>
+                                    <br/><span style="color: #94a3b8; font-size: 1.3dvh;">Завершена: <%= last.CompletedAt.Value.ToString("dd.MM.yyyy") %></span>
                                 <% } %>
                             </div>
                         <% } else { %>
-                            <div style="font-size: 1.6dvh; color: #ef4444; margin-top: 1dvh;">
+                            <div style="font-size: 1.4dvh; color: #ef4444; margin-top: 0.5dvh;">
                                 Последняя прервана травмой (<%= last.DaysPassed %> дн.)
                                 <% if (last.CompletedAt.HasValue) { %>
-                                    <br/><span style="color: #94a3b8; font-size: 1.4dvh;">Прервана: <%= last.CompletedAt.Value.ToString("dd.MM.yyyy") %></span>
+                                    <br/><span style="color: #94a3b8; font-size: 1.3dvh;">Прервана: <%= last.CompletedAt.Value.ToString("dd.MM.yyyy") %></span>
                                 <% } %>
                             </div>
                         <% } %>
                     <% } else { %>
-                        <div style="font-size: 1.8dvh; color: #94a3b8;">Программа ещё не запускалась.</div>
+                        <div style="font-size: 1.6dvh; color: #94a3b8;">Программа ещё не запускалась.</div>
                     <% } %>
                 </div>
 
-                <!-- БЛОК СТАТИСТИКИ (СМЕЩЕН ВНИЗ) -->
+                <!-- БЛОК СТАТИСТИКИ -->
                 <div class="stats-title">
                     <span>📊 Статистика (П1+П2)</span>
                 </div>
@@ -670,6 +689,7 @@
                     </div>
                 </div>
 
+                <!-- ЛЕГЕНДА -->
                 <div class="legend">
                     <div class="legend-item"><span class="legend-color color-safe"></span> Нет травм (прошлое/сегодня)</div>
                     <div class="legend-item"><span class="legend-color color-injury-significant"></span> Травмы П1 или П2</div>
@@ -790,7 +810,7 @@
                 if (modal && modal.style.display === 'flex') {
                     closeModal(e);
                 }
-
+                
                 var zeroModal = document.getElementById('zeroInjuryModal');
                 if (zeroModal && zeroModal.style.display === 'flex') {
                     closeZeroModal(e);
