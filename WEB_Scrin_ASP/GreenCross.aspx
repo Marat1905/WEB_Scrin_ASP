@@ -155,6 +155,46 @@
         .color-future { background: #4a4f5f; }
         .color-today { border: 3px solid #3b82f6; background: transparent; }
 
+        /* Блок Ноль травм */
+        .zero-injury-panel {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 16px;
+            padding: 1.5dvh 1vw;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1.5dvh;
+        }
+        .zero-injury-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #475569;
+            padding-bottom: 1dvh;
+            margin-bottom: 1dvh;
+        }
+        .zero-injury-title {
+            font-size: 2.2dvh;
+            font-weight: 600;
+            color: #fbbf24;
+        }
+        .zero-injury-link {
+            color: #60a5fa;
+            font-size: 1.6dvh;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .zero-injury-link:hover { text-decoration: underline; }
+        .zero-progress-bg {
+            width: 100%;
+            height: 6px;
+            background: #334155;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .zero-progress-fill {
+            height: 100%;
+            background: #10b981;
+        }
+
         /* Правая колонка – визуализация */
         .visual-panel {
             flex: 1 1 75%;
@@ -404,6 +444,11 @@
             color: #f8fafc;
         }
 
+        /* Специфичное модальное окно для Ноль Травм (шире из-за таблицы) */
+        .zero-modal-content {
+            max-width: 60vw;
+        }
+
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -448,11 +493,40 @@
             min-width: 100px;
         }
 
+        /* Таблица истории в модальном окне Ноль Травм */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.8dvh;
+        }
+        .history-table th {
+            text-align: left;
+            padding: 1dvh;
+            color: #fbbf24;
+            border-bottom: 2px solid #475569;
+        }
+        .history-table td {
+            padding: 1.5dvh 1dvh;
+            border-bottom: 1px solid #334155;
+            color: #cbd5e1;
+        }
+        .badge {
+            padding: 0.5dvh 1vw;
+            border-radius: 8px;
+            font-size: 1.6dvh;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-active { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .badge-success { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .badge-interrupted { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
         /* Адаптация */
         @media (max-width: 1280px) {
             .stat-value { font-size: 3dvh; }
             .cell { font-size: clamp(1rem, 2dvh, 1.8rem); }
             .year-grid { grid-template-columns: repeat(3, 1fr); }
+            .zero-modal-content { max-width: 80vw; }
         }
 
         @media (max-width: 768px) {
@@ -461,6 +535,7 @@
             .visual-panel { flex: 1 1 auto; }
             .year-grid { grid-template-columns: repeat(2, 1fr); }
             .modal-content { max-width: 90vw; }
+            .zero-modal-content { max-width: 95vw; }
         }
 
         @media (max-width: 480px) {
@@ -471,32 +546,37 @@
 
         /* ===== КАСТОМНЫЙ СКРОЛЛБАР ДЛЯ ПРОКРУЧИВАЕМЫХ ОБЛАСТЕЙ ===== */
         .stats-panel::-webkit-scrollbar,
-        .visual-content::-webkit-scrollbar {
+        .visual-content::-webkit-scrollbar,
+        .modal-body::-webkit-scrollbar {
             width: 8px;
             height: 8px;
         }
 
         .stats-panel::-webkit-scrollbar-track,
-        .visual-content::-webkit-scrollbar-track {
+        .visual-content::-webkit-scrollbar-track,
+        .modal-body::-webkit-scrollbar-track {
             background: #334155;
             border-radius: 10px;
         }
 
         .stats-panel::-webkit-scrollbar-thumb,
-        .visual-content::-webkit-scrollbar-thumb {
+        .visual-content::-webkit-scrollbar-thumb,
+        .modal-body::-webkit-scrollbar-thumb {
             background: #475569;
             border-radius: 10px;
             border: 2px solid #334155;
         }
 
         .stats-panel::-webkit-scrollbar-thumb:hover,
-        .visual-content::-webkit-scrollbar-thumb:hover {
+        .visual-content::-webkit-scrollbar-thumb:hover,
+        .modal-body::-webkit-scrollbar-thumb:hover {
             background: #64748b;
         }
 
         /* Firefox */
         .stats-panel,
-        .visual-content {
+        .visual-content,
+        .modal-body {
             scrollbar-width: thin;
             scrollbar-color: #475569 #334155;
         }
@@ -514,6 +594,52 @@
         <div class="main-content">
             <!-- Левая колонка – статистика -->
             <div class="stats-panel">
+                
+                <!-- БЛОК НОЛЬ ТРАВМ (ВЫНЕСЕН НАВЕРХ) -->
+                <div class="zero-injury-panel">
+                    <div class="zero-injury-header">
+                        <span class="zero-injury-title">🛡️ Ноль травм</span>
+                        <!-- Вызов модального окна вместо перехода на страницу -->
+                        <a href="javascript:void(0);" onclick="openZeroModal();" class="zero-injury-link">Подробнее ➔</a>
+                    </div>
+                    <% if (ZeroInjuryStatus != null && ZeroInjuryStatus.CurrentProgram != null) { 
+                        var prog = ZeroInjuryStatus.CurrentProgram;
+                    %>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1dvh;">
+                            <div style="font-size: 2.5dvh; font-weight: 700; color: #f8fafc;">
+                                <%= prog.DaysPassed %> <span style="font-size: 1.8dvh; color: #94a3b8; font-weight: 400;">/ <%= prog.TargetDays %> дн.</span>
+                            </div>
+                            <div style="font-size: 1.6dvh; color: #10b981; background: rgba(16,185,129,0.2); padding: 0.3dvh 0.8vw; border-radius: 8px;">Активна</div>
+                        </div>
+                        <div class="zero-progress-bg">
+                            <div class="zero-progress-fill" style="width: <%= Math.Min(100, (int)((prog.DaysPassed * 100.0) / prog.TargetDays)) %>%;"></div>
+                        </div>
+                        <div style="font-size: 1.6dvh; color: #94a3b8; margin-top: 1dvh;">Начало: <%= prog.StartDate.ToString("dd.MM.yyyy") %></div>
+                    <% } else if (ZeroInjuryStatus != null && ZeroInjuryStatus.LastFinalizedProgram != null) { 
+                        var last = ZeroInjuryStatus.LastFinalizedProgram;
+                    %>
+                        <div style="font-size: 1.8dvh; color: #94a3b8;">Программа не запущена.</div>
+                        <% if (last.IsSuccessfullyCompleted) { %>
+                            <div style="font-size: 1.6dvh; color: #10b981; margin-top: 1dvh;">
+                                Последняя завершена успешно (<%= last.DaysPassed %> дн.)
+                                <% if (last.CompletedAt.HasValue) { %>
+                                    <br/><span style="color: #94a3b8; font-size: 1.4dvh;">Завершена: <%= last.CompletedAt.Value.ToString("dd.MM.yyyy") %></span>
+                                <% } %>
+                            </div>
+                        <% } else { %>
+                            <div style="font-size: 1.6dvh; color: #ef4444; margin-top: 1dvh;">
+                                Последняя прервана травмой (<%= last.DaysPassed %> дн.)
+                                <% if (last.CompletedAt.HasValue) { %>
+                                    <br/><span style="color: #94a3b8; font-size: 1.4dvh;">Прервана: <%= last.CompletedAt.Value.ToString("dd.MM.yyyy") %></span>
+                                <% } %>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <div style="font-size: 1.8dvh; color: #94a3b8;">Программа ещё не запускалась.</div>
+                    <% } %>
+                </div>
+
+                <!-- БЛОК СТАТИСТИКИ (СМЕЩЕН ВНИЗ) -->
                 <div class="stats-title">
                     <span>📊 Статистика (П1+П2)</span>
                 </div>
@@ -577,7 +703,7 @@
         </div>
     </div>
 
-    <!-- Модальное окно -->
+    <!-- МОДАЛЬНОЕ ОКНО: ИНФОРМАЦИЯ О ТРАВМЕ -->
     <div id="modal" class="modal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -593,17 +719,29 @@
         </div>
     </div>
 
+    <!-- МОДАЛЬНОЕ ОКНО: НОЛЬ ТРАВМ -->
+    <div id="zeroInjuryModal" class="modal" onclick="closeZeroModal(event)">
+        <div class="modal-content zero-modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🛡️ Программа «Ноль травм»</h3>
+                <button type="button" class="close-btn" onclick="closeZeroModal(event)">✕</button>
+            </div>
+            <!-- Контент модального окна генерируется на бэкенде -->
+            <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+                <asp:Literal ID="litZeroModalContent" runat="server" />
+            </div>
+        </div>
+    </div>
+
     <!-- ScriptManager -->
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <asp:HiddenField ID="hfMonthName" runat="server" />
 
     <script type="text/javascript">
-        // Функция отображения модального окна с полной строкой даты
-        // Первый параметр - event, чтобы остановить всплытие события (event bubbling)
-        // Это предотвращает немедленное закрытие модального окна из-за срабатывания
-        // обработчика onclick на родительском элементе модального окна
+        // =========================================================
+        // ФУНКЦИИ ДЛЯ МОДАЛЬНОГО ОКНА ТРАВМ
+        // =========================================================
         function showInfo(event, dateStr, hasInjury, category, type, desc) {
-            // Останавливаем всплытие события, чтобы клик не дошёл до родительского модального окна
             if (event) {
                 event.stopPropagation();
                 event.preventDefault();
@@ -630,11 +768,32 @@
             document.getElementById('modal').style.display = 'none';
         }
 
+        // =========================================================
+        // ФУНКЦИИ ДЛЯ МОДАЛЬНОГО ОКНА "НОЛЬ ТРАВМ"
+        // =========================================================
+        function openZeroModal() {
+            document.getElementById('zeroInjuryModal').style.display = 'flex';
+        }
+
+        function closeZeroModal(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            document.getElementById('zeroInjuryModal').style.display = 'none';
+        }
+
+        // Обработка клавиши Escape для закрытия обоих модальных окон
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 var modal = document.getElementById('modal');
                 if (modal && modal.style.display === 'flex') {
                     closeModal(e);
+                }
+
+                var zeroModal = document.getElementById('zeroInjuryModal');
+                if (zeroModal && zeroModal.style.display === 'flex') {
+                    closeZeroModal(e);
                 }
             }
         });

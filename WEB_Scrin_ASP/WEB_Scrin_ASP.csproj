@@ -202,6 +202,7 @@
     <Compile Include="GreenCross.aspx.designer.cs">
       <DependentUpon>GreenCross.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ZeroInjuryDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
